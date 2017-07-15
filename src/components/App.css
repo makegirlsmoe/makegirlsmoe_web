@@ -1,7 +1,11 @@
 .App {
     width: 800px;
-    margin: 20px auto 20px auto;
+    margin: 0 auto 20px auto;
     font-family: ScalaSans, sans-serif;
+}
+
+.title {
+    margin-bottom: 30px;
 }
 
 .generator-container {

@@ -1,0 +1,296 @@
+{
+  "weight_encoding": "raw",
+  "memory_layout": {
+    "static": {
+      "size": 14443308,
+      "allocations": {
+        "v7": {
+          "name": "v7",
+          "offset": 0,
+          "size": 8388608
+        },
+        "v2": {
+          "name": "v2",
+          "offset": 8388608,
+          "size": 2719744
+        },
+        "v28": {
+          "name": "v28",
+          "offset": 11108352,
+          "size": 2097152
+        },
+        "v6": {
+          "name": "v6",
+          "offset": 13205504,
+          "size": 524288
+        },
+        "v27": {
+          "name": "v27",
+          "offset": 13729792,
+          "size": 16384
+        },
+        "v39": {
+          "name": "v39",
+          "offset": 13746176,
+          "size": 16384
+        },
+        "v45": {
+          "name": "v45",
+          "offset": 13762560,
+          "size": 16384
+        },
+        "v26": {
+          "name": "v26",
+          "offset": 13778944,
+          "size": 6144
+        },
+        "v25": {
+          "name": "v25",
+          "offset": 13785088,
+          "size": 512
+        },
+        "v36": {
+          "name": "v36",
+          "offset": 13785600,
+          "size": 512
+        },
+        "v47": {
+          "name": "v47",
+          "offset": 13786112,
+          "size": 512
+        },
+        "v1": {
+          "name": "v1",
+          "offset": 13786624,
+          "size": 256
+        },
+        "v12": {
+          "name": "v12",
+          "offset": 13786880,
+          "size": 256
+        },
+        "v20": {
+          "name": "v20",
+          "offset": 13787136,
+          "size": 256
+        },
+        "v24": {
+          "name": "v24",
+          "offset": 13787392,
+          "size": 128
+        },
+        "v32": {
+          "name": "v32",
+          "offset": 13787520,
+          "size": 128
+        },
+        "v44": {
+          "name": "v44",
+          "offset": 13787648,
+          "size": 128
+        },
+        "v18": {
+          "name": "v18",
+          "offset": 13787776,
+          "size": 3
+        },
+        "v22": {
+          "name": "v22",
+          "offset": 13787780,
+          "size": 166
+        },
+        "v17": {
+          "name": "v17",
+          "offset": 13787948,
+          "size": 16384
+        },
+        "v3": {
+          "name": "v3",
+          "offset": 13787948,
+          "size": 16384
+        },
+        "v15": {
+          "name": "v15",
+          "offset": 13787948,
+          "size": 16384
+        },
+        "v37": {
+          "name": "v37",
+          "offset": 13787948,
+          "size": 16384
+        },
+        "v19": {
+          "name": "v19",
+          "offset": 13787948,
+          "size": 32768
+        },
+        "v0": {
+          "name": "v0",
+          "offset": 13787948,
+          "size": 32768
+        },
+        "v13": {
+          "name": "v13",
+          "offset": 13787948,
+          "size": 32768
+        },
+        "v43": {
+          "name": "v43",
+          "offset": 13787948,
+          "size": 65536
+        },
+        "v23": {
+          "name": "v23",
+          "offset": 13787948,
+          "size": 65536
+        },
+        "v34": {
+          "name": "v34",
+          "offset": 13787948,
+          "size": 65536
+        },
+        "v16": {
+          "name": "v16",
+          "offset": 13787948,
+          "size": 131072
+        },
+        "v46": {
+          "name": "v46",
+          "offset": 13787948,
+          "size": 131072
+        },
+        "v9": {
+          "name": "v9",
+          "offset": 13787948,
+          "size": 131072
+        },
+        "v41": {
+          "name": "v41",
+          "offset": 13787948,
+          "size": 12288
+        },
+        "v4": {
+          "name": "v4",
+          "offset": 13787948,
+          "size": 12288
+        },
+        "v29": {
+          "name": "v29",
+          "offset": 13800236,
+          "size": 12288
+        },
+        "v10": {
+          "name": "v10",
+          "offset": 13804332,
+          "size": 16384
+        },
+        "v42": {
+          "name": "v42",
+          "offset": 13804332,
+          "size": 16384
+        },
+        "v33": {
+          "name": "v33",
+          "offset": 13804332,
+          "size": 16384
+        },
+        "v35": {
+          "name": "v35",
+          "offset": 13820716,
+          "size": 131072
+        },
+        "v11": {
+          "name": "v11",
+          "offset": 13820716,
+          "size": 32768
+        },
+        "v40": {
+          "name": "v40",
+          "offset": 13820716,
+          "size": 32768
+        },
+        "v30": {
+          "name": "v30",
+          "offset": 13853484,
+          "size": 262144
+        },
+        "v31": {
+          "name": "v31",
+          "offset": 13853484,
+          "size": 65536
+        },
+        "v14": {
+          "name": "v14",
+          "offset": 13853484,
+          "size": 65536
+        },
+        "v21": {
+          "name": "v21",
+          "offset": 13919020,
+          "size": 524288
+        },
+        "v8": {
+          "name": "v8",
+          "offset": 13919020,
+          "size": 131072
+        },
+        "v38": {
+          "name": "v38",
+          "offset": 13919020,
+          "size": 131072
+        },
+        "v5": {
+          "name": "v5",
+          "offset": 13919020,
+          "size": 49152
+        }
+      }
+    },
+    "dynamic": {
+      "size": 0,
+      "allocations": {}
+    }
+  },
+  "placeholders": {},
+  "unresolved_value_lists": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ],
+  "inputs": [
+    "v22"
+  ],
+  "outputs": [
+    "v4"
+  ],
+  "licenses": {
+    "webdnn": "(C) Machine Intelligence Laboratory (The University of Tokyo), MIT License",
+    "eigen": "(C) Eigen authors, MPL 2.0 License"
+  }
+}
