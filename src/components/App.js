@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import { CSSTransitionGroup } from 'react-transition-group';
 import Config from '../Config';
+import ProgressBar from './ProgressBar';
 import Generator from './Generator';
 import Options from './Options';
+import PromptDialog from './PromptDialog';
 import GAN from '../utils/GAN';
 import Utils from '../utils/Utils';
-import ProgressBar from './ProgressBar';
-import { CSSTransitionGroup } from 'react-transition-group';
+import Stat from '../utils/Stat';
 import './App.css';
-import PromptDialog from './PromptDialog';
 
 class App extends Component {
 
@@ -30,6 +31,8 @@ class App extends Component {
     }
 
     async componentDidMount() {
+        Stat.init({cellularData: Utils.usingCellularData()});
+
         if (Utils.usingCellularData()) {
             try {
                 await this.dialog.show();
@@ -41,13 +44,17 @@ class App extends Component {
         }
 
         try {
+            var startTime = new Date();
             await this.gan.init((current, total) => this.setState({gan: Object.assign({}, this.state.gan, {loadingProgress: current / total * 100})}));
+            var endTime = new Date();
+            var loadTime = (endTime.getTime() - startTime.getTime()) / 1000;
         }
         catch (err) {
             this.setState({gan: Object.assign({}, this.state.gan, {isError: true})});
             return;
         }
 
+        Stat.modelLoaded(loadTime);
         this.setState({gan: {isReady: true}});
     }
 
@@ -93,6 +100,7 @@ class App extends Component {
             });
         }
 
+        Stat.generate(this.state.options);
         this.setState({
             gan: Object.assign({}, this.state.gan, {isRunning: false})
         });
@@ -104,7 +112,12 @@ class App extends Component {
                 <PromptDialog
                     ref={dialog => this.dialog = dialog}
                     title="Note"
-                    message="You are using mobile data network. We strongly recommend you to access this website while connected to Wi-Fi. Are you sure to continue?" />
+                    message="You are using mobile data network. We strongly recommend you to connect to Wi-Fi when accessing this website. Are you sure to continue?" />
+
+                <div className="row title">
+                    <h2 className="col-xs-12" style={{color: Config.colors.theme}}>MakeGirls.moe</h2>
+                </div>
+
                 <div className="row progress-container">
                     <CSSTransitionGroup
                         transitionName="progress-transition"
@@ -132,6 +145,17 @@ class App extends Component {
                             options={Config.options}
                             values={this.state.options}
                             onChange={(key, value) => this.setState({options: Object.assign({}, this.state.options, {[key]: value})})} />
+                    </div>
+                </div>
+
+                <div className="row results-container" hidden={true}>
+                    <div className="col-xs-12">
+                        <div className="row">
+                            <h3 className="col-xs-12" style={{color: Config.colors.theme}}>Results</h3>
+                        </div>
+                        <div className="row">
+                            <div className="col-xs-12 result-placeholder" ref={resultPlaceholder => this.resultPlaceHolder = resultPlaceholder}></div>
+                        </div>
                     </div>
                 </div>
             </div>

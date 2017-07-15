@@ -61,8 +61,13 @@ var Config = {
     gan: {
         noiseLength: 128,
         labelLength: 38,
-        imageWidth: 64,
-        imageHeight: 64
+        imageWidth: 128,
+        imageHeight: 128,
+        model: '/models/model_resnet_with_condition_128_1'
+    },
+    stat: {
+        enabled: true,
+        urlPrefix: '/api/stat'
     }
 };
 

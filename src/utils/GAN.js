@@ -8,7 +8,7 @@ class GAN {
     }
 
     async init(onInitProgress) {
-        this.runner = await window.WebDNN.load('/model', {progressCallback: onInitProgress});
+        this.runner = await window.WebDNN.load(Config.gan.model, {progressCallback: onInitProgress});
 
         try {
             this.runner.getInputViews()[0].toActual();
