@@ -2,7 +2,7 @@
     margin-bottom: 15px;
 }
 
-@media screen and (max-width: 768px) {
+@media not screen and (min-width: 768px) {
     .option .btn-group button {
         padding-left: 10px;
         padding-right: 10px;

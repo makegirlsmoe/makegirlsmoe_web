@@ -13,7 +13,7 @@ class MultipleSelector extends Component {
 
     renderOption(title, value) {
         return (
-            <li key={title}><a onClick={() => this.props.onChange(value)}>{Utils.keyToString(title)}</a></li>
+            <li key={title}><a onClick={() => this.props.onChange(value)}>{title}</a></li>
         )
     }
 
@@ -28,7 +28,19 @@ class MultipleSelector extends Component {
 
                 </button>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    {this.options.map((option, index) => this.renderOption(option, index))}
+                    {this.options.map((option, index) => {
+                        if (typeof option === 'string') {
+                            return this.renderOption(Utils.keyToString(option), index);
+                        }
+                        else {
+                            if (!option.disabled) {
+                                return this.renderOption(Utils.keyToString(option.key), index);
+                            }
+                            else {
+                                return null;
+                            }
+                        }
+                    })}
                 </ul>
             </div>
         );
