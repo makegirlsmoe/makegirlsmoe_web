@@ -3,6 +3,11 @@ import Config from '../Config';
 
 class ResultCanvas extends Component {
 
+    constructor() {
+        super();
+        this.state = {};
+    }
+
     async componentDidMount() {
         var canvas = this.canvas;
         var canvasWidth = Config.gan.imageWidth;
@@ -40,12 +45,15 @@ class ResultCanvas extends Component {
         }
 
         updateCanvas();
+
+        this.setState({dataURL: canvas.toDataURL()});
     }
 
     render() {
         return (
             <div className="result-canvas">
-                <canvas width={Config.gan.imageWidth} height={Config.gan.imageHeight} ref={canvas => this.canvas = canvas} />
+                <canvas width={Config.gan.imageWidth} height={Config.gan.imageHeight} ref={canvas => this.canvas = canvas} hidden={true} />
+                {this.state.dataURL && <img src={this.state.dataURL} alt="result" />}
             </div>
         );
     }

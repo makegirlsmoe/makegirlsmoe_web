@@ -65,10 +65,19 @@ class App extends Component {
             var value = this.state.options[option.key];
             if (!value) {
                 if (option.type === 'multiple') {
-                    value = Utils.randomInt(1, option.options.length);
+                    var random = Math.random();
+                    for (var j = 1; j <= option.options.length; j++) {
+                        if (random < option.prob[j]) {
+                            value = j;
+                            break;
+                        }
+                        else {
+                            random -= option.prob[j];
+                        }
+                    }
                 }
                 else {
-                    value = Utils.randomInt(0, 1) * 2 - 1;
+                    value = Math.random() < option.prob ? 1 : -1;
                 }
             }
             if (option.type === 'multiple') {
@@ -155,6 +164,16 @@ class App extends Component {
                         </div>
                         <div className="row">
                             <div className="col-xs-12 result-placeholder" ref={resultPlaceholder => this.resultPlaceHolder = resultPlaceholder}></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row about-container">
+                    <div className="col-xs-12">
+                        <div className="about">
+                            <p>Developed By: </p>
+                            <p>Aixile [<a href="https://github.com/aixile">github.com/aixile</a>]</p>
+                            <p>zhangjk95 [<a href="https://github.com/zhangjk95">github.com/zhangjk95</a>]</p>
                         </div>
                     </div>
                 </div>

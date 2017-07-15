@@ -23,6 +23,15 @@
     opacity: 1;
 }
 
+.about-container {
+    margin-top: 20px;
+}
+
+.about {
+    float: right;
+    clear: both;
+}
+
 .progress-transition-leave.progress-transition-leave-active {
     height: 0;
     opacity: 0;
@@ -36,7 +45,7 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@media not screen and (min-width: 768px) {
     .App {
         width: 90%;
     }
