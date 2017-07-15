@@ -1,0 +1,14 @@
+.multiple-selector .btn {
+    width: 100%;
+}
+
+.multiple-selector .dropdown-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.multiple-selector .dropdown-menu {
+    width: 100%;
+}

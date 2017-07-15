@@ -1,0 +1,49 @@
+.App {
+    width: 800px;
+    margin: 20px auto 20px auto;
+    font-family: ScalaSans, sans-serif;
+}
+
+.generator-container {
+    text-align: center;
+    padding-top: 120px;
+}
+
+.progress-text {
+    margin-top: 0;
+    text-align: center;
+}
+
+.progress-transition-leave {
+    height: 55px;
+    opacity: 1;
+}
+
+.progress-transition-leave.progress-transition-leave-active {
+    height: 0;
+    opacity: 0;
+    transition: opacity 500ms ease-in-out 200ms, height 500ms ease-in-out 500ms;
+}
+
+@media screen and (min-width: 768px) {
+    .options-container {
+        border-left: 1px solid #ddd;
+        padding-left: 25px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .App {
+        width: 90%;
+    }
+
+    .generator-container {
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 40px;
+    }
+
+    .options-container {
+        border-top: 1px solid #ddd;
+    }
+}

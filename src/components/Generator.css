@@ -1,0 +1,16 @@
+.result-wrapper {
+    position: relative;
+    border: 3px dashed #ddd;
+    margin: 0 auto 40px auto;
+    box-sizing: content-box;
+}
+
+.result-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.generator .btn-primary {
+    width: 100px;
+}
