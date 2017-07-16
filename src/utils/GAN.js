@@ -5,6 +5,7 @@ class GAN {
 
     constructor() {
         this.runner = null;
+        this.currentNoise = null;
     }
 
     async init(onInitProgress) {
@@ -18,13 +19,17 @@ class GAN {
         }
     }
 
-    async run(label) {
-        let noise = Array.apply(null, {length: Config.gan.noiseLength}).map(Utils.randomNormal);
-        let input = noise.concat(label);
+    async run(label, noise) {
+        this.currentNoise = noise || Array.apply(null, {length: Config.gan.noiseLength}).map(Utils.randomNormal);
+        let input = this.currentNoise.concat(label);
         this.runner.getInputViews()[0].set(input);
         await this.runner.run();
         let output = this.runner.getOutputViews()[0].toActual();
         return output;
+    }
+
+    getCurrentNoise() {
+        return this.currentNoise;
     }
 }
 

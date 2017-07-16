@@ -98,7 +98,7 @@ class Home extends Component {
 
         for (var i = 0; i < this.state.options.amount; i++) {
             var label = this.getLabel();
-            var result = await this.gan.run(label);
+            var result = await this.gan.run(label, this.state.options.noise ? this.state.gan.noise : null);
             if (i === 0) {
                 this.setState({
                     results: []
@@ -111,7 +111,7 @@ class Home extends Component {
 
         Stat.generate(this.state.options);
         this.setState({
-            gan: Object.assign({}, this.state.gan, {isRunning: false})
+            gan: Object.assign({}, this.state.gan, {isRunning: false, noise: this.gan.getCurrentNoise()})
         });
     }
 
@@ -145,6 +145,7 @@ class Home extends Component {
                         <Options
                             options={Config.options}
                             values={this.state.options}
+                            noise={this.state.gan.noise}
                             onChange={(key, value) => this.setState({options: Object.assign({}, this.state.options, {[key]: value})})} />
                     </div>
                 </div>
@@ -169,7 +170,6 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
-
 
                 <PromptDialog
                     ref={dialog => this.dialog = dialog}

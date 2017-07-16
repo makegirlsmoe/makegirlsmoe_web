@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import ButtonGroupSelector from './ButtonGroupSelector';
 
-class BinarySelector extends ButtonGroupSelector {
+class NoiseSelector extends ButtonGroupSelector {
     render() {
         return this.renderButtonGroup([
-            {name: 'Off', value: -1},
             {name: 'Random', value: 0},
-            {name: 'On', value: 1}
+            {name: 'Fixed', value: 1}
         ])
     }
 }
 
-export default BinarySelector;
+export default NoiseSelector;
