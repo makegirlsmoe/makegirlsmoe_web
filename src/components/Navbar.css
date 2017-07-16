@@ -1,0 +1,15 @@
+.container-fluid {
+    width: 800px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.navbar-brand {
+    font-size: 24px;
+}
+
+@media not screen and (min-width: 768px) {
+    .container-fluid {
+        width: 90%;
+    }
+}
