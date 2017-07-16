@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="86eaa6c2-79f2-4ab7-b834-b8f966e5cee8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/About.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/Home.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/Home.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/Navbar.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/Navbar.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/LICENSE.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/App.css" afterPath="$PROJECT_DIR$/src/components/App.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/App.js" afterPath="$PROJECT_DIR$/src/components/App.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.css" afterPath="$PROJECT_DIR$/src/index.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.js" afterPath="$PROJECT_DIR$/src/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <ignored path="girls-generator.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -478,7 +470,7 @@
       <workItem from="1499995304578" duration="20826000" />
       <workItem from="1500020389786" duration="19545000" />
       <workItem from="1500085708006" duration="14494000" />
-      <workItem from="1500134546496" duration="7384000" />
+      <workItem from="1500134546496" duration="8046000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1500123152026</created>
@@ -494,11 +486,18 @@
       <option name="project" value="LOCAL" />
       <updated>1500165009775</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add navbar and router">
+      <created>1500214011393</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1500214011393</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62249000" />
+    <option name="totallyTimeSpent" value="62911000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-14" y="-14" width="3028" height="1938" extended-state="6" />
@@ -537,7 +536,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update" />
     <MESSAGE value="update title" />
-    <option name="LAST_COMMIT_MESSAGE" value="update title" />
+    <MESSAGE value="add navbar and router" />
+    <option name="LAST_COMMIT_MESSAGE" value="add navbar and router" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,5 +1,3 @@
-# Girls-Generator
+# MakeGirls.moe-Web
 
-## Demo
-
-[http://make.girls.moe/](http://make.girls.moe/)
+Front end of [make.girls.moe](http://make.girls.moe/) (a website for making your girls with AI).
