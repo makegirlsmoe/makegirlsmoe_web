@@ -3,6 +3,8 @@ import Config from '../Config';
 import Utils from '../utils/Utils';
 import BinarySelector from './BinarySelector';
 import MultipleSelector from './MultipleSelector';
+import NoiseSelector from './NoiseSelector';
+import NoiseVisualizer from './NoiseVisualizer';
 import './Options.css';
 
 class Options extends Component {
@@ -36,6 +38,15 @@ class Options extends Component {
         );
     }
 
+    renderNoiseSelector(key, title) {
+        return (
+            <div className="col-xs-6 col-sm-4 option">
+                {this.renderLabel(key, title)}
+                <NoiseSelector value={this.props.values[key]} onChange={(value) => this.props.onChange(key, value)} />
+            </div>
+        );
+    }
+
     renderSelector(key) {
         var option = this.options[key];
         if (option.type === 'multiple') {
@@ -44,6 +55,15 @@ class Options extends Component {
         else {
             return this.renderBinarySelector(key);
         }
+    }
+
+    renderNoiseVisualizer() {
+        return (
+            <div className="col-xs-6 col-sm-4 option">
+                <h5>Current Noise</h5>
+                <NoiseVisualizer noise={this.props.noise} />
+            </div>
+        );
     }
 
     render() {
@@ -65,6 +85,10 @@ class Options extends Component {
                     {this.renderSelector('ribbon')}
                     {this.renderSelector('glasses')}
                     {this.renderSelector('lips')}
+                </div>
+                <div className="row">
+                    {this.renderNoiseSelector('noise')}
+                    {this.props.noise && this.renderNoiseVisualizer()}
                 </div>
             </div>
         );

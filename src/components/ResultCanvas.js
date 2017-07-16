@@ -8,7 +8,7 @@ class ResultCanvas extends Component {
         this.state = {};
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         var canvas = this.canvas;
         var canvasWidth = Config.gan.imageWidth;
         var canvasHeight = Config.gan.imageHeight;
