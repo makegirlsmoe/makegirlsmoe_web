@@ -24,19 +24,19 @@ var Config = {
             key: 'blush',
             type: 'binary',
             offset: 18,
-            prob: 0.33405855
+            prob: 0.4
         },
         {
             key: 'smile',
             type: 'binary',
             offset: 19            ,
-            prob: 0.306223
+            prob: 0.4
         },
         {
             key: 'open_mouth',
             type: 'binary',
             offset: 20,
-            prob: 0.12023676
+            prob: 0.25
         },
         {
             key: 'hat',
@@ -48,7 +48,7 @@ var Config = {
             key: 'ribbon',
             type: 'binary',
             offset: 22,
-            prob: 0.17149256
+            prob: 0.3
         },
         {
             key: 'glasses',
