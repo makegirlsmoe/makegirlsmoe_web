@@ -84,7 +84,6 @@ class Options extends Component {
                     {this.renderSelector('hat')}
                     {this.renderSelector('ribbon')}
                     {this.renderSelector('glasses')}
-                    {this.renderSelector('lips')}
                 </div>
                 <div className="row">
                     {this.renderNoiseSelector('noise')}
