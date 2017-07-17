@@ -161,15 +161,15 @@ class Home extends Component {
                     </div>
                 </div>
 
-                <div className="row about-container">
-                    <div className="col-xs-12">
-                        <div className="about">
-                            <p>Developed By: </p>
-                            <p>Aixile [<a href="https://github.com/aixile">github.com/aixile</a>]</p>
-                            <p>zhangjk95 [<a href="https://github.com/zhangjk95">github.com/zhangjk95</a>]</p>
-                        </div>
-                    </div>
-                </div>
+                {/*<div className="row about-container">*/}
+                    {/*<div className="col-xs-12">*/}
+                        {/*<div className="about">*/}
+                            {/*<p>Developed By: </p>*/}
+                            {/*<p>Aixile [<a href="https://github.com/aixile">github.com/aixile</a>]</p>*/}
+                            {/*<p>zhangjk95 [<a href="https://github.com/zhangjk95">github.com/zhangjk95</a>]</p>*/}
+                        {/*</div>*/}
+                    {/*</div>*/}
+                {/*</div>*/}
 
                 <PromptDialog
                     ref={dialog => this.dialog = dialog}
