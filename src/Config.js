@@ -21,6 +21,14 @@ var Config = {
             prob: [0.52989922,  0.37101264,  0.12567589,  0.00291153,  0.00847864]
         },
         {
+            key: 'eye_color',
+            type: 'multiple',
+            options: ['blue', 'red', 'brown', 'green', 'purple', 'yellow', 'pink', 'aqua', 'black', 'orange'],
+            offset: 24,
+            prob: [0.28350664,  0.15760678,  0.17862742,  0.13412254,  0.14212126,
+                0.0543913 ,  0.01020637,  0.00617501,  0.03167493,  0.00156775]
+        },
+        {
             key: 'blush',
             type: 'binary',
             offset: 18,
@@ -55,14 +63,6 @@ var Config = {
             type: 'binary',
             offset: 23,
             prob: 0.05384738
-        },
-        {
-            key: 'eye_color',
-            type: 'multiple',
-            options: ['blue', 'red', 'brown', 'green', 'purple', 'yellow', 'pink', 'aqua', 'black', 'orange'],
-            offset: 24,
-            prob: [0.28350664,  0.15760678,  0.17862742,  0.13412254,  0.14212126,
-                0.0543913 ,  0.01020637,  0.00617501,  0.03167493,  0.00156775]
         }
     ],
     gan: {
