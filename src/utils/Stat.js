@@ -2,6 +2,15 @@ import Config from '../Config';
 import Utils from './Utils';
 
 class Stat {
+    static get(url, query = {}) {
+        return window.$.ajax({
+            method: 'GET',
+            url: Config.stat.urlPrefix + url,
+            data: query,
+            dataType: 'json'
+        })
+    }
+
     static post(url, data = {}) {
         if (Config.stat.enabled !== true) {
             return;
@@ -48,6 +57,18 @@ class Stat {
             }
         });
         return Stat.post('/generate', {options: options});
+    }
+
+    static getAccess() {
+        return Stat.get('/access');
+    }
+
+    static getAmount() {
+        return Stat.get('/amount');
+    }
+
+    static getLabels() {
+        return Stat.get('/labels');
     }
 }
 

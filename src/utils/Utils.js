@@ -41,6 +41,14 @@ class Utils {
 
         return false;
     }
+
+    static sum(arr) {
+        return arr.reduce((a, b) => a + b, 0);
+    }
+
+    static flatMap(arr, lambda) {
+        return Array.prototype.concat.apply([], arr.map(lambda));
+    };
 }
 
 export default Utils

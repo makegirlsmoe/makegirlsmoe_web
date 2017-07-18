@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import ButtonGroupSelector from './ButtonGroupSelector';
 
 class NoiseSelector extends ButtonGroupSelector {

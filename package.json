@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "echarts": "^3.6.2",
     "jquery": "^3.2.1",
     "rc-dialog": "^6.5.10",
     "react": "^15.6.1",
