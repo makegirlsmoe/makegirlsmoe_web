@@ -72,7 +72,7 @@ var Config = {
         labelLength: 34,
         imageWidth: 128,
         imageHeight: 128,
-        model: '/models/model_resnet_with_condition_128_5'
+        model: '/models/model_resnet_with_condition_128_full_1'
     },
     stat: {
         enabled: true,
