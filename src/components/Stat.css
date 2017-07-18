@@ -12,3 +12,20 @@
     width: 640px;
     height: 480px;
 }
+
+@media not screen and (min-width: 768px) {
+    .chart-access {
+        width: 100%;
+        height: 200px;
+    }
+
+    .chart-amount {
+        width: 100%;
+        height: 300px;
+    }
+
+    .chart-labels {
+        width: 100%;
+        height: 300px;
+    }
+}
