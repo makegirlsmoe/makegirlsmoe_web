@@ -67,14 +67,21 @@ class Home extends Component {
             var value = this.state.options[option.key];
             if (!value) {
                 if (option.type === 'multiple') {
-                    var random = Math.random();
-                    for (var j = 1; j <= option.options.length; j++) {
-                        if (random < option.prob[j]) {
-                            value = j;
-                            break;
+                    if (option.isIndependent) {
+                        for (var j = 0; j < option.options.length; j++) {
+                            label[option.offset + j] = Math.random() < option.prob[j] ? 1 : -1;
                         }
-                        else {
-                            random -= option.prob[j];
+                    }
+                    else {
+                        var random = Math.random();
+                        for (var j = 0; j < option.options.length; j++) {
+                            if (random < option.prob[j]) {
+                                label[option.offset + j] = 1;
+                                break;
+                            }
+                            else {
+                                random -= option.prob[j];
+                            }
                         }
                     }
                 }
@@ -82,13 +89,17 @@ class Home extends Component {
                     value = Math.random() < option.prob ? 1 : -1;
                 }
             }
-            if (option.type === 'multiple') {
-                label[option.offset + value - 1] = 1;
-            }
             else {
-                label[option.offset] = value;
+                if (option.type === 'multiple') {
+                    label[option.offset + value - 1] = 1;
+                }
+                else {
+                    label[option.offset] = value;
+                }
             }
         }
+
+        console.log(label.slice(13, 18));
 
         return label;
     }
