@@ -46,7 +46,7 @@ class Stat extends Component {
                     {
                         name:'Location',
                         type:'pie',
-                        radius: ['60%', '80%'],
+                        radius: ['50%', '70%'],
 
                         data: Utils.flatMap(data, item => Object.keys(item.location).map(key => ({
                             value: item.location[key],
@@ -155,11 +155,12 @@ class Stat extends Component {
                     containLabel: true
                 },
                 xAxis: {
-                    type: 'value'
+                    type: 'value',
+                    max: Utils.sum(Object.values(Object.values(data)[0]))
                 },
                 yAxis: {
                     type: 'category',
-                    data: options.map(Utils.keyToString).reverse()
+                    data: options.map(Utils.keyToString).reverse(),
                 },
                 series: values.map(value => ({
                     name: Utils.keyToString(value.name),

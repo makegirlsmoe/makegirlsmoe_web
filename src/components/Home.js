@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { CSSTransitionGroup } from 'react-transition-group';
 import Config from '../Config';
+import About from './About';
 import ProgressBar from './ProgressBar';
 import Generator from './Generator';
 import Options from './Options';
@@ -142,11 +144,17 @@ class Home extends Component {
                         <Generator gan={this.state.gan} results={this.state.results} onGenerateClick={() => this.generate()} />
                     </div>
                     <div className="col-sm-9 col-xs-12 options-container">
-                        <Options
-                            options={Config.options}
-                            values={this.state.options}
-                            noise={this.state.gan.noise}
-                            onChange={(key, value) => this.setState({options: Object.assign({}, this.state.options, {[key]: value})})} />
+                        <Switch>
+                            <Route exact path="/" render={() =>
+                                <Options
+                                    options={Config.options}
+                                    values={this.state.options}
+                                    noise={this.state.gan.noise}
+                                    onChange={(key, value) => this.setState({options: Object.assign({}, this.state.options, {[key]: value})})} />
+                            } />
+                            <Route path="/about" component={About}/>
+                        </Switch>
+
                     </div>
                 </div>
 
