@@ -86,7 +86,7 @@ class Home extends Component {
                     }
                 }
                 else {
-                    value = Math.random() < option.prob ? 1 : -1;
+                    label[option.offset] = Math.random() < option.prob ? 1 : -1;
                 }
             }
             else {

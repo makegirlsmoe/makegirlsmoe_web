@@ -34,13 +34,13 @@ var Config = {
             key: 'blush',
             type: 'binary',
             offset: 18,
-            prob: 0.4
+            prob: 0.6
         },
         {
             key: 'smile',
             type: 'binary',
             offset: 19            ,
-            prob: 0.4
+            prob: 0.6
         },
         {
             key: 'open_mouth',
