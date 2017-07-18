@@ -18,7 +18,9 @@ var Config = {
             type: 'multiple',
             options: ['long_hair', 'short_hair', 'twin_tail',  'drill_hair', 'ponytail'],
             offset: 13,
-            prob: [0.52989922,  0.37101264,  0.12567589,  0.00291153,  0.00847864]
+            //prob: [0.52989922,  0.37101264,  0.12567589,  0.00291153,  0.00847864],
+            isIndependent: true,
+            prob: Array.apply(null, {length: 5}).fill(0.25)
         },
         {
             key: 'eye_color',
