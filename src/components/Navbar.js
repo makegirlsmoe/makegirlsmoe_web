@@ -30,6 +30,7 @@ class Navbar extends Component {
                         <ul className="nav navbar-nav">
                             {this.renderLink('Home', '/')}
                             {this.renderLink('About', '/about')}
+                            <li><a href="https://github.com/makegirlsmoe" target="_blank" >Github</a></li>
                         </ul>
                     </div>
                 </div>
