@@ -12,7 +12,7 @@ class App extends Component {
                 <Navbar location={this.props.location}/>
                 <div className="main-content">
                     <Switch>
-                        <Route path="/(|about)" component={Home}/>
+                        <Route path="/(|about|tips)" component={Home}/>
                         <Route path="/stat" component={Stat}/>
                     </Switch>
                 </div>
