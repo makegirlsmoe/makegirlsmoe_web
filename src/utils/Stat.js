@@ -59,6 +59,10 @@ class Stat {
         return Stat.post('/generate', {options: options});
     }
 
+    static getVisit() {
+        return Stat.get('/visit');
+    }
+
     static getAccess() {
         return Stat.get('/access');
     }
