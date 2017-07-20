@@ -14,6 +14,72 @@ class Stat extends Component {
     }
 
     componentDidMount() {
+        var defaultRange = 7;
+        var visitChart = echarts.init(this.charts.visit);
+        StatUtils.getVisit().then(data => {
+            visitChart.setOption({
+                grid: {
+                    bottom: 80
+                },
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        animation: false,
+                        label: {
+                            backgroundColor: '#505765'
+                        }
+                    }
+                },
+                legend: {
+                    data:['VV','UV','IP']
+                },
+                dataZoom: [
+                    {
+                        show: true,
+                        realtime: true,
+                        startValue: data.length - defaultRange,
+                        endValue: data.length - 1
+                    },
+                    {
+                        type: 'inside',
+                        show: true,
+                        realtime: true
+                    }
+                ],
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        axisLine: {onZero: false},
+                        data : data.map(item => item._id.year + '/' + item._id.month + '/' + item._id.day)
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                    }
+                ],
+                series: [
+                    {
+                        name:'VV',
+                        type:'line',
+                        data: data.map(item => item.vv)
+                    },
+                    {
+                        name:'UV',
+                        type:'line',
+                        data: data.map(item => item.uv)
+                    },
+                    {
+                        name:'IP',
+                        type:'line',
+                        data: data.map(item => item.ip)
+                    }
+                ]
+            });
+        });
+
         var accessChart = echarts.init(this.charts.access);
         StatUtils.getAccess().then(data => {
             accessChart.setOption({
@@ -92,10 +158,7 @@ class Stat extends Component {
                 yAxis: {
                     type: 'value',
                     boundaryGap: [0, '100%'],
-                    max: tmp[amountMin],
-                    splitLine: {
-                        show: false
-                    }
+                    max: tmp[amountMin]
                 },
                 series: [{
                     name: 'User Count',
@@ -182,6 +245,7 @@ class Stat extends Component {
             <div className="Stat">
 
                 <h3 style={{color: Config.colors.theme}}>Statistics</h3>
+                <div className="chart chart-visit" ref={obj => this.charts.visit = obj} />
                 <div className="chart chart-access" ref={obj => this.charts.access = obj} />
                 <div className="chart chart-amount" ref={obj => this.charts.amount = obj} />
                 <div className="chart chart-labels" ref={obj => this.charts.labels = obj} />
