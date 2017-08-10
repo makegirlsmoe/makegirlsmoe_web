@@ -77,7 +77,12 @@ var Config = {
     stat: {
         enabled: true,
         urlPrefix: '/api/stat'
+    },
+    twitter: {
+        urlPrefix: '/api/twitter',
+        callback: '/#/twitter',
+        defaultText: 'Say something... #MakeGirlsMoe: http://make.girls.moe'
     }
 };
 
-export default Config
+export default Config;

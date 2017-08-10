@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Config from '../Config';
-import Icon from 'react-fa';
 
 class Tips extends Component {
     render() {
         return (
-            <div className="Tips">
+            <div className="tips">
                 <h3 style={{color: Config.colors.theme}}>Better generation</h3>
                 <p>
                     The input of the model consists of two parts, the random noise part and the condition part.
@@ -14,10 +13,10 @@ class Tips extends Component {
                 </p>
                 <h3 style={{color: Config.colors.theme}}>Faster generation</h3>
                 <p>
-                    Currently, all computation is done on your web browser by <a href="https://mil-tokyo.github.io/webdnn/" target="_blank"> WebDNN</a>. By default, It uses WebAssembly as the backend.
-                    But if you are a Mac user, you could try to install <a href="https://developer.apple.com/safari/technology-preview/">Safari Technology Preview </a>
+                    Currently, all computation is done on your web browser by <a href="https://mil-tokyo.github.io/webdnn/" target="_blank" rel="noopener noreferrer">WebDNN</a>. By default, It uses WebAssembly as the backend.
+                    But if you are a Mac user, you could try to install <a href="https://developer.apple.com/safari/technology-preview/" rel="noopener noreferrer">Safari Technology Preview</a>
                     and turn on WebGPU in Develop -> Experimental Features -> WebGPU.
-                    This will enable the WebGPU backend, which is <strong>100x faster</strong> than WebAssembly! Notice that WebGPU may not work on AMD GPUs as reported <a href="https://github.com/mil-tokyo/webdnn/issues/286" target="_blank">here</a>.
+                    This will enable the WebGPU backend, which is <strong>100x faster</strong> than WebAssembly! Notice that WebGPU may not work on AMD GPUs as reported <a href="https://github.com/mil-tokyo/webdnn/issues/286" target="_blank" rel="noopener noreferrer">here</a>.
 
                 </p>
 
