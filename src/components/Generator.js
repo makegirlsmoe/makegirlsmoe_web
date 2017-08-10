@@ -36,7 +36,7 @@ class Generator extends Component {
                     transitionEnterTimeout={600}
                     transitionLeaveTimeout={600}>
 
-                    {this.props.results[0] &&
+                    {this.props.results.length > 0 &&
                     <button
                         className="btn btn-default btn-twitter"
                         onClick={this.props.onTwitterClick} >

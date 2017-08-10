@@ -115,12 +115,14 @@ class Home extends Component {
             var result = await this.gan.run(label, this.state.options.noise ? this.state.gan.noise : null);
             if (i === 0) {
                 this.setState({
-                    results: []
+                    results: [result]
                 });
             }
-            this.setState({
-                results: this.state.results.concat([result])
-            });
+            else {
+                this.setState({
+                    results: this.state.results.concat([result])
+                });
+            }
         }
 
         Stat.generate(this.state.options);
