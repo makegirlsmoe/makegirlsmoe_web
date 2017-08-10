@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { CSSTransitionGroup } from 'react-transition-group';
 import Config from '../Config';
 import ButtonPrimary from './ButtonPrimary';
 import ResultCanvas from './ResultCanvas';
-import './Generator.css'
+import twitterLogo from '../img/Twitter_bird_logo_2012.svg';
+import './Generator.css';
 
 class Generator extends Component {
 
@@ -29,6 +31,22 @@ class Generator extends Component {
                     text={this.props.gan.isRunning ? 'Generating...' : 'Generate'}
                     disabled={this.props.gan.isRunning || !this.props.gan.isReady}
                     onClick={this.props.onGenerateClick} />
+                <CSSTransitionGroup
+                    transitionName="twitter-transition"
+                    transitionEnterTimeout={600}
+                    transitionLeaveTimeout={600}>
+
+                    {this.props.results[0] &&
+                    <button
+                        className="btn btn-default btn-twitter"
+                        onClick={this.props.onTwitterClick} >
+                        <img className="twitter-logo" src={twitterLogo} alt="Twitter Logo" />
+                        <span>Share on Twitter</span>
+                    </button>
+                    }
+
+                </CSSTransitionGroup>
+
             </div>
         );
     }

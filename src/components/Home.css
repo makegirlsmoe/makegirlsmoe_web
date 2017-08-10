@@ -1,16 +1,11 @@
 .generator-container {
     text-align: center;
-    padding-top: 100px;
+    padding-top: 70px;
 }
 
 .progress-text {
     margin-top: 0;
     text-align: center;
-}
-
-.progress-transition-leave {
-    height: 55px;
-    opacity: 1;
 }
 
 .about-container {
@@ -20,6 +15,11 @@
 .about {
     float: right;
     clear: both;
+}
+
+.progress-transition-leave {
+    height: 55px;
+    opacity: 1;
 }
 
 .progress-transition-leave.progress-transition-leave-active {

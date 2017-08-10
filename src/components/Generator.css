@@ -14,3 +14,32 @@
 .generator .btn-primary {
     width: 100px;
 }
+
+.generator .twitter-logo {
+    width: 20px;
+}
+
+.generator .btn-twitter * {
+    vertical-align: middle;
+}
+
+.generator .btn-twitter {
+    display: block;
+    margin: 20px auto 0 auto;
+    overflow: hidden;
+}
+
+.twitter-transition-enter {
+    height: 0;
+    padding: 0 12px;
+    margin: 0 auto 0 auto;
+    border-width: 0;
+}
+
+.twitter-transition-enter.twitter-transition-enter-active {
+    height: 35px;
+    padding: 6px 12px;
+    margin: 20px auto 0 auto;
+    border-width: 1px;
+    transition: all 600ms ease-in-out;
+}
