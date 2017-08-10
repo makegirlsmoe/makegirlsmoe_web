@@ -9,7 +9,13 @@ class ResultCanvas extends Component {
     }
 
     componentDidMount() {
-        this.setState({dataURL: ImageEncoder.encode(this.props.result)});
+        var dataURL = ImageEncoder.encode(this.props.result);
+        this.setState({dataURL: dataURL});
+    }
+
+    componentWillReceiveProps(newProps) {
+        var dataURL = ImageEncoder.encode(newProps.result);
+        this.setState({dataURL: dataURL});
     }
 
     render() {
