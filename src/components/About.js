@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Config from '../Config';
-import Icon from 'react-fa';
 
 class About extends Component {
     render() {
         return (
-            <div className="About">
+            <div className="about">
 
                 <h3 style={{color: Config.colors.theme}}>Authors</h3>
                 <p> Yanghua JIN (Fudan University/Preferred Networks)
@@ -21,8 +20,8 @@ class About extends Component {
 
 
                 <h3 style={{color: Config.colors.theme}}>Links</h3>
-                <h5><a href="https://chainer.org" target="_blank"> Chainer </a></h5>
-                <h5><a href="https://mil-tokyo.github.io/webdnn/" target="_blank"> WebDNN</a> </h5>
+                <h5><a href="https://chainer.org" target="_blank"  rel="noopener noreferrer">Chainer</a></h5>
+                <h5><a href="https://mil-tokyo.github.io/webdnn/" target="_blank"  rel="noopener noreferrer">WebDNN</a></h5>
 
             </div>
         );

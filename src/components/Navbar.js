@@ -31,7 +31,7 @@ class Navbar extends Component {
                             {this.renderLink('Home', '/')}
                             {this.renderLink('About', '/about')}
                             {this.renderLink('Tips', '/tips')}
-                            <li><a href="https://github.com/makegirlsmoe" target="_blank" >Github</a></li>
+                            <li><a href="https://github.com/makegirlsmoe" target="_blank" rel="noopener noreferrer">Github</a></li>
                         </ul>
                     </div>
                 </div>

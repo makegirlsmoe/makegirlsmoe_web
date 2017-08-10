@@ -11,6 +11,8 @@ import PromptDialog from './PromptDialog';
 import GAN from '../utils/GAN';
 import Utils from '../utils/Utils';
 import Stat from '../utils/Stat';
+import ImageEncoder from '../utils/ImageEncoder';
+import Twitter from '../utils/Twitter';
 import './Home.css';
 
 class Home extends Component {
@@ -75,7 +77,7 @@ class Home extends Component {
                     }
                     else {
                         var random = Math.random();
-                        for (var j = 0; j < option.options.length; j++) {
+                        for (j = 0; j < option.options.length; j++) {
                             if (random < option.prob[j]) {
                                 label[option.offset + j] = 1;
                                 break;
@@ -100,8 +102,6 @@ class Home extends Component {
             }
         }
 
-        console.log(label.slice(13, 18));
-
         return label;
     }
 
@@ -115,12 +115,14 @@ class Home extends Component {
             var result = await this.gan.run(label, this.state.options.noise ? this.state.gan.noise : null);
             if (i === 0) {
                 this.setState({
-                    results: []
+                    results: [result]
                 });
             }
-            this.setState({
-                results: this.state.results.concat([result])
-            });
+            else {
+                this.setState({
+                    results: this.state.results.concat([result])
+                });
+            }
         }
 
         Stat.generate(this.state.options);
@@ -129,9 +131,15 @@ class Home extends Component {
         });
     }
 
+    shareOnTwitter() {
+        localStorage['twitter_image'] = ImageEncoder.encode(this.state.results.slice(-1)[0]);
+        var win = window.open(Twitter.getAuthUrl(), '_blank');
+        win.focus();
+    }
+
     render() {
         return (
-            <div className="Home">
+            <div className="home">
 
                 <div className="row progress-container">
                     <CSSTransitionGroup
@@ -153,7 +161,7 @@ class Home extends Component {
 
                 <div className="row">
                     <div className="col-sm-3 col-xs-12 generator-container">
-                        <Generator gan={this.state.gan} results={this.state.results} onGenerateClick={() => this.generate()} />
+                        <Generator gan={this.state.gan} results={this.state.results} onGenerateClick={() => this.generate()} onTwitterClick={() => this.shareOnTwitter()} />
                     </div>
                     <div className="col-sm-9 col-xs-12 options-container">
                         <Switch>
@@ -171,31 +179,11 @@ class Home extends Component {
                     </div>
                 </div>
 
-                <div className="row results-container" hidden={true}>
-                    <div className="col-xs-12">
-                        <div className="row">
-                            <h3 className="col-xs-12" style={{color: Config.colors.theme}}>Results</h3>
-                        </div>
-                        <div className="row">
-                            <div className="col-xs-12 result-placeholder" ref={resultPlaceholder => this.resultPlaceHolder = resultPlaceholder}></div>
-                        </div>
-                    </div>
-                </div>
-
-                {/*<div className="row about-container">*/}
-                    {/*<div className="col-xs-12">*/}
-                        {/*<div className="about">*/}
-                            {/*<p>Developed By: </p>*/}
-                            {/*<p>Aixile [<a href="https://github.com/aixile">github.com/aixile</a>]</p>*/}
-                            {/*<p>zhangjk95 [<a href="https://github.com/zhangjk95">github.com/zhangjk95</a>]</p>*/}
-                        {/*</div>*/}
-                    {/*</div>*/}
-                {/*</div>*/}
-
                 <PromptDialog
                     ref={dialog => this.dialog = dialog}
                     title="Note"
                     message="You are using mobile data network. We strongly recommend you to connect to Wi-Fi when accessing this website. Are you sure to continue?" />
+
             </div>
         );
     }
