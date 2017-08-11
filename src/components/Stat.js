@@ -14,6 +14,9 @@ class Stat extends Component {
     }
 
     componentDidMount() {
+        StatUtils.getSummary().then(data => {
+            this.setState({summary: data});
+        });
         var defaultRange = 7;
         var visitChart = echarts.init(this.charts.visit);
         StatUtils.getVisit().then(data => {
@@ -245,6 +248,16 @@ class Stat extends Component {
             <div className="Stat">
 
                 <h3 style={{color: Config.colors.theme}}>Statistics</h3>
+
+                {this.state.summary &&
+                <div>
+                    <p>VV: {this.state.summary.vv}</p>
+                    <p>UV: {this.state.summary.uv}</p>
+                    <p>IP: {this.state.summary.ip}</p>
+                    <p>Share: {this.state.summary.share}</p>
+                </div>
+                }
+
                 <div className="chart chart-visit" ref={obj => this.charts.visit = obj} />
                 <div className="chart chart-access" ref={obj => this.charts.access = obj} />
                 <div className="chart chart-amount" ref={obj => this.charts.amount = obj} />

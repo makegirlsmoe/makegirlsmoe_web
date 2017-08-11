@@ -59,6 +59,14 @@ class Stat {
         return Stat.post('/generate', {options: options});
     }
 
+    static share() {
+        return Stat.post('/share');
+    }
+
+    static getSummary() {
+        return Stat.get('/summary');
+    }
+
     static getVisit() {
         return Stat.get('/visit');
     }
