@@ -1,5 +1,10 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: ScalaSans, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: ScalaSans, sans-serif;
+}
+
+input[type="text"], textarea {
+    font-size: 16px !important;
+    font-family: sans-serif;
 }

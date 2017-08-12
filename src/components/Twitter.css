@@ -1,0 +1,23 @@
+.twitter .share-image-container, .twitter .share-text-container, .twitter .button-container {
+    margin-bottom: 20px;
+}
+
+.twitter .share-image-container {
+    text-align: center;
+}
+
+.twitter .share-image {
+    border: 3px dashed #ddd;
+}
+
+.twitter .share-text {
+    height: 134px;
+}
+
+.twitter .glyphicon {
+    margin-right: 5px;
+}
+
+.twitter .button-submit {
+    min-width: 100px;
+}

@@ -10,7 +10,7 @@ class ButtonPrimary extends Component {
         };
 
         return (
-            <button className="btn btn-primary" style={style} disabled={this.props.disabled} onClick={this.props.onClick}>{this.props.text}</button>
+            <button className={"btn btn-primary " + (this.props.className || '')} style={style} disabled={this.props.disabled} onClick={this.props.onClick}>{this.props.text}</button>
         );
     }
 }
