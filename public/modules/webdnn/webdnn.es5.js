@@ -657,7 +657,7 @@ var WebDNN;
      * @param init.ignoreCache If true, cache is ignored by appending '?t=(timestamp)' to the end of request url.
      * @returns Response
      */
-    function fetch(input, init) {
+    function fetch(input, init, callback) {
         return __awaiter(this, void 0, void 0, function () {
             var res;
             return __generator(this, function (_a) {
@@ -671,7 +671,17 @@ var WebDNN;
                                 url: transformUrl(input.url) + ((init && init.ignoreCache) ? '?t=' + Date.now() : '')
                             });
                         }
-                        return [4 /*yield*/, fetchDelegate(input, init)];
+                        if (callback && WebDNN.isXHR2WithArrayBufferSupported()) {
+                            return [4 /*yield*/, WebDNN.fetchUsingXHR(input, callback).then(function (arrayBuffer) {
+                                return {
+                                    ok: true,
+                                    arrayBuffer: function() { return Promise.resolve(arrayBuffer); }
+                                };
+                            })];
+                        }
+                        else {
+                            return [4 /*yield*/, fetchDelegate(input, init)];
+                        }
                     case 1:
                         res = _a.sent();
                         if (!res.ok)
@@ -689,15 +699,8 @@ var WebDNN;
      * @returns ArrayBuffer
      */
     function readArrayBufferProgressively(res, callback) {
-        if (!callback)
+        if (!callback || !res.body) {
             return res.arrayBuffer();
-        if (!res.body) {
-            if (isXHR2WithArrayBufferSupported()) {
-                return readArrayBufferUsingXHR(res, callback);
-            }
-            else {
-                return res.arrayBuffer();
-            }
         }
 
         var contentLength = res.headers.get('Content-Length');
@@ -724,6 +727,7 @@ var WebDNN;
         }
         return reader.read().then(accumulateLoadedSize);
     }
+    WebDNN.readArrayBufferProgressively = readArrayBufferProgressively;
     function isXHR2WithArrayBufferSupported() {
         if (!window.ProgressEvent || ! window.FormData) {
             return false;
@@ -743,10 +747,11 @@ var WebDNN;
             return false;
         }
     }
-    function readArrayBufferUsingXHR(res, callback) {
+    WebDNN.isXHR2WithArrayBufferSupported = isXHR2WithArrayBufferSupported;
+    function fetchUsingXHR(url, callback) {
         return new Promise(function (resolve, reject) {
             var oReq = new XMLHttpRequest();
-            oReq.open("GET", res.url, true);
+            oReq.open("GET", url, true);
             oReq.responseType = "arraybuffer";
             var callbackScheduler = new WebDNN.util.DispatchScheduler();
 
@@ -768,7 +773,7 @@ var WebDNN;
             oReq.send(null);
         });
     }
-    WebDNN.readArrayBufferProgressively = readArrayBufferProgressively;
+    WebDNN.fetchUsingXHR = fetchUsingXHR;
 })(WebDNN || (WebDNN = {}));
 /// <reference path="./graph_descriptor.ts" />
 /// <reference path="../buffer/buffer_webgpu.ts" />
@@ -822,7 +827,7 @@ var WebDNN;
                         case 0: return [4 /*yield*/, Promise.all([
                                 WebDNN.fetch(directory + "/graph_" + this.backendName + ".json", { ignoreCache: this.ignoreCache })
                                     .then(function (res) { return res.json(); }),
-                                WebDNN.fetch(directory + "/weight_" + this.backendName + ".bin", { ignoreCache: this.ignoreCache })
+                                WebDNN.fetch(directory + "/weight_" + this.backendName + ".bin", { ignoreCache: this.ignoreCache }, progressCallback)
                                     .then(function (res) { return WebDNN.readArrayBufferProgressively(res, progressCallback); })
                             ])];
                         case 1:
@@ -1185,7 +1190,7 @@ var WebDNN;
                         case 3:
                             _b.sent();
                             weight_url = directory + "/weight_" + this.backendName + ".bin";
-                            return [4 /*yield*/, WebDNN.fetch(weight_url, { ignoreCache: this.ignoreCache })];
+                            return [4 /*yield*/, WebDNN.fetch(weight_url, { ignoreCache: this.ignoreCache }, progressCallback)];
                         case 4:
                             weight_fetch = _b.sent();
                             return [4 /*yield*/, WebDNN.readArrayBufferProgressively(weight_fetch, progressCallback)];
@@ -1481,7 +1486,7 @@ var WebDNN;
                         case 0: return [4 /*yield*/, Promise.all([
                                 WebDNN.fetch(directory + "/graph_" + this.backendName + ".json", { ignoreCache: this.ignoreCache })
                                     .then(function (res) { return res.json(); }),
-                                WebDNN.fetch(directory + "/weight_" + this.backendName + ".bin", { ignoreCache: this.ignoreCache })
+                                WebDNN.fetch(directory + "/weight_" + this.backendName + ".bin", { ignoreCache: this.ignoreCache }, progressCallback)
                                     .then(function (res) { return WebDNN.readArrayBufferProgressively(res, progressCallback); })
                             ])];
                         case 1:
