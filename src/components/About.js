@@ -6,17 +6,21 @@ class About extends Component {
         return (
             <div className="about">
 
-                <h3 style={{color: Config.colors.theme}}>Authors</h3>
-                <p> Yanghua JIN (Fudan University/Preferred Networks)
-                </p>
-                <p> Jiakai ZHANG (Carnegie Mellon University)</p>
-                <p> Minjun LI (Fudan University)  </p>
-
+                <h3 style={{color: Config.colors.theme}}>Site Authors</h3>
+                <p> Yanghua Jin / yanghuajin94@gmail.com (Fudan University/Preferred Networks) </p>
+                <p> Jiakai Zhang (Carnegie Mellon University)</p>
+                <h3 style={{color: Config.colors.theme}}>Technical Report</h3>
+                <a href="http://girls.moe/make_girls_moe_report.pdf">Create Anime Characters with A.I. ! </a> <br/>
+                First Publised as a Doujinshi on <a href="http://www.comiket.co.jp/"> Comiket</a> 92, Summer 2017<br/>
+                ガールス・マニホールド　三日目東ウ05a
+                <h4 style={{color: Config.colors.theme}} >Technical Report Authors </h4>
+                <p> Yanghua Jin, Minjun Li, Yingtao Tian, Huachun Zhu, Jiakai Zhang, Zhihao Fang</p>
+                <h4 style={{color: Config.colors.theme}} > </h4>
                 <h3 style={{color: Config.colors.theme}}>Special Thanks</h3>
                 <p>Eiichi Matsumoto, Taizan Yonetsuji, Saito Masaki, Kosuke Nakago (Preferred Networks)</p>
                 <h3 style={{color: Config.colors.theme}}>License</h3>
                 <p> The web interface is under the GPLv3 license. </p>
-                <p> Model training scripts are under the MIT license.(Will be open-sourced soon.) </p>
+                <p> Model training scripts are under the MIT license. (Available Soon.) </p>
 
 
                 <h3 style={{color: Config.colors.theme}}>Links</h3>

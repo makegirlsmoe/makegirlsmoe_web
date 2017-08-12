@@ -1,3 +1,6 @@
 # MakeGirls.moe-Web
 
-Front end of [make.girls.moe](http://make.girls.moe/) (a website for making your girls with AI).
+This repo contains the front-end part of [make.girls.moe](http://make.girls.moe/).
+
+Model training scripts will be open-sourced soon.
+

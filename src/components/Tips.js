@@ -9,7 +9,7 @@ class Tips extends Component {
                 <p>
                     The input of the model consists of two parts, the random noise part and the condition part.
                     If you generate a good image, you could try to <strong>fix the noise part</strong> and use random conditions to get more good images.
-                    We have observed that a good random noise is quite critical for the generation.
+                    We have observed that a good random noise is important for the better generation.
                 </p>
                 <h3 style={{color: Config.colors.theme}}>Faster generation</h3>
                 <p>

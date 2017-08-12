@@ -81,7 +81,7 @@ var Config = {
     twitter: {
         urlPrefix: '/api/twitter',
         callback: '/#/twitter',
-        defaultText: 'Say something... #MakeGirlsMoe: http://make.girls.moe'
+        defaultText: 'A.I.で二次元キャラ生成！　Automatically created by #MakeGirlsMoe: http://make.girls.moe'
     }
 };
 
