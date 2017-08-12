@@ -14,7 +14,7 @@ class Tips extends Component {
                 <h3 style={{color: Config.colors.theme}}>Faster generation</h3>
                 <p>
                     Currently, all computation is done on your web browser by <a href="https://mil-tokyo.github.io/webdnn/" target="_blank" rel="noopener noreferrer">WebDNN</a>. By default, it uses WebAssembly as the backend.
-                    But if you are a Mac user, you could try to install <a href="https://developer.apple.com/safari/technology-preview/" rel="noopener noreferrer">Safari Technology Preview</a> and
+                    But if you are a Mac user, you could try to install <a href="https://developer.apple.com/safari/technology-preview/" target="_blank" rel="noopener noreferrer">Safari Technology Preview</a> and
                     turn on WebGPU in Develop -> Experimental Features -> WebGPU.
                     This will enable the WebGPU backend, which is <strong>100x faster</strong> than WebAssembly! Notice that  WebGPU may not work on AMD GPUs currently as reported <a href="https://github.com/mil-tokyo/webdnn/issues/286" target="_blank" rel="noopener noreferrer">here</a>.
 
