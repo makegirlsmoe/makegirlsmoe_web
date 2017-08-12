@@ -689,8 +689,17 @@ var WebDNN;
      * @returns ArrayBuffer
      */
     function readArrayBufferProgressively(res, callback) {
-        if (!callback || !res.body)
+        if (!callback)
             return res.arrayBuffer();
+        if (!res.body) {
+            if (isXHR2WithArrayBufferSupported()) {
+                return readArrayBufferUsingXHR(res, callback);
+            }
+            else {
+                return res.arrayBuffer();
+            }
+        }
+
         var contentLength = res.headers.get('Content-Length');
         if (!contentLength)
             return res.arrayBuffer();
@@ -714,6 +723,50 @@ var WebDNN;
             }
         }
         return reader.read().then(accumulateLoadedSize);
+    }
+    function isXHR2WithArrayBufferSupported() {
+        if (!window.ProgressEvent || ! window.FormData) {
+            return false;
+        }
+
+        var xhr = new XMLHttpRequest();
+
+        if (typeof xhr.responseType === 'string') {
+            try {
+                xhr.responseType = 'arraybuffer';
+                return xhr.responseType === 'arraybuffer';
+            } catch (e) {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+    function readArrayBufferUsingXHR(res, callback) {
+        return new Promise(function (resolve, reject) {
+            var oReq = new XMLHttpRequest();
+            oReq.open("GET", res.url, true);
+            oReq.responseType = "arraybuffer";
+            var callbackScheduler = new WebDNN.util.DispatchScheduler();
+
+            oReq.onload = function (oEvent) {
+                callbackScheduler.forceDispatch();
+                resolve(oReq.response);
+            };
+
+            oReq.onprogress = function (oEvent) {
+                if (callback) {
+                    callbackScheduler.request(function () { return callback(oEvent.loaded, oEvent.total); });
+                }
+            };
+
+            oReq.onerror = function (oEvent) {
+                reject(oEvent);
+            };
+
+            oReq.send(null);
+        });
     }
     WebDNN.readArrayBufferProgressively = readArrayBufferProgressively;
 })(WebDNN || (WebDNN = {}));
