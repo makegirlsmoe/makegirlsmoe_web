@@ -11,10 +11,12 @@ class About extends Component {
                 <p> Jiakai Zhang (Carnegie Mellon University)</p>
                 <h3 style={{color: Config.colors.theme}}>Technical Report</h3>
                 <a href="http://girls.moe/make_girls_moe_report.pdf">Create Anime Characters with A.I. ! </a> <br/>
-                First Publised as a Doujinshi on <a href="http://www.comiket.co.jp/"> Comiket</a> 92, Summer 2017<br/>
+                First publised as a Doujinshi on <a href="http://www.comiket.co.jp/"> Comiket</a> 92, Summer 2017<br/>
                 ガールス・マニホールド　三日目東ウ05a
                 <h4 style={{color: Config.colors.theme}} >Technical Report Authors </h4>
-                <p> Yanghua Jin, Minjun Li, Yingtao Tian, Huachun Zhu, Jiakai Zhang, Zhihao Fang</p>
+                <p> Yanghua Jin, Minjun Li, Yingtao Tian, Huachun Zhu</p>
+                <h4 style={{color: Config.colors.theme}} >Cover Design</h4>
+                <p>Zhihao Fang </p>
                 <h4 style={{color: Config.colors.theme}} > </h4>
                 <h3 style={{color: Config.colors.theme}}>Special Thanks</h3>
                 <p>Eiichi Matsumoto, Taizan Yonetsuji, Saito Masaki, Kosuke Nakago (Preferred Networks)</p>
