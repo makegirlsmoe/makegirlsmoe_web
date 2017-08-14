@@ -9,78 +9,95 @@ class Stat extends Component {
 
     constructor() {
         super();
-        this.state = {};
+        this.state = {
+            visit: {
+                interval: 'hour'
+            }
+        };
         this.charts = {};
+        this.data = {};
+    }
+
+    drawVisitChart() {
+        var defaultRange = {hour: 24, day: 7};
+        var visitChart = echarts.init(this.charts.visit);
+        var data = this.data.visit[this.state.visit.interval];
+        visitChart.setOption({
+            grid: {
+                left: 50,
+                bottom: 80
+            },
+            tooltip : {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    animation: false,
+                    label: {
+                        backgroundColor: '#505765'
+                    }
+                }
+            },
+            legend: {
+                data:['VV','UV','IP'],
+                left: 0
+            },
+            dataZoom: [
+                {
+                    show: true,
+                    realtime: true,
+                    startValue: data.length - defaultRange[this.state.visit.interval],
+                    endValue: data.length - 1
+                },
+                {
+                    type: 'inside',
+                    show: true,
+                    realtime: true
+                }
+            ],
+            xAxis : [
+                {
+                    type : 'category',
+                    boundaryGap : false,
+                    axisLine: {onZero: false},
+                    data : data.map(item => item._id)
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                }
+            ],
+            series: [
+                {
+                    name:'VV',
+                    type:'line',
+                    smooth: true,
+                    data: data.map(item => item.vv)
+                },
+                {
+                    name:'UV',
+                    type:'line',
+                    smooth: true,
+                    data: data.map(item => item.uv)
+                },
+                {
+                    name:'IP',
+                    type:'line',
+                    smooth: true,
+                    data: data.map(item => item.ip)
+                }
+            ]
+        });
     }
 
     componentDidMount() {
         StatUtils.getSummary().then(data => {
             this.setState({summary: data});
         });
-        var defaultRange = 7;
-        var visitChart = echarts.init(this.charts.visit);
+
         StatUtils.getVisit().then(data => {
-            visitChart.setOption({
-                grid: {
-                    bottom: 80
-                },
-                tooltip : {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'cross',
-                        animation: false,
-                        label: {
-                            backgroundColor: '#505765'
-                        }
-                    }
-                },
-                legend: {
-                    data:['VV','UV','IP']
-                },
-                dataZoom: [
-                    {
-                        show: true,
-                        realtime: true,
-                        startValue: data.length - defaultRange,
-                        endValue: data.length - 1
-                    },
-                    {
-                        type: 'inside',
-                        show: true,
-                        realtime: true
-                    }
-                ],
-                xAxis : [
-                    {
-                        type : 'category',
-                        boundaryGap : false,
-                        axisLine: {onZero: false},
-                        data : data.map(item => item._id.year + '/' + item._id.month + '/' + item._id.day)
-                    }
-                ],
-                yAxis: [
-                    {
-                        type: 'value',
-                    }
-                ],
-                series: [
-                    {
-                        name:'VV',
-                        type:'line',
-                        data: data.map(item => item.vv)
-                    },
-                    {
-                        name:'UV',
-                        type:'line',
-                        data: data.map(item => item.uv)
-                    },
-                    {
-                        name:'IP',
-                        type:'line',
-                        data: data.map(item => item.ip)
-                    }
-                ]
-            });
+            this.data.visit = data;
+            this.drawVisitChart();
         });
 
         var accessChart = echarts.init(this.charts.access);
@@ -140,6 +157,9 @@ class Stat extends Component {
                 }
             }
             amountChart.setOption({
+                grid: {
+                    left: 50
+                },
                 tooltip: {
                     trigger: 'axis',
                     formatter: function (params) {
@@ -182,6 +202,7 @@ class Stat extends Component {
             {name:'brown',color:'#825e53'},
             {name:'red',color:'#da3f3d'},
             {name:'orange',color:'#f9b949'},
+            {name:'yellow',color:'#faf585'},
             {name:'green',color:'#60c15a'},
             {name:'blue',color:'#3967ac'},
             {name:'purple',color:'#8363c6'},
@@ -243,10 +264,31 @@ class Stat extends Component {
         });
     }
 
+    onVisitIntervalChange(value) {
+        this.setState({visit: Object.assign({}, this.state.visit,  {interval: value})}, () => this.drawVisitChart());
+    }
+
+    renderVisitOptions() {
+        return (
+            <div className="dropdown multiple-selector">
+                <button className="btn btn-default" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <div className="dropdown-toggle">
+                        <div>{Utils.keyToString(this.state.visit.interval)}</div>
+                        <div className="caret" />
+                    </div>
+
+                </button>
+                <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a onClick={() => this.onVisitIntervalChange('hour')}>{Utils.keyToString('hour')}</a></li>
+                    <li><a onClick={() => this.onVisitIntervalChange('day')}>{Utils.keyToString('day')}</a></li>
+                </ul>
+            </div>
+        )
+    }
+
     render() {
         return (
-            <div className="Stat">
-
+            <div className="stat">
                 <h3 style={{color: Config.colors.theme}}>Statistics</h3>
 
                 {this.state.summary &&
@@ -258,6 +300,7 @@ class Stat extends Component {
                 </div>
                 }
 
+                {this.renderVisitOptions()}
                 <div className="chart chart-visit" ref={obj => this.charts.visit = obj} />
                 <div className="chart chart-access" ref={obj => this.charts.access = obj} />
                 <div className="chart chart-amount" ref={obj => this.charts.amount = obj} />
