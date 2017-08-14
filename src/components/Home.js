@@ -64,6 +64,14 @@ class Home extends Component {
         this.setState({gan: {isReady: true}});
     }
 
+    setNoiseOrigin(noiseOrigin) {
+        var noise = noiseOrigin.map(([u, v]) => Utils.uniformToNormal(u, v));
+        this.setState({
+            gan: Object.assign({}, this.state.gan, {noise: noise, noiseOrigin: noiseOrigin}),
+            options: Object.assign({}, this.state.options, {noise: 1})
+        });
+    }
+
     getLabel() {
         var label = Array.apply(null, {length: Config.gan.labelLength}).map(() => -1);
         for (var i = 0; i < Config.options.length; i++) {
@@ -113,7 +121,7 @@ class Home extends Component {
 
         for (var i = 0; i < this.state.options.amount; i++) {
             var label = this.getLabel();
-            var result = await this.gan.run(label, this.state.options.noise ? this.state.gan.noise : null);
+            var result = await this.gan.run(label, this.state.options.noise ? this.state.gan.noise : null, this.state.options.noise ? this.state.gan.noiseOrigin : null);
             if (i === 0) {
                 this.setState({
                     results: [result]
@@ -128,7 +136,7 @@ class Home extends Component {
 
         Stat.generate(this.state.options);
         this.setState({
-            gan: Object.assign({}, this.state.gan, {isRunning: false, noise: this.gan.getCurrentNoise()})
+            gan: Object.assign({}, this.state.gan, {isRunning: false, noise: this.gan.getCurrentNoise(), noiseOrigin: this.gan.getCurrentNoiseOrigin(), input: this.gan.getCurrentInput()})
         });
     }
 
@@ -170,8 +178,10 @@ class Home extends Component {
                                 <Options
                                     options={Config.options}
                                     values={this.state.options}
-                                    noise={this.state.gan.noise}
-                                    onChange={(key, value) => this.setState({options: Object.assign({}, this.state.options, {[key]: value})})} />
+                                    noise={this.state.gan.noiseOrigin}
+                                    input={this.state.gan.input}
+                                    onChange={(key, value) => this.setState({options: Object.assign({}, this.state.options, {[key]: value})})}
+                                    onNoiseLoad={noiseOrigin => this.setNoiseOrigin(noiseOrigin)} />
                             } />
                             <Route path="/about" component={About}/>
                             <Route path="/news" component={News}/>

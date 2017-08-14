@@ -15,9 +15,16 @@ class Utils {
         return res;
     }
 
-    static randomNormal() {
+    static randomNormal(ref) {
         var u = 1 - Math.random();
         var v = 1 - Math.random();
+        if (typeof ref === 'function') {
+            ref(u, v);
+        }
+        return Utils.uniformToNormal(u, v);
+    }
+
+    static uniformToNormal(u, v) {
         return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
     }
 
