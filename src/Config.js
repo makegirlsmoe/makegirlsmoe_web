@@ -1,3 +1,5 @@
+var debug = false;
+
 var Config = {
     colors: {
         theme: '#bd1c1b',
@@ -72,15 +74,16 @@ var Config = {
         labelLength: 34,
         imageWidth: 128,
         imageHeight: 128,
-        model: '/models/model_resnet_with_condition_128_full_1'
+        model: '/models/model_resnet_with_condition_128_full_1',
+        modelServers: debug ? ['localhost:3000'] : ['make.girls.moe', '139.162.88.6']
     },
     stat: {
         enabled: true,
-        urlPrefix: '/api/stat'
+        urlPrefix: (debug ? 'http://localhost:6253' : '') + '/api/stat'
     },
     twitter: {
-        urlPrefix: '/api/twitter',
-        callback: '/#/twitter',
+        urlPrefix: (debug ? 'http://localhost:6253' : '') + '/api/twitter',
+        callback: (debug ? 'http://localhost:3000' : '') + '/#/twitter',
         defaultText: 'A.I.で二次元キャラ生成！　Automatically created by #MakeGirlsMoe: http://make.girls.moe'
     }
 };

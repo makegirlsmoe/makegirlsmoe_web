@@ -8,8 +8,13 @@ class GAN {
         this.currentNoise = null;
     }
 
+    static getWeightFilePrefix() {
+        var index = Math.floor(Math.random() * Config.gan.modelServers.length);
+        return 'http://' + Config.gan.modelServers[index] + Config.gan.model;
+    }
+
     async init(onInitProgress) {
-        this.runner = await window.WebDNN.load(Config.gan.model, {progressCallback: onInitProgress});
+        this.runner = await window.WebDNN.load(Config.gan.model, {progressCallback: onInitProgress, weightDirectory: GAN.getWeightFilePrefix()});
 
         try {
             this.runner.getInputViews()[0].toActual();
