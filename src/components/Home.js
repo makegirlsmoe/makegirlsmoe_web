@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { CSSTransitionGroup } from 'react-transition-group';
 import Config from '../Config';
 import About from './About';
+import News from './News';
 import Tips from './Tips';
 import ProgressBar from './ProgressBar';
 import Generator from './Generator';
@@ -173,6 +174,7 @@ class Home extends Component {
                                     onChange={(key, value) => this.setState({options: Object.assign({}, this.state.options, {[key]: value})})} />
                             } />
                             <Route path="/about" component={About}/>
+                            <Route path="/news" component={News}/>
                             <Route path="/tips" component={Tips}/>
                         </Switch>
 
