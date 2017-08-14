@@ -10,7 +10,7 @@ class About extends Component {
                 <p> Yanghua Jin / yanghuajin94@gmail.com /<a href="https://twitter.com/namaniku0" target="_blank" rel="noopener noreferrer">Aixile</a> (Fudan University/Preferred Networks)   </p>
                 <p> Jiakai Zhang (Carnegie Mellon University)</p>
                 <h3 style={{color: Config.colors.theme}}>Technical Report</h3>
-                <a href="http://make.girls.moe/technical_report.pdf" target="_blank" rel="noopener noreferrer">Create Anime Characters with A.I. ! </a> <br/>
+                <a href="https://makegirlsmoe.github.io/assets/pdf/technical_report.pdf" target="_blank" rel="noopener noreferrer">Create Anime Characters with A.I. ! </a> <br/>
                 First publised as a Doujinshi on <a href="http://www.comiket.co.jp/" target="_blank" rel="noopener noreferrer"> Comiket</a> 92, Summer 2017<br/>
                 ガールス・マニホールド　三日目東ウ05a
                 <h4 style={{color: Config.colors.theme}} >Technical Report Authors </h4>
