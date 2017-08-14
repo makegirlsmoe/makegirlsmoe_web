@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import MathJax from 'react-mathjax';
 import Config from '../Config';
 
 class News extends Component {
