@@ -9,26 +9,35 @@ class PromptDialog extends Component {
     constructor() {
         super();
         this.state = {
-            visible: false
+            visible: false,
+            title: null,
+            message: null
         };
-
     }
 
-    show() {
+    show(title, message) {
         return new Promise((resolve, reject) => {
-            this.setState({visible: true});
+            this.setState({visible: true, title: title, message: message});
             this.resolve = resolve;
             this.reject = reject;
         });
     }
 
+    clearState() {
+        this.setState({
+            visible: false,
+            title: null,
+            message: null
+        });
+    }
+
     onYesClick() {
-        this.setState({visible: false});
+        this.clearState();
         this.resolve();
     }
 
     onNoClick() {
-        this.setState({visible: false});
+        this.clearState();
         this.reject();
     }
 
@@ -39,9 +48,14 @@ class PromptDialog extends Component {
                 visible={this.state.visible}
                 animation="slide-fade"
                 maskAnimation="fade"
-                title={<h3 style={{margin: 0}}>{this.props.title}</h3>}
+                title={<h3 style={{margin: 0}}>{this.state.title || this.props.title}</h3>}
                 footer={
-                    [
+                    (this.props.type === 'alert' && [
+                        <ButtonPrimary
+                            key="OK"
+                            text="OK"
+                            onClick={() => this.onYesClick()} />
+                    ]) || [
                         <button
                             type="button"
                             className="btn btn-default"
@@ -57,7 +71,7 @@ class PromptDialog extends Component {
                     ]
                 }
             >
-                <p>{this.props.message}</p>
+                {this.state.message || this.props.message}
             </Dialog>
         );
     }

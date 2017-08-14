@@ -78,7 +78,7 @@ var Config = {
         modelServers: debug ? ['localhost:3000'] : ['106.187.49.34:8080']
     },
     stat: {
-        enabled: true,
+        enabled: debug ? false : true,
         urlPrefix: (debug ? 'http://localhost:6253' : '') + '/api/stat'
     },
     twitter: {
