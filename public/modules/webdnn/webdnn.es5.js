@@ -819,7 +819,7 @@ var WebDNN;
         DescriptorRunnerWebGPU.prototype.initializeBasicKernels = function () {
             this.webgpuHandler.loadKernel('kernel void sync(){}', 'basic');
         };
-        DescriptorRunnerWebGPU.prototype.load = function (directory, progressCallback) {
+        DescriptorRunnerWebGPU.prototype.load = function (directory, progressCallback, weightDirectory) {
             return __awaiter(this, void 0, void 0, function () {
                 var _a, descriptor, weightRawArray;
                 return __generator(this, function (_b) {
@@ -827,7 +827,7 @@ var WebDNN;
                         case 0: return [4 /*yield*/, Promise.all([
                                 WebDNN.fetch(directory + "/graph_" + this.backendName + ".json", { ignoreCache: this.ignoreCache })
                                     .then(function (res) { return res.json(); }),
-                                WebDNN.fetch(directory + "/weight_" + this.backendName + ".bin", { ignoreCache: this.ignoreCache }, progressCallback)
+                                WebDNN.fetch((weightDirectory || directory) + "/weight_" + this.backendName + ".bin", { ignoreCache: this.ignoreCache }, progressCallback)
                                     .then(function (res) { return WebDNN.readArrayBufferProgressively(res, progressCallback); })
                             ])];
                         case 1:
@@ -1164,7 +1164,7 @@ var WebDNN;
             //nothing to do
             return Promise.resolve();
         };
-        DescriptorRunnerWebassembly.prototype.load = function (directory, progressCallback) {
+        DescriptorRunnerWebassembly.prototype.load = function (directory, progressCallback, weightDirectory) {
             return __awaiter(this, void 0, void 0, function () {
                 var graph_url, graph_fetch, _a, kernel_backend, worker_entry_js_path, weight_url, weight_fetch, weights_data_ab;
                 return __generator(this, function (_b) {
@@ -1189,7 +1189,7 @@ var WebDNN;
                             return [4 /*yield*/, this.compile()];
                         case 3:
                             _b.sent();
-                            weight_url = directory + "/weight_" + this.backendName + ".bin";
+                            weight_url = (weightDirectory || directory) + "/weight_" + this.backendName + ".bin";
                             return [4 /*yield*/, WebDNN.fetch(weight_url, { ignoreCache: this.ignoreCache }, progressCallback)];
                         case 4:
                             weight_fetch = _b.sent();
@@ -1478,7 +1478,7 @@ var WebDNN;
                 });
             });
         };
-        DescriptorRunnerFallback.prototype.load = function (directory, progressCallback) {
+        DescriptorRunnerFallback.prototype.load = function (directory, progressCallback, weightDirectory) {
             return __awaiter(this, void 0, void 0, function () {
                 var _a, descriptor, weightRawArray;
                 return __generator(this, function (_b) {
@@ -1486,7 +1486,7 @@ var WebDNN;
                         case 0: return [4 /*yield*/, Promise.all([
                                 WebDNN.fetch(directory + "/graph_" + this.backendName + ".json", { ignoreCache: this.ignoreCache })
                                     .then(function (res) { return res.json(); }),
-                                WebDNN.fetch(directory + "/weight_" + this.backendName + ".bin", { ignoreCache: this.ignoreCache }, progressCallback)
+                                WebDNN.fetch((weightDirectory || directory) + "/weight_" + this.backendName + ".bin", { ignoreCache: this.ignoreCache }, progressCallback)
                                     .then(function (res) { return WebDNN.readArrayBufferProgressively(res, progressCallback); })
                             ])];
                         case 1:
@@ -1793,7 +1793,7 @@ var WebDNN;
                         _a.label = 3;
                     case 3:
                         _a.trys.push([3, 5, , 6]);
-                        return [4 /*yield*/, runner.load(directory, initOption.progressCallback)];
+                        return [4 /*yield*/, runner.load(directory, initOption.progressCallback, initOption.weightDirectory)];
                     case 4:
                         _a.sent();
                         return [3 /*break*/, 6];
