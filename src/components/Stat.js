@@ -302,6 +302,8 @@ class Stat extends Component {
 
                 {this.renderVisitOptions()}
                 <div className="chart chart-visit" ref={obj => this.charts.visit = obj} />
+
+                <span>Statistics of last 30000 sessions:</span>
                 <div className="chart chart-access" ref={obj => this.charts.access = obj} />
                 <div className="chart chart-amount" ref={obj => this.charts.amount = obj} />
                 <div className="chart chart-labels" ref={obj => this.charts.labels = obj} />
