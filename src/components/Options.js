@@ -32,7 +32,10 @@ class Options extends Component {
                     Please save the image below. <br />
                     For PC User: Right-click on the image and click "Save Image As". <br />
                     For Mac User: Click on the image and drag to desktop or desired folder.<br />
-                    For Mobile Device User: Touch and hold the image, and tap "Save Image"
+                    For Mobile Device User: Touch and hold the image, and tap "Save Image"<br />
+                </p>
+                <p>
+                    <b>Note: Random conditions such as hair color, hair style, etc. are NOT included in the noise. Try generating images with fixed noise and different conditions!</b>
                 </p>
                 Noise Image:
                 <NoiseVisualizer noise={this.props.noise}/>
