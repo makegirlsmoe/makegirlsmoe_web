@@ -35,7 +35,7 @@ class Options extends Component {
                     For Mobile Device User: Touch and hold the image, and tap "Save Image"<br />
                 </p>
                 <p>
-                    <b>Note: Random conditions such as hair color, hair style, etc. are NOT included in the noise. Try generating images with fixed noise and different conditions!</b>
+                    <b>Note: Conditions such as hair color, whether random or specified, are NOT included in the noise. Try generating images with fixed noise and different conditions!</b>
                 </p>
                 Noise Image:
                 <NoiseVisualizer noise={this.props.noise}/>
