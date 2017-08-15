@@ -75,7 +75,7 @@ var Config = {
         imageWidth: 128,
         imageHeight: 128,
         model: '/models/model_resnet_with_condition_128_full_1',
-        modelServers: debug ? ['localhost:3000'] : ['106.187.49.34:8080']
+        modelServers: debug ? ['localhost:3000'] : ['d130f4reeykfib.cloudfront.net:80']
     },
     stat: {
         enabled: debug ? false : true,

@@ -21,7 +21,7 @@ class About extends Component {
                 <h4 style={{color: Config.colors.theme}} > </h4>
                 <h3 style={{color: Config.colors.theme}}>Special Thanks</h3>
                 <p>Eiichi Matsumoto, Taizan Yonetsuji, Saito Masaki, Kosuke Nakago (Preferred Networks)</p>
-                <p>Storage kindly supported by <a href="https://www.preferred-networks.jp/" target="_blank" rel="noopener noreferrer" style={{color:'#0060de', fontSize: '18'}}><img src={pfnLogo} width="24" alt="PFN Logo" /> Preferred Networks</a></p>
+                <p>Thanks to <a href="https://www.preferred-networks.jp/" target="_blank" rel="noopener noreferrer" style={{color:'#0060de', fontSize: '18'}}><img src={pfnLogo} width="24" alt="PFN Logo" /> Preferred Networks</a></p>
                 <h3 style={{color: Config.colors.theme}}>License</h3>
                 <p> The web interface is under the GPLv3 license. </p>
                 <p> Model training scripts are under the MIT license. (Available Soon) </p>
