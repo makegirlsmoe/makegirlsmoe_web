@@ -1,4 +1,6 @@
 var debug = false;
+var backendUrlPrefix = (debug ? 'http://localhost:6253' : '');
+var frontendUrlPrefix = (debug ? 'http://localhost:3000' : '');
 
 var Config = {
     colors: {
@@ -75,16 +77,24 @@ var Config = {
         imageWidth: 128,
         imageHeight: 128,
         model: '/models/model_resnet_with_condition_128_full_1',
-        modelServers: debug ? ['localhost:3000'] : ['106.187.49.34:8080']
+        modelServers: debug ? ['localhost:3000'] : [
+            {host: '106.187.49.34:8080', country: 'CN'},
+            {host: '107.161.27.213', country: 'CN'},
+            'd130f4reeykfib.cloudfront.net'
+        ]
     },
     stat: {
         enabled: debug ? false : true,
-        urlPrefix: (debug ? 'http://localhost:6253' : '') + '/api/stat'
+        urlPrefix: backendUrlPrefix + '/api/stat'
     },
     twitter: {
-        urlPrefix: (debug ? 'http://localhost:6253' : '') + '/api/twitter',
-        callback: (debug ? 'http://localhost:3000' : '') + '/#/twitter',
+        urlPrefix: backendUrlPrefix + '/api/twitter',
+        callback: frontendUrlPrefix + '/#/twitter',
         defaultText: 'A.I.で二次元キャラ生成！　Automatically created by #MakeGirlsMoe: http://make.girls.moe'
+    },
+    geoip: {
+        url: backendUrlPrefix + '/api/geoip',
+        timeout: 1000
     }
 };
 

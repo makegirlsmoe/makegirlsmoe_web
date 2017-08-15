@@ -1,3 +1,5 @@
+import Config from '../Config';
+
 class Utils {
     static capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
@@ -56,6 +58,28 @@ class Utils {
     static flatMap(arr, lambda) {
         return Array.prototype.concat.apply([], arr.map(lambda));
     };
+
+    static promiseTimeout(timeout) {
+        return new Promise(function (fulfill, reject) {
+            setTimeout(reject, timeout);
+        });
+    }
+
+    static getCountry() {
+        return Promise.race([
+            window.$.get(Config.geoip.url),
+            Utils.promiseTimeout(Config.geoip.timeout)
+        ]).then(data => {
+            if (data) {
+                return data.country;
+            }
+            else {
+                return null;
+            }
+        }).catch(err => {
+            return null;
+        });
+    }
 }
 
 export default Utils
