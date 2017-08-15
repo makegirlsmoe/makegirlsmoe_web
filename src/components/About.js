@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Config from '../Config';
+import pfnLogo from '../img/PFN_logo.png';
 
 class About extends Component {
     render() {
@@ -8,7 +9,7 @@ class About extends Component {
 
                 <h3 style={{color: Config.colors.theme}}>Site Authors</h3>
                 <p> Yanghua Jin / yanghuajin94@gmail.com /<a href="https://twitter.com/namaniku0" target="_blank" rel="noopener noreferrer">Aixile</a> (Fudan University/Preferred Networks)   </p>
-                <p> Jiakai Zhang (Carnegie Mellon University)</p>
+                <p> Jiakai Zhang / zhangjk95@gmail.com (Carnegie Mellon University)</p>
                 <h3 style={{color: Config.colors.theme}}>Technical Report</h3>
                 <a href="https://makegirlsmoe.github.io/assets/pdf/technical_report.pdf" target="_blank" rel="noopener noreferrer">Create Anime Characters with A.I. ! </a> <br/>
                 First publised as a Doujinshi on <a href="http://www.comiket.co.jp/" target="_blank" rel="noopener noreferrer"> Comiket</a> 92, Summer 2017<br/>
@@ -20,10 +21,10 @@ class About extends Component {
                 <h4 style={{color: Config.colors.theme}} > </h4>
                 <h3 style={{color: Config.colors.theme}}>Special Thanks</h3>
                 <p>Eiichi Matsumoto, Taizan Yonetsuji, Saito Masaki, Kosuke Nakago (Preferred Networks)</p>
+                <p>Storage kindly supported by <a href="https://www.preferred-networks.jp/" target="_blank" rel="noopener noreferrer" style={{color:'#0060de', fontSize: '18'}}><img src={pfnLogo} width="24" alt="PFN Logo" /> Preferred Networks</a></p>
                 <h3 style={{color: Config.colors.theme}}>License</h3>
                 <p> The web interface is under the GPLv3 license. </p>
-                <p> Model training scripts are under the MIT license. (Available Soon.) </p>
-
+                <p> Model training scripts are under the MIT license. (Available Soon) </p>
 
                 <h3 style={{color: Config.colors.theme}}>Links</h3>
                 <h5><a href="https://chainer.org" target="_blank"  rel="noopener noreferrer">Chainer</a></h5>
