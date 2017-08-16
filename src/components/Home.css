@@ -28,6 +28,10 @@
     transition: opacity 500ms ease-in-out 200ms, height 500ms ease-in-out 500ms;
 }
 
+.twitter-timeline-row {
+    margin-top: 20px;
+}
+
 @media screen and (min-width: 768px) {
     .options-container {
         min-height: 392px;

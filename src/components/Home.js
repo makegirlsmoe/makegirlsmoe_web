@@ -31,13 +31,17 @@ class Home extends Component {
             options: {
                 amount: 1
             },
-            results: []
+            results: [],
+            twitter: {
+                visible: false
+            }
         };
         this.gan = new GAN();
     }
 
     async componentDidMount() {
         Stat.init({cellularData: Utils.usingCellularData()});
+        this.showTwitterTimeline();
 
         if (Utils.usingCellularData()) {
             try {
@@ -62,6 +66,20 @@ class Home extends Component {
 
         Stat.modelLoaded(loadTime);
         this.setState({gan: {isReady: true}});
+    }
+
+    showTwitterTimeline() {
+        window.twttr.widgets.createTimeline(
+            "897941606237704192",
+            document.getElementById("twitter-timeline-container"),
+            {
+                height: 600,
+                chrome: "noheader"
+            }
+        )
+        .then(() =>{
+            this.setState({twitter: Object.assign({}, this.state.twitter, {visible: true})});
+        });
     }
 
     setNoiseOrigin(noiseOrigin) {
@@ -188,6 +206,13 @@ class Home extends Component {
                             <Route path="/tips" component={Tips}/>
                         </Switch>
 
+                    </div>
+                </div>
+
+                <div className="row twitter-timeline-row" style={{display: this.state.twitter.visible ? 'block' : 'none'}}>
+                    <div className="col-xs-12">
+                        <h3 style={{color: Config.colors.theme}}>#MakeGirlsMoe on Twitter</h3>
+                        <div id="twitter-timeline-container" />
                     </div>
                 </div>
 
