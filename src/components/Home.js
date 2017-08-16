@@ -69,16 +69,17 @@ class Home extends Component {
     }
 
     showTwitterTimeline() {
-        window.twttr.widgets.createTimeline(
-            "897941606237704192",
-            document.getElementById("twitter-timeline-container"),
-            {
-                height: 600,
-                chrome: "noheader"
-            }
-        )
-        .then(() =>{
-            this.setState({twitter: Object.assign({}, this.state.twitter, {visible: true})});
+        window.twttr.ready(() => {
+            window.twttr.widgets.createTimeline(
+                "897941606237704192",
+                document.getElementById("twitter-timeline-container"),
+                {
+                    height: 600,
+                    chrome: "noheader"
+                }
+            ).then(() =>{
+                this.setState({twitter: Object.assign({}, this.state.twitter, {visible: true})});
+            });
         });
     }
 
