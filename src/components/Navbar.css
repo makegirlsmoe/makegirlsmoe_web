@@ -8,6 +8,11 @@
     font-size: 24px;
 }
 
+.twitter-share-button {
+    box-sizing: content-box;
+    padding: 15px 15px 0 15px;
+}
+
 @media not screen and (min-width: 768px) {
     .container-fluid {
         width: 90%;

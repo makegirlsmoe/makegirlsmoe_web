@@ -35,6 +35,16 @@ class Navbar extends Component {
                             <li><a href="https://makegirlsmoe.github.io/" target="_blank" rel="noopener noreferrer">Official Blog</a></li>
                             <li><a href="https://github.com/makegirlsmoe" target="_blank" rel="noopener noreferrer">Github</a></li>
                         </ul>
+                        <ul className="nav navbar-nav navbar-right">
+                            <li>
+                                <a className="twitter-share-button"
+                                    href={"https://twitter.com/intent/tweet?"
+                                    + "text=" + encodeURIComponent(Config.twitter.defaultText.substring(0, Config.twitter.defaultText.indexOf('http')))
+                                    + "&url=" + encodeURIComponent(Config.twitter.defaultText.substring(Config.twitter.defaultText.indexOf('http')))}>
+                                    Tweet
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </nav>
