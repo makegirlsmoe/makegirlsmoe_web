@@ -41,7 +41,7 @@ class Home extends Component {
 
     async componentDidMount() {
         Stat.init({cellularData: Utils.usingCellularData()});
-        this.showTwitterTimeline();
+        //this.showTwitterTimeline();
 
         if (Utils.usingCellularData()) {
             try {
@@ -169,52 +169,59 @@ class Home extends Component {
         return (
             <div className="home">
 
-                <div className="row progress-container">
-                    <CSSTransitionGroup
-                        transitionName="progress-transition"
-                        transitionEnterTimeout={0}
-                        transitionLeaveTimeout={1000}>
+                <div className="row main-row">
+                    <div className="col-lg-8 col-xs-12" style={{float: this.state.twitter.visible ? 'left' : 'none'}}>
+                        <div className="row progress-container">
+                            <CSSTransitionGroup
+                                transitionName="progress-transition"
+                                transitionEnterTimeout={0}
+                                transitionLeaveTimeout={1000}>
 
-                        {!this.state.gan.isReady &&
-                        <div className="col-xs-12">
-                            <ProgressBar value={this.state.gan.loadingProgress} />
-                            <h5 className="progress-text" style={{color: this.state.gan.isCanceled || this.state.gan.isError ? '#f00' : '#000'}}>
-                                {this.state.gan.isCanceled ? 'Canceled' : this.state.gan.isError ? 'Network Error' : 'Loading Model...'}
-                            </h5>
+                                {!this.state.gan.isReady &&
+                                <div className="col-xs-12">
+                                    <ProgressBar value={this.state.gan.loadingProgress} />
+                                    <h5 className="progress-text" style={{color: this.state.gan.isCanceled || this.state.gan.isError ? '#f00' : '#000'}}>
+                                        {this.state.gan.isCanceled ? 'Canceled' : this.state.gan.isError ? 'Network Error' : 'Loading Model...'}
+                                    </h5>
+                                </div>
+                                }
+
+                            </CSSTransitionGroup>
                         </div>
-                        }
 
-                    </CSSTransitionGroup>
-                </div>
+                        <div className="row">
+                            <div className="col-sm-3 col-xs-12 generator-container">
+                                <Generator gan={this.state.gan} results={this.state.results} onGenerateClick={() => this.generate()} onTwitterClick={() => this.shareOnTwitter()} />
+                            </div>
+                            <div className="col-sm-9 col-xs-12 options-container">
+                                <Switch>
+                                    <Route exact path="/" render={() =>
+                                        <Options
+                                            options={Config.options}
+                                            values={this.state.options}
+                                            noise={this.state.gan.noiseOrigin}
+                                            input={this.state.gan.input}
+                                            onChange={(key, value) => this.setState({options: Object.assign({}, this.state.options, {[key]: value})})}
+                                            onNoiseLoad={noiseOrigin => this.setNoiseOrigin(noiseOrigin)} />
+                                    } />
+                                    <Route path="/about" component={About}/>
+                                    <Route path="/news" component={News}/>
+                                    <Route path="/tips" component={Tips}/>
+                                </Switch>
 
-                <div className="row">
-                    <div className="col-sm-3 col-xs-12 generator-container">
-                        <Generator gan={this.state.gan} results={this.state.results} onGenerateClick={() => this.generate()} onTwitterClick={() => this.shareOnTwitter()} />
+                            </div>
+                        </div>
                     </div>
-                    <div className="col-sm-9 col-xs-12 options-container">
-                        <Switch>
-                            <Route exact path="/" render={() =>
-                                <Options
-                                    options={Config.options}
-                                    values={this.state.options}
-                                    noise={this.state.gan.noiseOrigin}
-                                    input={this.state.gan.input}
-                                    onChange={(key, value) => this.setState({options: Object.assign({}, this.state.options, {[key]: value})})}
-                                    onNoiseLoad={noiseOrigin => this.setNoiseOrigin(noiseOrigin)} />
-                            } />
-                            <Route path="/about" component={About}/>
-                            <Route path="/news" component={News}/>
-                            <Route path="/tips" component={Tips}/>
-                        </Switch>
 
+                    <div className="col-lg-4 col-xs-12" style={{display: this.state.twitter.visible ? 'block' : 'none'}}>
+                        <div className="row twitter-timeline-row">
+                            <div className="col-xs-12">
+                                <h3 className="twitter-timeline-title" style={{color: Config.colors.theme}}>#MakeGirlsMoe on Twitter</h3>
+                                <div id="twitter-timeline-container" />
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div className="row twitter-timeline-row" style={{display: this.state.twitter.visible ? 'block' : 'none'}}>
-                    <div className="col-xs-12">
-                        <h3 style={{color: Config.colors.theme}}>#MakeGirlsMoe on Twitter</h3>
-                        <div id="twitter-timeline-container" />
-                    </div>
                 </div>
 
                 <PromptDialog
