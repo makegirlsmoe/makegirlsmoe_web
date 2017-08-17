@@ -10,7 +10,9 @@ class Twitter extends Component {
         super();
         this.state = {
             image: localStorage['twitter_image'],
+            noise: localStorage['twitter_noise'],
             text: Config.twitter.defaultText,
+            includeNoise: true,
             state: 'normal',
             timeRemaining: 5,
             submitting: false
@@ -19,7 +21,7 @@ class Twitter extends Component {
 
     share() {
         this.setState({submitting: true});
-        TwitterUtils.submit(this.state.text, this.state.image).then(response => {
+        TwitterUtils.submit(this.state.text, this.state.image, this.state.includeNoise ? this.state.noise : null).then(response => {
             this.setState({state: 'successful'});
             Stat.share();
             var intervalID = setInterval(() => {
@@ -48,14 +50,25 @@ class Twitter extends Component {
                 <h3 style={{color: Config.colors.theme}}>Share on Twitter</h3>
 
                 {this.state.state === 'normal' &&
-                <div className="row">
-                    <div className="col-xs-12 col-sm-2 share-image-container">
-                        <img className="share-image" src={this.state.image} alt="share_image" />
+                    <div>
+                        <div className="row">
+                            <div className="col-xs-12 col-sm-2 share-image-container">
+                                <img className="share-image" src={this.state.image} alt="share_image" />
+                            </div>
+                            <div className="col-xs-12 col-sm-10 share-text-container">
+                                <textarea className="form-control share-text" value={this.state.text} onChange={event => this.setState({text: event.target.value})} />
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-xs-12 col-sm-2 share-noise-container" style={{display: this.state.includeNoise ? 'block' : 'none'}}>
+                                <img className="share-noise" src={this.state.noise} alt="share_noise" />
+                            </div>
+                            <div className="col-xs-12 col-sm-10 share-noise-option-container">
+                                <input type="checkbox" className="" checked={this.state.includeNoise} onChange={event => this.setState({includeNoise: event.target.checked})} />
+                                <span>Include Noise</span>
+                            </div>
+                        </div>
                     </div>
-                    <div className="col-xs-12 col-sm-10 share-text-container">
-                        <textarea className="form-control share-text" value={this.state.text} onChange={event => this.setState({text: event.target.value})} />
-                    </div>
-                </div>
                 }
 
                 {this.state.state === 'successful' &&
