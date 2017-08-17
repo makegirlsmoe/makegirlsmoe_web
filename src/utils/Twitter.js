@@ -29,10 +29,11 @@ class Twitter {
         return Config.twitter.urlPrefix + '/auth?callback=' + encodeURIComponent(Config.twitter.callback);
     }
 
-    static submit(text, image) {
+    static submit(text, image, noise) {
         return Twitter.post('/submit', {
             text: text,
-            image: image
+            image: image,
+            noise: noise
         });
     }
 }

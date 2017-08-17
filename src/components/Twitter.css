@@ -1,4 +1,4 @@
-.twitter .share-image-container, .twitter .share-text-container, .twitter .button-container {
+.twitter .share-image-container, .twitter .share-text-container, .twitter .button-container, .twitter .share-noise-container, .twitter .share-noise-option-container {
     margin-bottom: 20px;
 }
 
@@ -13,6 +13,13 @@
 .twitter .share-text {
     height: 134px;
 }
+
+.twitter .share-noise-option-container input[type="checkbox"] {
+    margin: 0 2px;
+    position: relative;
+    top: 1px;
+}
+
 
 .twitter .glyphicon {
     margin-right: 5px;
