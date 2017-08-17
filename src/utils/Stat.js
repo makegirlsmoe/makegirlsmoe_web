@@ -63,6 +63,10 @@ class Stat {
         return Stat.post('/share');
     }
 
+    static rate(input, value) {
+        return Stat.post('/rate', {input: input, value: value});
+    }
+
     static getSummary() {
         return Stat.get('/summary');
     }

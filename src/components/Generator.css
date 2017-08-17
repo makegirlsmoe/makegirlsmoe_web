@@ -29,17 +29,44 @@
     overflow: hidden;
 }
 
+.generator .btn-rating {
+    display: block;
+    margin: 20px auto 0 auto;
+    overflow: hidden;
+}
+
+.generator .rating .glyphicon {
+    position: relative;
+    top: 2px;
+    margin-right: 3px;
+}
+
+.generator .rating-text {
+    margin-bottom: 3px;
+}
+
 .twitter-transition-enter {
     height: 0;
     padding: 0 12px;
-    margin: 0 auto 0 auto;
+    margin-top: 0 !important;
     border-width: 0;
 }
 
 .twitter-transition-enter.twitter-transition-enter-active {
     height: 35px;
     padding: 6px 12px;
-    margin: 20px auto 0 auto;
+    margin-top: 20px !important;
     border-width: 1px;
+    transition: all 600ms ease-in-out;
+}
+
+.rating-transition-enter {
+    height: 0;
+    margin-top: 0 !important;
+}
+
+.rating-transition-enter.rating-transition-enter-active {
+    height: 57px;
+    margin-top: 20px !important;
     transition: all 600ms ease-in-out;
 }

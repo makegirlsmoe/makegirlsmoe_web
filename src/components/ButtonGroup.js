@@ -16,7 +16,7 @@ class ButtonGroup extends Component {
 
         return (
             <button type="button" className="btn btn-default"
-                    key={props.name}
+                    key={props.key || props.name}
                     style={Object.assign({}, style, props.isActive && style.active)}
                     onClick={() => props.onClick()}>
                 {props.name}
