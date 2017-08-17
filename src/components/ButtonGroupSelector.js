@@ -10,6 +10,7 @@ class ButtonGroupSelector extends ButtonGroup {
 
     renderButtonGroup(options) {
         return super.renderButtonGroup(options.map(option => ({
+            key: option.key,
             name: option.name,
             isActive: this.isButtonActive(option.value),
             onClick: () => this.props.onChange(option.value)

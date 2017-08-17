@@ -34,7 +34,8 @@ class Home extends Component {
             results: [],
             twitter: {
                 visible: false
-            }
+            },
+            rating: 0
         };
         this.gan = new GAN();
     }
@@ -158,7 +159,8 @@ class Home extends Component {
 
         Stat.generate(this.state.options);
         this.setState({
-            gan: Object.assign({}, this.state.gan, {isRunning: false, noise: this.gan.getCurrentNoise(), noiseOrigin: this.gan.getCurrentNoiseOrigin(), input: this.gan.getCurrentInput()})
+            gan: Object.assign({}, this.state.gan, {isRunning: false, noise: this.gan.getCurrentNoise(), noiseOrigin: this.gan.getCurrentNoiseOrigin(), input: this.gan.getCurrentInput()}),
+            rating: 0
         });
     }
 
@@ -166,6 +168,11 @@ class Home extends Component {
         localStorage['twitter_image'] = ImageEncoder.encode(this.state.results.slice(-1)[0]);
         var win = window.open(Twitter.getAuthUrl(), '_blank');
         win.focus();
+    }
+
+    submitRating(value) {
+        Stat.rate(this.gan.getCurrentInput(), value);
+        this.setState({rating: value});
     }
 
     render() {
@@ -194,7 +201,13 @@ class Home extends Component {
 
                         <div className="row">
                             <div className="col-sm-3 col-xs-12 generator-container">
-                                <Generator gan={this.state.gan} results={this.state.results} onGenerateClick={() => this.generate()} onTwitterClick={() => this.shareOnTwitter()} />
+                                <Generator gan={this.state.gan}
+                                           results={this.state.results}
+                                           onGenerateClick={() => this.generate()}
+                                           onTwitterClick={() => this.shareOnTwitter()}
+                                           onRatingClick={(value) => this.submitRating(value)}
+                                           rating={this.state.rating}
+                                />
                             </div>
                             <div className="col-sm-9 col-xs-12 options-container">
                                 <Switch>
