@@ -45,7 +45,7 @@ class Generator extends Component {
 
                     {this.props.results.length > 0 &&
                     <div className="rating btn-rating">
-                        <div className="rating-text" style={{color: this.props.rating === 0 ? 'black' : 'green' }}>{this.props.rating === 0 ? 'Rate it!' : 'Thank you!'}</div>
+                        <div className="rating-text" style={{color: this.props.rating === 0 ? 'black' : 'green' }}>{this.props.rating === 0 ? '' : 'Thank you!'}</div>
                         <RatingButtons value={this.props.rating} onChange={(value) => this.onRatingClick(value)}/>
                     </div>
                     }

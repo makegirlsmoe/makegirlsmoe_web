@@ -66,7 +66,7 @@
 }
 
 .rating-transition-enter.rating-transition-enter-active {
-    height: 57px;
+    height: 34px;
     margin-top: 20px !important;
     transition: all 600ms ease-in-out;
 }
