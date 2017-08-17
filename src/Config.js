@@ -79,7 +79,7 @@ var Config = {
         model: '/models/model_resnet_with_condition_128_full_1',
         modelServers: debug ? ['localhost:3000'] : [
             {host: '106.187.49.34:8080', country: 'CN'},
-            {host: '107.161.27.213', country: 'CN'},
+            //{host: '107.161.27.213', country: 'CN'},
             'd130f4reeykfib.cloudfront.net'
         ]
     },
