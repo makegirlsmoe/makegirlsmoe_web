@@ -2,7 +2,9 @@
 
 This repo contains the front-end part of [make.girls.moe](http://make.girls.moe/).
 
-Model training scripts will be open-sourced soon.
+We decide to open-source model training scripts after the release of Chainer 3.0. Since Chainer do not support gradient norm function currently, we use some tricks in the training. 
+Also, my personal repo [Chainer-GANs](https://github.com/Aixile/chainer-gan-experiments) contains some necessary references for reproducing our results.
+
 ## License
 Source codes of the website are under the GPL v3.0 license.
 
