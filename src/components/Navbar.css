@@ -1,5 +1,5 @@
 .container-fluid {
-    width: 800px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 0;
 }
@@ -11,6 +11,12 @@
 .twitter-share-button {
     box-sizing: content-box;
     padding: 15px 15px 0 15px;
+}
+
+@media not screen and (min-width: 1200px) {
+    .container-fluid {
+        width: 800px;
+    }
 }
 
 @media not screen and (min-width: 768px) {

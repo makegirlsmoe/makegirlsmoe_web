@@ -1,3 +1,7 @@
+.main-row > * {
+    margin: auto;
+}
+
 .generator-container {
     text-align: center;
     padding-top: 70px;
@@ -28,8 +32,17 @@
     transition: opacity 500ms ease-in-out 200ms, height 500ms ease-in-out 500ms;
 }
 
-.twitter-timeline-row {
-    margin-top: 20px;
+.twitter-timeline-title {
+    max-width: 520px;
+    margin: 20px auto 10px auto;
+    text-align: left;
+}
+
+@media not screen and (min-width: 1200px) {
+    .twitter-timeline-row {
+        margin-top: 20px;
+        text-align: center;
+    }
 }
 
 @media screen and (min-width: 768px) {
