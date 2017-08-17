@@ -12,7 +12,7 @@ class Twitter extends Component {
             image: localStorage['twitter_image'],
             noise: localStorage['twitter_noise'],
             text: Config.twitter.defaultText,
-            includeNoise: true,
+            includeNoise: false,
             state: 'normal',
             timeRemaining: 5,
             submitting: false
