@@ -41,7 +41,7 @@ class Home extends Component {
 
     async componentDidMount() {
         Stat.init({cellularData: Utils.usingCellularData()});
-        //this.showTwitterTimeline();
+        this.showTwitterTimeline();
 
         if (Utils.usingCellularData()) {
             try {
@@ -79,6 +79,9 @@ class Home extends Component {
                 }
             ).then(() =>{
                 this.setState({twitter: Object.assign({}, this.state.twitter, {visible: true})});
+                if (this.props.onTimelineLoad) {
+                    this.props.onTimelineLoad();
+                }
             });
         });
     }
@@ -170,7 +173,7 @@ class Home extends Component {
             <div className="home">
 
                 <div className="row main-row">
-                    <div className="col-lg-8 col-xs-12" style={{float: this.state.twitter.visible ? 'left' : 'none'}}>
+                    <div className={this.state.twitter.visible ? 'col-lg-8 ' : '' + 'col-xs-12'}>
                         <div className="row progress-container">
                             <CSSTransitionGroup
                                 transitionName="progress-transition"
