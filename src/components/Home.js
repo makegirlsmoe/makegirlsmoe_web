@@ -166,6 +166,7 @@ class Home extends Component {
 
     shareOnTwitter() {
         localStorage['twitter_image'] = ImageEncoder.encode(this.state.results.slice(-1)[0]);
+        localStorage['twitter_noise'] = ImageEncoder.encodeNoiseOrigin(this.state.gan.noiseOrigin);
         var win = window.open(Twitter.getAuthUrl(), '_blank');
         win.focus();
     }
