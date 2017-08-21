@@ -22,7 +22,7 @@ class Options extends Component {
     }
 
     onNoiseExportClick() {
-        if (!this.props.noise) {
+        if (!this.props.inputs.noise.value) {
             return;
         }
 
@@ -38,7 +38,7 @@ class Options extends Component {
                     <b>Note: Conditions such as hair color, whether random or specified, are NOT included in the noise. Try generating images with fixed noise and different conditions!</b>
                 </p>
                 Noise Image:
-                <NoiseVisualizer noise={this.props.noise}/>
+                <NoiseVisualizer noise={this.props.inputs.noise.value}/>
             </div>
         );
     }
@@ -54,7 +54,7 @@ class Options extends Component {
         reader.onload = () => {
             var dataURL = reader.result;
             ImageDecoder.DecodeNoiseOrigin(dataURL).then(noise => {
-                this.props.onNoiseLoad(noise);
+                this.props.onChange('noise', false, noise);
                 this.alertDialog.show('Noise Import', 'Import Successful.');
             }).catch(err => {
                 this.alertDialog.show('Import Error', err.error);
@@ -69,29 +69,50 @@ class Options extends Component {
         );
     }
 
+    isBinaryOptionSimple(option) {
+        return option.random || option.value === 1 || option.value === -1;
+    }
+
     renderBinarySelector(key, title) {
+        var input = this.props.inputs[key];
         return (
             <div className="col-xs-6 col-sm-4 option">
                 {this.renderLabel(key, title)}
-                <BinarySelector value={this.props.values[key]} onChange={(value) => this.props.onChange(key, value)} />
+                {(this.isBinaryOptionSimple(input) &&
+                    <BinarySelector
+                        value={input.random ? 0 : input.value}
+                        onChange={(value) => this.props.onChange(key, value === 0, value)} />) ||
+                    <span>User-defined</span>}
             </div>
         );
+    }
+
+    isMultipleOptionSimple(option) {
+        return option.random
+            || (option.value.filter(v => v === 1).length === 1
+                && option.value.filter(v => v === 1 || v === -1).length === option.value.length)
     }
 
     renderMultipleSelector(key, options, title) {
+        var input = this.props.inputs[key];
         return (
             <div className="col-xs-6 col-sm-4 option">
                 {this.renderLabel(key, title)}
-                <MultipleSelector options={options}  value={this.props.values[key]} onChange={(value) => this.props.onChange(key, value)} />
+                {(this.isMultipleOptionSimple(input) &&
+                    <MultipleSelector
+                        options={options}
+                        value={input.random ? 0 : input.value.indexOf(1) + 1}
+                        onChange={(value) => this.props.onChange(key, value === 0, Array.apply(null, {length: options.length}).map((item, index) => index === value - 1 ? 1 : -1))} />) ||
+                    <span>User-defined</span>}
             </div>
         );
     }
 
-    renderNoiseSelector(key, title) {
+    renderNoiseSelector() {
         return (
             <div className="col-xs-6 col-sm-4 option">
-                {this.renderLabel(key, title)}
-                <NoiseSelector value={this.props.values[key]} onChange={(value) => this.props.onChange(key, value)} />
+                {this.renderLabel('noise')}
+                <NoiseSelector value={this.props.inputs.noise.random ? 0 : 1} onChange={(value) => this.props.onChange('noise', value === 0, this.props.inputs.noise.value)} />
             </div>
         );
     }
@@ -110,7 +131,7 @@ class Options extends Component {
         return (
             <div className="col-xs-6 col-sm-4 option">
                 <h5>Current Noise</h5>
-                <NoiseVisualizer noise={this.props.noise} />
+                <NoiseVisualizer noise={this.props.inputs.noise.value} />
             </div>
         );
     }
@@ -148,8 +169,8 @@ class Options extends Component {
                     {this.renderSelector('glasses')}
                 </div>
                 <div className="row">
-                    {this.renderNoiseSelector('noise')}
-                    {this.props.noise && this.renderNoiseVisualizer()}
+                    {this.renderNoiseSelector()}
+                    {this.props.inputs.noise.value && this.renderNoiseVisualizer()}
                     {this.renderNoiseImportExport()}
                 </div>
 
