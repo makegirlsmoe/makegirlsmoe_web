@@ -157,6 +157,17 @@ class Options extends Component {
         )
     }
 
+    renderOperations() {
+        return (
+            <div className="col-xs-12 option">
+                <h5>Operations</h5>
+                {new ButtonGroup().renderButtonGroup([
+                    {name: 'Reset', onClick: () => this.props.onOperationClick('reset')}
+                ])}
+            </div>
+        );
+    }
+
     render() {
         return (
             <div className="options">
@@ -186,13 +197,7 @@ class Options extends Component {
                     {this.renderNoiseImportExport()}
                 </div>
                 <div className="row">
-                    <div className="col-xs-6 col-sm-4 option">
-                        <h5>Reset</h5>
-                        {new ButtonGroup().renderButtonGroup([
-                            {name: 'Reset', onClick: () => this.props.onReset()}
-                        ])}
-                        <input type="file" accept="image/*" ref="noiseUploader" style={{display: "none"}} onChange={(event) => this.readNoise(event)} onClick={(event)=> {event.target.value = null}} />
-                    </div>
+                    {this.renderOperations()}
                 </div>
 
                 <PromptDialog type="alert" ref={dialog => this.alertDialog = dialog} />

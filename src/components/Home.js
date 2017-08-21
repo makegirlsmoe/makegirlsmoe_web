@@ -215,7 +215,51 @@ class Home extends Component {
         }
     }
 
-    onOptionReset() {
+    onOptionOperationClick(operation) {
+        switch (operation) {
+            case 'reset':
+                return this.onResetClick();
+            case 'json_import':
+                return this.onJSONImport();
+            case 'json_export':
+                return this.onJSONExport();
+        }
+    }
+
+    getOptions() {
+        return this.state.options;
+    }
+
+    setOptions(options) {
+        return this.setState({options: options});
+    }
+
+    onJSONImport() {
+        this.refs.jsonUploader.click();
+    }
+
+    importJSON(event) {
+        if (!event || !event.target || !event.target.files || !event.target.files[0]) {
+            return;
+        }
+
+        var file = event.target.files[0];
+
+        var reader = new FileReader();
+        reader.onload = () => {
+            var json = reader.result;
+            this.setOptions(JSON.parse(json));
+        };
+        reader.readAsText(file);
+    }
+
+    onJSONExport() {
+        this.setState({optionURI: URL.createObjectURL(new Blob([JSON.stringify(this.getOptions())]))}, () => {
+            this.refs.jsonDownloader.click();
+        });
+    }
+
+    onResetClick() {
         this.setState({options: this.initOptions(Object.assign({}, this.state.options))});
     }
 
@@ -273,14 +317,14 @@ class Home extends Component {
                                                 options={Config.options}
                                                 inputs={this.state.options}
                                                 onChange={(key, random, value) => this.onOptionChange(key, random, value)}
-                                                onReset={() => this.onOptionReset()}
+                                                onOperationClick={operation => this.onOptionOperationClick(operation)}
                                                 mode={this.state.mode}
                                                 onModeChange={value => this.setState({mode: value})}/> :
                                             <Options
                                                 options={Config.options}
                                                 inputs={this.state.options}
                                                 onChange={(key, random, value) => this.onOptionChange(key, random, value)}
-                                                onReset={() => this.onOptionReset()}
+                                                onOperationClick={operation => this.onOptionOperationClick(operation)}
                                                 mode={this.state.mode}
                                                 onModeChange={value => this.setState({mode: value})}/>
                                     } />
@@ -308,6 +352,8 @@ class Home extends Component {
                     ref={dialog => this.dialog = dialog}
                     title="Note"
                     message="You are using mobile data network. We strongly recommend you to connect to Wi-Fi when accessing this website. Are you sure to continue?" />
+                <a href={this.state.optionURI} download="MakeGirlsMoe-Options.json" target="_blank" ref="jsonDownloader" style={{display: "none"}} />
+                <input type="file" accept="application/json" ref="jsonUploader" style={{display: "none"}} onChange={(event) => this.importJSON(event)} onClick={(event)=> {event.target.value = null}} />
 
             </div>
         );
