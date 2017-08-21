@@ -35,9 +35,23 @@ class Home extends Component {
             twitter: {
                 visible: false
             },
-            rating: 0
+            rating: 0,
+            mode: 'normal'
         };
+        this.initOptions(this.state);
         this.gan = new GAN();
+    }
+
+    initOptions(state) {
+        Config.options.forEach(option => {
+            state.options[option.key] = {
+                random: true,
+                value: option.type === 'multiple' ? Array.apply(null, {length: option.options.length}).fill(-1) : -1
+            }
+        });
+        state.options.noise = {
+            random: true
+        };
     }
 
     async componentDidMount() {
@@ -87,31 +101,26 @@ class Home extends Component {
         });
     }
 
-    setNoiseOrigin(noiseOrigin) {
-        var noise = noiseOrigin.map(([u, v]) => Utils.uniformToNormal(u, v));
-        this.setState({
-            gan: Object.assign({}, this.state.gan, {noise: noise, noiseOrigin: noiseOrigin}),
-            options: Object.assign({}, this.state.options, {noise: 1})
-        });
-    }
+    getRandomOptionValues(originalOptionInputs) {
+        var optionInputs = window.$.extend(true, {}, originalOptionInputs);
+        Config.options.forEach(option => {
+            var optionInput = optionInputs[option.key];
 
-    getLabel() {
-        var label = Array.apply(null, {length: Config.gan.labelLength}).map(() => -1);
-        for (var i = 0; i < Config.options.length; i++) {
-            var option = Config.options[i];
-            var value = this.state.options[option.key];
-            if (!value) {
+            if (!optionInput || optionInput.random) {
+                optionInput = optionInputs[option.key] = {random: true};
+
                 if (option.type === 'multiple') {
+                    var value = Array.apply(null, {length: option.options.length}).fill(-1);
                     if (option.isIndependent) {
                         for (var j = 0; j < option.options.length; j++) {
-                            label[option.offset + j] = Math.random() < option.prob[j] ? 1 : -1;
+                            value[j] = Math.random() < option.prob[j] ? 1 : -1;
                         }
                     }
                     else {
                         var random = Math.random();
                         for (j = 0; j < option.options.length; j++) {
                             if (random < option.prob[j]) {
-                                label[option.offset + j] = 1;
+                                value[j] = 1;
                                 break;
                             }
                             else {
@@ -119,22 +128,44 @@ class Home extends Component {
                             }
                         }
                     }
+                    optionInput.value = value;
                 }
                 else {
-                    label[option.offset] = Math.random() < option.prob ? 1 : -1;
+                    optionInput.value = Math.random() < option.prob ? 1 : -1;
                 }
             }
-            else {
-                if (option.type === 'multiple') {
-                    label[option.offset + value - 1] = 1;
-                }
-                else {
-                    label[option.offset] = value;
-                }
-            }
+        });
+
+        if (!optionInputs.noise || optionInputs.noise.random) {
+            var value = [];
+            optionInputs.noise = {random: true, value: value};
+            Array.apply(null, {length: Config.gan.noiseLength}).map(() => Utils.randomNormal((u, v) => value.push([u, v])));
         }
 
+        return optionInputs;
+    }
+
+    getLabel(optionInputs) {
+        var label = Array.apply(null, {length: Config.gan.labelLength});
+        Config.options.forEach(option => {
+            var optionInput = optionInputs[option.key];
+
+            if (option.type === 'multiple') {
+                optionInput.value.forEach((value, index) => {
+                    label[option.offset + index] = value;
+                });
+
+            }
+            else {
+                label[option.offset] = optionInput.value;
+            }
+        });
         return label;
+    }
+
+    getNoise(optionInputs) {
+        var noise = optionInputs.noise.value.map(([u, v]) => Utils.uniformToNormal(u, v));
+        return noise;
     }
 
     async generate() {
@@ -143,25 +174,43 @@ class Home extends Component {
         });
 
         for (var i = 0; i < this.state.options.amount; i++) {
-            var label = this.getLabel();
-            var result = await this.gan.run(label, this.state.options.noise ? this.state.gan.noise : null, this.state.options.noise ? this.state.gan.noiseOrigin : null);
-            if (i === 0) {
-                this.setState({
-                    results: [result]
-                });
-            }
-            else {
-                this.setState({
-                    results: this.state.results.concat([result])
-                });
-            }
+            var optionInputs = this.getRandomOptionValues(this.state.options);
+            var label = this.getLabel(optionInputs);
+            var noise = this.getNoise(optionInputs);
+            var result = await this.gan.run(label, noise);
+            var results = i === 0 ? [result] : this.state.results.concat([result]);
+            this.setState({
+                options: optionInputs,
+                results: results,
+                rating: 0,
+                gan: Object.assign({}, this.state.gan, {noise: noise, noiseOrigin: optionInputs.noise.value, input: noise.concat(label)})
+            });
         }
 
-        Stat.generate(this.state.options);
+        //Stat.generate(this.state.options);
         this.setState({
-            gan: Object.assign({}, this.state.gan, {isRunning: false, noise: this.gan.getCurrentNoise(), noiseOrigin: this.gan.getCurrentNoiseOrigin(), input: this.gan.getCurrentInput()}),
-            rating: 0
+            gan: Object.assign({}, this.state.gan, {isRunning: false}),
         });
+    }
+
+    onOptionChange(key, random, value) {
+        if (key === 'noise' && !random && !value) {
+            return;
+        }
+        if (random) {
+            this.setState({
+                options: Object.assign({}, this.state.options, {
+                    [key]: Object.assign({}, this.state.options[key], {random: true})
+                })
+            });
+        }
+        else {
+            this.setState({
+                options: Object.assign({}, this.state.options, {
+                    [key]: Object.assign({}, this.state.options[key], {random: false, value: value})
+                })
+            });
+        }
     }
 
     shareOnTwitter() {
@@ -172,7 +221,7 @@ class Home extends Component {
     }
 
     submitRating(value) {
-        Stat.rate(this.gan.getCurrentInput(), value);
+        Stat.rate(this.state.gan.input, value);
         this.setState({rating: value});
     }
 
@@ -181,7 +230,7 @@ class Home extends Component {
             <div className="home">
 
                 <div className="row main-row">
-                    <div className={this.state.twitter.visible ? 'col-lg-8 ' : '' + 'col-xs-12'}>
+                    <div className={(this.state.twitter.visible ? 'col-lg-8 ' : '') + 'col-xs-12'}>
                         <div className="row progress-container">
                             <CSSTransitionGroup
                                 transitionName="progress-transition"
@@ -215,11 +264,8 @@ class Home extends Component {
                                     <Route exact path="/" render={() =>
                                         <Options
                                             options={Config.options}
-                                            values={this.state.options}
-                                            noise={this.state.gan.noiseOrigin}
-                                            input={this.state.gan.input}
-                                            onChange={(key, value) => this.setState({options: Object.assign({}, this.state.options, {[key]: value})})}
-                                            onNoiseLoad={noiseOrigin => this.setNoiseOrigin(noiseOrigin)} />
+                                            inputs={this.state.options}
+                                            onChange={(key, random, value) => this.onOptionChange(key, random, value)}/>
                                     } />
                                     <Route path="/about" component={About}/>
                                     <Route path="/news" component={News}/>
