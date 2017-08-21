@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
 import Options from './Options';
-import Config from '../Config';
-import Utils from '../utils/Utils';
 import RandomButtons from './RandomButtons';
-import BinarySelector from './BinarySelector';
-import MultipleSelector from './MultipleSelector';
-import NoiseSelector from './NoiseSelector';
-import NoiseVisualizer from './NoiseVisualizer';
-import ButtonGroup from './ButtonGroup';
-import ImageDecoder from '../utils/ImageDecoder';
-import PromptDialog from './PromptDialog';
 import SliderWithInput from './SliderWithInput';
-
 import 'rc-slider/assets/index.css';
 import './Options.css';
 
