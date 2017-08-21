@@ -41,7 +41,7 @@ class ImageEncoder {
                 r: 255,
                 g: Math.floor((1 - x[1]) * 256),
                 b: Math.floor((1 - x[0]) * 256),
-                a: 255
+                a: 254
             };
         }
 
