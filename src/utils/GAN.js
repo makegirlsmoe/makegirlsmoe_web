@@ -23,13 +23,6 @@ class GAN {
 
     async init(onInitProgress) {
         this.runner = await window.WebDNN.load(Config.gan.model, {progressCallback: onInitProgress, weightDirectory: await GAN.getWeightFilePrefix()});
-
-        try {
-            this.runner.getInputViews()[0].toActual();
-        }
-        catch (err) {
-            throw new Error('Network Error');
-        }
     }
 
     async run(label, noise, noiseOrigin) {
