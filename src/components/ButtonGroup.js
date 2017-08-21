@@ -18,7 +18,11 @@ class ButtonGroup extends Component {
             <button type="button" className="btn btn-default"
                     key={props.key || props.name}
                     style={Object.assign({}, style, props.isActive && style.active)}
-                    onClick={() => props.onClick()}>
+                    onClick={(event) => {
+                        props.onClick();
+                        event.stopPropagation();
+                        event.nativeEvent.stopImmediatePropagation();
+                    }}>
                 {props.name}
             </button>
         );

@@ -15,6 +15,7 @@ class Options extends Component {
     constructor(props) {
         super();
         this.options = Utils.arrayToObject(props.options, item => item.key);
+        this.state = {};
     }
 
     onNoiseImportClick() {
@@ -63,10 +64,17 @@ class Options extends Component {
         reader.readAsDataURL(file);
     }
 
-    renderLabel(key, title) {
-        return (
-            <h5>{title || Utils.keyToString(key)}</h5>
-        );
+    renderLabel(key, title, large = false) {
+        if (!large) {
+            return (
+                <h5>{title || Utils.keyToString(key)}</h5>
+            );
+        }
+        else {
+            return (
+                <h4>{title || Utils.keyToString(key)}</h4>
+            );
+        }
     }
 
     isBinaryOptionSimple(option) {
@@ -82,7 +90,7 @@ class Options extends Component {
                     <BinarySelector
                         value={input.random ? 0 : input.value}
                         onChange={(value) => this.props.onChange(key, value === 0, value)} />) ||
-                    <span>User-defined</span>}
+                    <span><i>(User-defined)</i></span>}
             </div>
         );
     }
@@ -103,7 +111,7 @@ class Options extends Component {
                         options={options}
                         value={input.random ? 0 : input.value.indexOf(1) + 1}
                         onChange={(value) => this.props.onChange(key, value === 0, Array.apply(null, {length: options.length}).map((item, index) => index === value - 1 ? 1 : -1))} />) ||
-                    <span>User-defined</span>}
+                    <span><i>(User-defined)</i></span>}
             </div>
         );
     }
@@ -112,7 +120,7 @@ class Options extends Component {
         return (
             <div className="col-xs-6 col-sm-4 option">
                 {this.renderLabel('noise')}
-                <NoiseSelector value={this.props.inputs.noise.random ? 0 : 1} onChange={(value) => this.props.onChange('noise', value === 0, this.props.inputs.noise.value)} />
+                <NoiseSelector value={this.props.inputs.noise.random ? 0 : 1} onChange={(value) => this.props.onChange('noise', value === 0)} />
             </div>
         );
     }
@@ -153,7 +161,11 @@ class Options extends Component {
         return (
             <div className="options">
                 <div className="row">
-                    <h3 className="col-xs-12" style={{color: Config.colors.theme}}>Options</h3>
+                    <h3 className="col-xs-4 col-sm-2" style={{color: Config.colors.theme}}>Options</h3>
+                    <span className="col-xs-6 mode-selector">
+                        <input type="checkbox" checked={this.props.mode === 'expert'} onChange={event => this.props.onModeChange(event.target.checked ? 'expert' : 'normal')} />
+                        <span>Expert Mode</span>
+                    </span>
                 </div>
                 <div className="row">
                     {this.renderSelector('hair_color')}

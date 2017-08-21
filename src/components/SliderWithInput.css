@@ -1,0 +1,26 @@
+.slider-container {
+    margin: 10px 0;
+}
+
+.slider-container > * {
+    vertical-align: middle;
+    display: inline-block;
+    float: none;
+}
+
+.slider-container .slider-container-inner {
+    padding-left: 5px;
+    padding-right: 0;
+    z-index: 800;
+}
+
+.slider-container input {
+    width: 100%;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.slider-container .slider-text {
+    padding-left: 7px;
+}

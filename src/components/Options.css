@@ -2,6 +2,36 @@
     margin-bottom: 15px;
 }
 
+.mode-selector {
+    margin: 23px 0 7px 0;
+}
+
+.mode-selector span {
+    position: relative;
+    top: -1px;
+    margin-left: 3px;
+}
+
+.option h4 {
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+.option hr {
+    margin: 0;
+}
+
+.option .icon-expand {
+    margin-top: 7px;
+}
+
+.option .option-expert-multiple {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
 @media not screen and (min-width: 768px) {
     .option .btn-group button {
         padding-left: 10px;
