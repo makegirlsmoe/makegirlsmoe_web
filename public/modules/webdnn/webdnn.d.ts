@@ -314,10 +314,9 @@ declare module 'webdnn/descriptor_runner/descriptor_runner' {
 	     * However sometimes it can't because of Cross-Origin-Resource-Security policy.
 	     *
 	     * @param progressCallback callback which is called to notice the loading is progressing.
-	     * @param weightDirectory URL of directory that contains weight files (e.g. weight_webgpu.bin)
 	     * @protected
 	     */
-	    abstract load(directory: string, progressCallback?: (loaded: number, total: number) => any, weightDirectory?: string): Promise<void>;
+	    abstract load(directory: string, progressCallback?: (loaded: number, total: number) => any): Promise<void>;
 	    /**
 	     * Set actual value into placeholders. If no placeholder is exist in graph descriptor, it's no need to call this function.
 	     *
@@ -452,29 +451,8 @@ declare module 'webdnn/fetch' {
 	export function transformUrl(url: string): string;
 	/**
 	 * Register delegate function for transform url.
-	 *
-	 * Registered delegate function is called before WebDNN fetch any data (descriptor json file, and binary data).
-	 * You can modified url to fetch data from other domain, for example.
-	 *
-	 * ### Examples
-	 *
-	 * Fetch binary data from other domain
-	 *
-	 * ```js
-	 * // Register delegate function before loading
-	 * WebDNN.registerTransformUrlDelegate((url) => {
-	 *     if ((/\.bin/).test(url)) {
-	 *         url = url.replace('original.host.com', 'custom.host.com');
-	 *     }
-	 *     return url;
-	 * })
-	 *
-	 * // Graph descriptor JSON file will be loaded from 'original.host.com/model', and
-	 * // model binary data will be loaded from 'custom.host.com/model'.
-	 * WebDNN.load('https://original.host.com/model');
-	 * ```
-	 *
 	 * @param delegate Delegate function which will be called with original url, and must return converted url strings.
+	 * @protected
 	 */
 	export function registerTransformUrlDelegate(delegate: (base: string) => string): void;
 	/**
@@ -495,8 +473,6 @@ declare module 'webdnn/fetch' {
 	 * @protected
 	 */
 	export function readArrayBufferProgressively(res: Response, callback?: (loaded: number, total: number) => any): Promise<ArrayBuffer>;
-	export function isXHR2WithBlobSupported(): boolean;
-	export function fetchUsingXHR(url: any, callback: any): Promise<Response>;
 
 }
 declare module 'webdnn/graph_descriptor/graph_descriptor_fallback' {
@@ -543,7 +519,7 @@ declare module 'webdnn/descriptor_runner/descriptor_runner_fallback' {
 	    private dynamicBuffer;
 	    static checkAvailability(): boolean;
 	    init(): Promise<void>;
-	    load(directory: string, progressCallback?: (loaded: number, total: number) => any, weightDirectory?: string): Promise<void>;
+	    load(directory: string, progressCallback?: (loaded: number, total: number) => any): Promise<void>;
 	    private setDescriptor(descriptor);
 	    private compile();
 	    private initializeStaticBuffer(weightRawArray);
@@ -593,7 +569,7 @@ declare module 'webdnn/descriptor_runner/descriptor_runner_webassembly' {
 	    static checkAvailability(): boolean;
 	    constructor();
 	    init(): Promise<void>;
-	    load(directory: string, progressCallback?: (loaded: number, total: number) => any, weightDirectory?: string): Promise<void>;
+	    load(directory: string, progressCallback?: (loaded: number, total: number) => any): Promise<void>;
 	    setPlaceholderValue(values: {
 	        [key: string]: number;
 	    }): Promise<void>;
@@ -780,7 +756,7 @@ declare module 'webdnn/descriptor_runner/descriptor_runner_webgpu' {
 	    constructor(option?: any);
 	    init(): Promise<void>;
 	    private initializeBasicKernels();
-	    load(directory: string, progressCallback?: (loaded: number, total: number) => any, weightDirectory?: string): Promise<void>;
+	    load(directory: string, progressCallback?: (loaded: number, total: number) => any): Promise<void>;
 	    private initializeStaticBuffer(weightRawArray);
 	    private initializeMetaBuffers();
 	    private initializeDynamicBuffer();
@@ -1272,9 +1248,54 @@ declare module 'webdnn/webdnn' {
 	     */
 	    progressCallback?: (loaded: number, total: number) => any;
 	    /**
-	     * URL of directory that contains weight files (e.g. weight_webgpu.bin)
+	     * URL of directory that contains weight binary files.
+	     *
+	     * If both
+	     * [[InitOption.weightDirectory|`InitOption.weightDirectory`]] and
+	     * [[InitOption.transformUrlDelegate|`InitOption.transformUrlDelegate`]] are specified,
+	     * At first, all urls of binary weights' are replaced by [[InitOption.weightDirectory|`InitOption.weightDirectory`]], and then
+	     * [[InitOption.transformUrlDelegate|`InitOption.transformUrlDelegate`]] are applied.
+	     *
+	     * ### Examples
+	     *
+	     * ```js
+	     * // Graph descriptor JSON file will be loaded from 'original.host.com/model', and
+	     * // model binary data will be loaded from 'custom.host.com/model'.
+	     * WebDNN.load('https://original.host.com/model', {
+	     *     weightDirectory: 'https://custom.host.com/model'
+	     * });
+	     * ```
 	     */
 	    weightDirectory?: string;
+	    /**
+	     * Delegate function which will be called with original url, and must return converted url strings.
+	     * This function is called before WebDNN fetch any data (descriptor json file, and binary data)
+	     * You can modified url to fetch data from other domain, for example.
+	     *
+	     * If both
+	     * [[InitOption.weightDirectory|`InitOption.weightDirectory`]] and
+	     * [[InitOption.transformUrlDelegate|`InitOption.transformUrlDelegate`]] are specified,
+	     * At first, all urls of binary weights' are replaced by [[InitOption.weightDirectory|`InitOption.weightDirectory`]], and then
+	     * [[InitOption.transformUrlDelegate|`InitOption.transformUrlDelegate`]] are applied.
+	     *
+	     * ### Examples
+	     *
+	     * Fetch binary data from other domain
+	     *
+	     * ```js
+	     * // Graph descriptor JSON file will be loaded from 'original.host.com/model', and
+	     * // model binary data will be loaded from 'custom.host.com/model'.
+	     * WebDNN.load('https://original.host.com/model', {
+	     *     transformUrlDelegate: (url) => {
+	     *         if ((/\.bin/).test(url)) {
+	     *             url = url.replace('original.host.com', 'custom.host.com');
+	     *         }
+	     *         return url;
+	     *     }
+	     * });
+	     * ```
+	     */
+	    transformUrlDelegate?: (url: string) => string;
 	}
 	/**
 	 * Initialize descriptor runner. This function performs follow things.
