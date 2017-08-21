@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Options from './Options';
 import RandomButtons from './RandomButtons';
 import SliderWithInput from './SliderWithInput';
-import 'rc-slider/assets/index.css';
+import ButtonGroup from './ButtonGroup';
 import './Options.css';
 
 class OptionsExpert extends Options {
@@ -50,7 +50,7 @@ class OptionsExpert extends Options {
                 {this.state.expended[key] &&
                     <div className="row">
                         {options.map((option, index) =>
-                            <div className="col-xs-6 col-sm-4">
+                            <div key={option} className="col-xs-6 col-sm-4">
                                 {this.renderLabel(option)}
                                 <SliderWithInput value={input.value[index]} onChange={value => {
                                     var newInput = input.value.slice();
@@ -62,6 +62,19 @@ class OptionsExpert extends Options {
                     </div>
                 }
                 <hr/>
+            </div>
+        );
+    }
+
+    renderOperations() {
+        return (
+            <div className="col-xs-12 option">
+                <h5>Operations</h5>
+                {new ButtonGroup().renderButtonGroup([
+                    {name: 'Reset', onClick: () => this.props.onOperationClick('reset')},
+                    {name: 'JSON Import', onClick: () => this.props.onOperationClick('json_import')},
+                    {name: 'JSON Export', onClick: () => this.props.onOperationClick('json_export')}
+                ])}
             </div>
         );
     }
