@@ -8,6 +8,7 @@ import Tips from './Tips';
 import ProgressBar from './ProgressBar';
 import Generator from './Generator';
 import Options from './Options';
+import OptionsExpert from './OptionsExpert';
 import PromptDialog from './PromptDialog';
 import GAN from '../utils/GAN';
 import Utils from '../utils/Utils';
@@ -193,7 +194,7 @@ class Home extends Component {
         });
     }
 
-    onOptionChange(key, random, value) {
+    onOptionChange(key, random, value = this.state.options[key].value) {
         if (key === 'noise' && !random && !value) {
             return;
         }
@@ -262,10 +263,19 @@ class Home extends Component {
                             <div className="col-sm-9 col-xs-12 options-container">
                                 <Switch>
                                     <Route exact path="/" render={() =>
-                                        <Options
-                                            options={Config.options}
-                                            inputs={this.state.options}
-                                            onChange={(key, random, value) => this.onOptionChange(key, random, value)}/>
+                                        this.state.mode === 'expert' ?
+                                            <OptionsExpert
+                                                options={Config.options}
+                                                inputs={this.state.options}
+                                                onChange={(key, random, value) => this.onOptionChange(key, random, value)}
+                                                mode={this.state.mode}
+                                                onModeChange={value => this.setState({mode: value})}/> :
+                                            <Options
+                                                options={Config.options}
+                                                inputs={this.state.options}
+                                                onChange={(key, random, value) => this.onOptionChange(key, random, value)}
+                                                mode={this.state.mode}
+                                                onModeChange={value => this.setState({mode: value})}/>
                                     } />
                                     <Route path="/about" component={About}/>
                                     <Route path="/news" component={News}/>
