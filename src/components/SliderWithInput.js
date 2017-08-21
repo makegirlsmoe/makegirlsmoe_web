@@ -30,6 +30,12 @@ class SliderWithInput extends Component {
                             if (parseInt(value, 10) !== value) {
                                 value = value.toFixed(1);
                             }
+                            if (value > 100) {
+                                value = 100;
+                            }
+                            else if (value < -100) {
+                                value = -100;
+                            }
                             this.props.onChange(value);
                         }
                         else {
