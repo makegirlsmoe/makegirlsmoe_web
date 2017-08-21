@@ -305,8 +305,8 @@ class Stat extends Component {
 
                 <span>Statistics of last 30000 sessions:</span>
                 <div className="chart chart-access" ref={obj => this.charts.access = obj} />
-                <div className="chart chart-amount" ref={obj => this.charts.amount = obj} />
-                <div className="chart chart-labels" ref={obj => this.charts.labels = obj} />
+                {/*<div className="chart chart-amount" ref={obj => this.charts.amount = obj} />*/}
+                {/*<div className="chart chart-labels" ref={obj => this.charts.labels = obj} />*/}
 
             </div>
         );

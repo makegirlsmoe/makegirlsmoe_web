@@ -39,20 +39,21 @@ class Home extends Component {
             rating: 0,
             mode: 'normal'
         };
-        this.initOptions(this.state);
+        this.initOptions(this.state.options);
         this.gan = new GAN();
     }
 
-    initOptions(state) {
+    initOptions(options) {
         Config.options.forEach(option => {
-            state.options[option.key] = {
+            options[option.key] = {
                 random: true,
                 value: option.type === 'multiple' ? Array.apply(null, {length: option.options.length}).fill(-1) : -1
             }
         });
-        state.options.noise = {
+        options.noise = {
             random: true
         };
+        return options;
     }
 
     async componentDidMount() {
@@ -214,6 +215,10 @@ class Home extends Component {
         }
     }
 
+    onOptionReset() {
+        this.setState({options: this.initOptions(Object.assign({}, this.state.options))});
+    }
+
     shareOnTwitter() {
         localStorage['twitter_image'] = ImageEncoder.encode(this.state.results.slice(-1)[0]);
         localStorage['twitter_noise'] = ImageEncoder.encodeNoiseOrigin(this.state.gan.noiseOrigin);
@@ -268,12 +273,14 @@ class Home extends Component {
                                                 options={Config.options}
                                                 inputs={this.state.options}
                                                 onChange={(key, random, value) => this.onOptionChange(key, random, value)}
+                                                onReset={() => this.onOptionReset()}
                                                 mode={this.state.mode}
                                                 onModeChange={value => this.setState({mode: value})}/> :
                                             <Options
                                                 options={Config.options}
                                                 inputs={this.state.options}
                                                 onChange={(key, random, value) => this.onOptionChange(key, random, value)}
+                                                onReset={() => this.onOptionReset()}
                                                 mode={this.state.mode}
                                                 onModeChange={value => this.setState({mode: value})}/>
                                     } />

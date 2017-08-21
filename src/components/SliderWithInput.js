@@ -27,7 +27,7 @@ class SliderWithInput extends Component {
                         var input = event.target.value;
                         var value = +input;
                         if (!isNaN(value) && input.length > 0 && input.indexOf('.') !== input.length - 1) {
-                            if (parseInt(value) !== value) {
+                            if (parseInt(value, 10) !== value) {
                                 value = value.toFixed(1);
                             }
                             this.props.onChange(value);
