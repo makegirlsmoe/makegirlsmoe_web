@@ -223,6 +223,8 @@ class Home extends Component {
                 return this.onJSONImport();
             case 'json_export':
                 return this.onJSONExport();
+            default:
+                return;
         }
     }
 
@@ -352,7 +354,7 @@ class Home extends Component {
                     ref={dialog => this.dialog = dialog}
                     title="Note"
                     message="You are using mobile data network. We strongly recommend you to connect to Wi-Fi when accessing this website. Are you sure to continue?" />
-                <a href={this.state.optionURI} download="MakeGirlsMoe-Options.json" target="_blank" ref="jsonDownloader" style={{display: "none"}} />
+                <a href={this.state.optionURI} download="MakeGirlsMoe-Options.json" target="_blank" ref="jsonDownloader" style={{display: "none"}}>Download JSON</a>
                 <input type="file" accept="application/json" ref="jsonUploader" style={{display: "none"}} onChange={(event) => this.importJSON(event)} onClick={(event)=> {event.target.value = null}} />
 
             </div>
