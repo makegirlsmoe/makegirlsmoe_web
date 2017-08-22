@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Options from './Options';
 import RandomButtons from './RandomButtons';
 import SliderWithInput from './SliderWithInput';
