@@ -12,11 +12,12 @@ class About extends Component {
                 <p> Jiakai Zhang / zhangjk95@gmail.com (Carnegie Mellon University)</p>
                 <h3 style={{color: Config.colors.theme}}>Technical Report</h3>
                 <a href="https://makegirlsmoe.github.io/assets/pdf/technical_report.pdf" target="_blank" rel="noopener noreferrer">Create Anime Characters with A.I. ! </a> <br/>
-                First publised as a Doujinshi on <a href="http://www.comiket.co.jp/" target="_blank" rel="noopener noreferrer"> Comiket</a> 92, Summer 2017<br/>
-                ガールス・マニホールド　三日目東ウ05a
+                First presented as a Doujinshi on <a href="http://www.comiket.co.jp/" target="_blank" rel="noopener noreferrer"> Comiket</a> 92, Summer 2017, with the booth number 三日目東ウ05a ガールス・マニホールド<br/>
+                    <h4 style={{color: Config.colors.theme}}>Arxiv Version</h4>
+                    <a href="https://arxiv.org/abs/1708.05509" target="_blank" rel="noopener noreferrer">Towards the Automatic Anime Characters Creation with Generative Adversarial Networks</a> <br/>
                 <h4 style={{color: Config.colors.theme}} >Technical Report Authors </h4>
                 <p> Yanghua Jin, Minjun Li, Yingtao Tian, Huachun Zhu</p>
-                <h4 style={{color: Config.colors.theme}} >Cover Design</h4>
+                <h4 style={{color: Config.colors.theme}} >Doujinshi Cover Design</h4>
                 <p>Zhihao Fang </p>
                 <h4 style={{color: Config.colors.theme}} > </h4>
                 <h3 style={{color: Config.colors.theme}}>Special Thanks</h3>
