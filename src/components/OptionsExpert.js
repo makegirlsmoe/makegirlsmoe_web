@@ -69,11 +69,11 @@ class OptionsExpert extends Options {
     renderOperations() {
         return (
             <div className="col-xs-12 option">
-                <h5>Operations</h5>
+                <h5>Operations (Import/Export are not supported on mobile devices)</h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Reset', onClick: () => this.props.onOperationClick('reset')},
-                    {name: 'JSON Import', onClick: () => this.props.onOperationClick('json_import')},
-                    {name: 'JSON Export', onClick: () => this.props.onOperationClick('json_export')}
+                    {name: 'Options Import', onClick: () => this.props.onOperationClick('json_import')},
+                    {name: 'Options Export', onClick: () => this.props.onOperationClick('json_export')}
                 ])}
             </div>
         );
