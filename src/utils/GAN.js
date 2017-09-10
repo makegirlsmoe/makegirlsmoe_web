@@ -12,21 +12,23 @@ class GAN {
     static async getWeightFilePrefix() {
         var country = await Utils.getCountry();
 
-        var servers = Config.gan.modelServers.filter(server => server.country === country);
+        var servers = Config.modelConfig[Config.currentModel].gan.modelServers.filter(server => server.country === country);
         if (servers.length === 0) {
-            servers = Config.gan.modelServers.filter(server => !server.country);
+            servers = Config.modelConfig[Config.currentModel].gan.modelServers.filter(server => !server.country);
         }
 
         var index = Math.floor(Math.random() * servers.length);
-        return 'http://' + (servers[index].host || servers[index]) + Config.gan.model;
+        var modelPath = Config.modelCompression? Config.modelConfig[Config.currentModel].gan.model + '_8bit' : Config.modelConfig[Config.currentModel].gan.model;
+        return 'http://' + (servers[index].host || servers[index]) + modelPath;
     }
 
     async init(onInitProgress) {
-        this.runner = await window.WebDNN.load(Config.gan.model, {progressCallback: onInitProgress, weightDirectory: await GAN.getWeightFilePrefix()});
+        var modelPath = Config.modelCompression? Config.modelConfig[Config.currentModel].gan.model + '_8bit' : Config.modelConfig[Config.currentModel].gan.model;
+        this.runner = await window.WebDNN.load(modelPath, {progressCallback: onInitProgress, weightDirectory: await GAN.getWeightFilePrefix()});
     }
 
     async run(label, noise) {
-        this.currentNoise = noise || Array.apply(null, {length: Config.gan.noiseLength}).map(() => Utils.randomNormal());
+        this.currentNoise = noise || Array.apply(null, {length: Config.modelConfig[Config.currentModel].gan.noiseLength}).map(() => Utils.randomNormal());
         let input = this.currentNoise.concat(label);
         this.currentInput = input;
         this.runner.getInputViews()[0].set(input);

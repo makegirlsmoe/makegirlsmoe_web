@@ -3,8 +3,8 @@ import Config from '../Config';
 class ImageEncoder {
     static encode(result) {
         var canvas = document.createElement('canvas');
-        var canvasWidth = Config.gan.imageWidth;
-        var canvasHeight = Config.gan.imageHeight;
+        var canvasWidth = Config.modelConfig[Config.currentModel].gan.imageWidth;
+        var canvasHeight = Config.modelConfig[Config.currentModel].gan.imageHeight;
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
 
@@ -12,7 +12,7 @@ class ImageEncoder {
             scale: [127.5, 127.5, 127.5],
             bias: [127.5, 127.5, 127.5],
             color: window.WebDNN.Image.Color.BGR,
-            order: window.WebDNN.Image.Order.HWC
+            order: window.WebDNN.Image.Order.CHW
         });
 
         return canvas.toDataURL();
@@ -20,7 +20,7 @@ class ImageEncoder {
 
     static encodeNoiseOrigin(noiseOrigin) {
         var canvas = document.createElement('canvas');
-        var canvasWidth = Config.gan.noiseLength;
+        var canvasWidth = Config.modelConfig[Config.currentModel].gan.noiseLength;
         var canvasHeight = 34;
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;

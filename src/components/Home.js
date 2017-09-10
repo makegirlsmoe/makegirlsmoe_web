@@ -44,7 +44,7 @@ class Home extends Component {
     }
 
     initOptions(options) {
-        Config.options.forEach(option => {
+        Config.modelConfig[Config.currentModel].options.forEach(option => {
             options[option.key] = {
                 random: true,
                 value: option.type === 'multiple' ? Array.apply(null, {length: option.options.length}).fill(-1) : -1
@@ -105,7 +105,7 @@ class Home extends Component {
 
     getRandomOptionValues(originalOptionInputs) {
         var optionInputs = window.$.extend(true, {}, originalOptionInputs);
-        Config.options.forEach(option => {
+        Config.modelConfig[Config.currentModel].options.forEach(option => {
             var optionInput = optionInputs[option.key];
 
             if (!optionInput || optionInput.random) {
@@ -141,15 +141,15 @@ class Home extends Component {
         if (!optionInputs.noise || optionInputs.noise.random) {
             var value = [];
             optionInputs.noise = {random: true, value: value};
-            Array.apply(null, {length: Config.gan.noiseLength}).map(() => Utils.randomNormal((u, v) => value.push([u, v])));
+            Array.apply(null, {length: Config.modelConfig[Config.currentModel].gan.noiseLength}).map(() => Utils.randomNormal((u, v) => value.push([u, v])));
         }
 
         return optionInputs;
     }
 
     getLabel(optionInputs) {
-        var label = Array.apply(null, {length: Config.gan.labelLength});
-        Config.options.forEach(option => {
+        var label = Array.apply(null, {length: Config.modelConfig[Config.currentModel].gan.labelLength});
+        Config.modelConfig[Config.currentModel].options.forEach(option => {
             var optionInput = optionInputs[option.key];
 
             if (option.type === 'multiple') {
@@ -316,14 +316,14 @@ class Home extends Component {
                                     <Route exact path="/" render={() =>
                                         this.state.mode === 'expert' ?
                                             <OptionsExpert
-                                                options={Config.options}
+                                                options={Config.modelConfig[Config.currentModel].options}
                                                 inputs={this.state.options}
                                                 onChange={(key, random, value) => this.onOptionChange(key, random, value)}
                                                 onOperationClick={operation => this.onOptionOperationClick(operation)}
                                                 mode={this.state.mode}
                                                 onModeChange={value => this.setState({mode: value})}/> :
                                             <Options
-                                                options={Config.options}
+                                                options={Config.modelConfig[Config.currentModel].options}
                                                 inputs={this.state.options}
                                                 onChange={(key, random, value) => this.onOptionChange(key, random, value)}
                                                 onOperationClick={operation => this.onOptionOperationClick(operation)}
