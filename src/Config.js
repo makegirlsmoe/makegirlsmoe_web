@@ -8,7 +8,7 @@ var Config = {
         themeDarker: '#961a19'
     },
     currentModel: 'Experimental_0',
-    modelList: ['Amaryllis', 'Experimental_0'],
+    modelList: ['Amaryllis', 'Experimental_0', 'Experimental_1'],
     modelCompression: false,
     modelConfig: {
         Amaryllis: {
@@ -178,6 +178,104 @@ var Config = {
                 imageWidth: 128,
                 imageHeight: 128,
                 model: '/models/Experimetal_0',
+                modelServers:  ['localhost:3000']
+            },
+        },
+        Experimental_1: {
+            options: [
+                {
+                    key: 'hair_color',
+                    type: 'multiple',
+                    options: ['blonde', 'brown', 'black', 'blue', 'pink', 'purple', 'green', 'red', 'silver', 'white', 'orange', 'aqua', 'grey'],
+                    offset: 0,
+                    prob: Array.apply(null, {length: 13}).fill(0.0769)
+                },
+                {
+                    key: 'hair_style',
+                    type: 'multiple',
+                    options: ['long_hair', 'short_hair', 'twin_tail', 'drill_hair', 'ponytail'],
+                    offset: 24,
+                    //prob: [0.52989922,  0.37101264,  0.12567589,  0.00291153,  0.00847864],
+                    isIndependent: true,
+                    prob: Array.apply(null, {length: 5}).fill(0.25)
+                },
+                {
+                    key: 'eye_color',
+                    type: 'multiple',
+                    options: ['blue', 'red', 'brown', 'green', 'purple', 'yellow', 'pink', 'aqua', 'black', 'orange'],
+                    offset: 13,
+                    prob: Array.apply(null, {length: 10}).fill(0.0769)
+                },
+
+                {
+                    key: 'male',
+                    type: 'binary',
+                    offset: 23,
+                    prob: 0.25
+                },
+
+                {
+                    key: 'dark_skin',
+                    type: 'binary',
+                    offset: 29,
+                    prob: 0.25
+                },
+
+                {
+                    key: 'blush',
+                    type: 'binary',
+                    offset: 30,
+                    prob: 0.6
+                },
+                {
+                    key: 'smile',
+                    type: 'binary',
+                    offset: 31,
+                    prob: 0.6
+                },
+                {
+                    key: 'closed_eyes',
+                    type: 'binary',
+                    offset: 32,
+                    prob: 0.25
+                },
+                {
+                    key: 'open_mouth',
+                    type: 'binary',
+                    offset: 33,
+                    prob: 0.25
+                },
+                {
+                    key: 'hat',
+                    type: 'binary',
+                    offset: 34,
+                    prob: 0.04488882
+                },
+                {
+                    key: 'ribbon',
+                    type: 'binary',
+                    offset: 35,
+                    prob: 0.3
+                },
+                {
+                    key: 'glasses',
+                    type: 'binary',
+                    offset: 36,
+                    prob: 0.05384738
+                },
+                {
+                    key: 'year',
+                    type: 'binary',
+                    offset: 37,
+                    prob: 0.5
+                }
+            ],
+            gan: {
+                noiseLength: 128,
+                labelLength: 38,
+                imageWidth: 128,
+                imageHeight: 128,
+                model: '/models/Experimetal_1',
                 modelServers:  ['localhost:3000']
             },
         },
