@@ -84,7 +84,7 @@ class Options extends Component {
     renderBinarySelector(key, title) {
         var input = this.props.inputs[key];
         return (
-            <div className="col-xs-6 col-sm-4 option">
+            <div key={key}  className="col-xs-6 col-sm-4 option">
                 {this.renderLabel(key, title)}
                 {(this.isBinaryOptionSimple(input) &&
                     <BinarySelector
@@ -104,7 +104,7 @@ class Options extends Component {
     renderMultipleSelector(key, options, title) {
         var input = this.props.inputs[key];
         return (
-            <div className="col-xs-6 col-sm-4 option">
+            <div key={key} className="col-xs-6 col-sm-4 option">
                 {this.renderLabel(key, title)}
                 {(this.isMultipleOptionSimple(input) &&
                     <MultipleSelector
@@ -167,6 +167,9 @@ class Options extends Component {
             </div>
         );
     }
+    renderAllOptions(){
+        return Object.keys(this.options).map(item => this.renderSelector(item));
+    }
 
     render() {
         return (
@@ -179,15 +182,7 @@ class Options extends Component {
                     </span>
                 </div>
                 <div className="row">
-                    {this.renderSelector('hair_color')}
-                    {this.renderSelector('hair_style')}
-                    {this.renderSelector('eye_color')}
-                    {this.renderSelector('blush')}
-                    {this.renderSelector('smile')}
-                    {this.renderSelector('open_mouth')}
-                    {this.renderSelector('hat')}
-                    {this.renderSelector('ribbon')}
-                    {this.renderSelector('glasses')}
+                    {this.renderAllOptions()}
                 </div>
                 <div className="row">
                     {this.renderNoiseSelector()}

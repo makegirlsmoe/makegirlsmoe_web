@@ -30,6 +30,7 @@ class GAN {
     async run(label, noise) {
         this.currentNoise = noise || Array.apply(null, {length: Config.modelConfig[Config.currentModel].gan.noiseLength}).map(() => Utils.randomNormal());
         let input = this.currentNoise.concat(label);
+        console.log(input);
         this.currentInput = input;
         this.runner.getInputViews()[0].set(input);
         await this.runner.run();
