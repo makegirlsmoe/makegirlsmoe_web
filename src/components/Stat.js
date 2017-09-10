@@ -197,7 +197,7 @@ class Stat extends Component {
         });
 
         var labelsChart = echarts.init(this.charts.labels);
-        var options = Config.options.map(item => item.key);
+        var options = Config.modelConfig[Config.currentModel].options.map(item => item.key);
         var values = [
             {name:'brown',color:'#825e53'},
             {name:'red',color:'#da3f3d'},

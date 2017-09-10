@@ -182,8 +182,6 @@ class Options extends Component {
                     {this.renderSelector('hair_color')}
                     {this.renderSelector('hair_style')}
                     {this.renderSelector('eye_color')}
-                </div>
-                <div className="row">
                     {this.renderSelector('blush')}
                     {this.renderSelector('smile')}
                     {this.renderSelector('open_mouth')}

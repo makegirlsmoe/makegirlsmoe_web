@@ -23,8 +23,8 @@ class Generator extends Component {
 
     render() {
         var resultWrapperStyle = {
-            height: Config.gan.imageHeight,
-            width: Config.gan.imageWidth
+            height: Config.modelConfig[Config.currentModel].gan.imageHeight,
+            width: Config.modelConfig[Config.currentModel].gan.imageWidth
         };
 
         return (

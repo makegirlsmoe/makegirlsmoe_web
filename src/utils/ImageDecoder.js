@@ -4,7 +4,7 @@ class ImageDecoder {
     static DecodeNoiseOrigin(dataURL) {
         return new Promise((resolve, reject) => {
             var canvas = document.createElement('canvas');
-            var canvasWidth = Config.gan.noiseLength;
+            var canvasWidth = Config.modelConfig[Config.currentModel].gan.noiseLength;
             var canvasHeight = 34;
             canvas.width = canvasWidth;
             canvas.height = canvasHeight;
