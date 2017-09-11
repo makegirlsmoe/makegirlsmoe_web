@@ -16,15 +16,15 @@ class Generator extends Component {
     renderResultCanvas(result, index) {
         return (
             <div key={index} className="result-container" style={{zIndex: 1000 + index}}>
-                <ResultCanvas result={result} />
+                <ResultCanvas modelConfig={this.props.modelConfig} result={result} />
             </div>
         );
     }
 
     render() {
         var resultWrapperStyle = {
-            height: Config.modelConfig[Config.currentModel].gan.imageHeight,
-            width: Config.modelConfig[Config.currentModel].gan.imageWidth
+            height: this.props.modelConfig.gan.imageHeight,
+            width: this.props.modelConfig.gan.imageWidth
         };
 
         return (

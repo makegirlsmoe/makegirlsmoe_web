@@ -7,7 +7,7 @@ var Config = {
         theme: '#bd1c1b',
         themeDarker: '#961a19'
     },
-    currentModel: 'Experimental_0',
+    defaultModel: 'Experimental_0',
     modelList: ['Amaryllis', 'Experimental_0', 'Experimental_1'],
     modelCompression: false,
     modelConfig: {

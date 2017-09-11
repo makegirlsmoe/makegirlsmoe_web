@@ -3,32 +3,33 @@ import Utils from '../utils/Utils';
 
 class GAN {
 
-    constructor() {
+    constructor(modelConfig) {
         this.runner = null;
         this.currentNoise = null;
         this.input = null;
+        this.modelConfig = modelConfig;
     }
 
-    static async getWeightFilePrefix() {
+    async getWeightFilePrefix() {
         var country = await Utils.getCountry();
 
-        var servers = Config.modelConfig[Config.currentModel].gan.modelServers.filter(server => server.country === country);
+        var servers = this.modelConfig.gan.modelServers.filter(server => server.country === country);
         if (servers.length === 0) {
-            servers = Config.modelConfig[Config.currentModel].gan.modelServers.filter(server => !server.country);
+            servers = this.modelConfig.gan.modelServers.filter(server => !server.country);
         }
 
         var index = Math.floor(Math.random() * servers.length);
-        var modelPath = Config.modelCompression? Config.modelConfig[Config.currentModel].gan.model + '_8bit' : Config.modelConfig[Config.currentModel].gan.model;
+        var modelPath = Config.modelCompression ? this.modelConfig.gan.model + '_8bit' : this.modelConfig.gan.model;
         return 'http://' + (servers[index].host || servers[index]) + modelPath;
     }
 
     async init(onInitProgress) {
-        var modelPath = Config.modelCompression? Config.modelConfig[Config.currentModel].gan.model + '_8bit' : Config.modelConfig[Config.currentModel].gan.model;
-        this.runner = await window.WebDNN.load(modelPath, {progressCallback: onInitProgress, weightDirectory: await GAN.getWeightFilePrefix()});
+        var modelPath = Config.modelCompression ? this.modelConfig.gan.model + '_8bit' : this.modelConfig.gan.model;
+        this.runner = await window.WebDNN.load(modelPath, {progressCallback: onInitProgress, weightDirectory: await this.getWeightFilePrefix()});
     }
 
     async run(label, noise) {
-        this.currentNoise = noise || Array.apply(null, {length: Config.modelConfig[Config.currentModel].gan.noiseLength}).map(() => Utils.randomNormal());
+        this.currentNoise = noise || Array.apply(null, {length: this.modelConfig.gan.noiseLength}).map(() => Utils.randomNormal());
         let input = this.currentNoise.concat(label);
         console.log(input);
         this.currentInput = input;

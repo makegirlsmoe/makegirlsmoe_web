@@ -32,6 +32,17 @@
     transition: opacity 500ms ease-in-out 200ms, height 500ms ease-in-out 500ms;
 }
 
+.progress-transition-enter {
+    height: 0;
+    opacity: 0;
+}
+
+.progress-transition-enter.progress-transition-enter-active {
+    height: 55px;
+    opacity: 1;
+    transition: opacity 100ms ease-in-out, height 100ms ease-in-out;
+}
+
 .twitter-timeline-title {
     max-width: 520px;
     margin: 20px auto 10px auto;

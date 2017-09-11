@@ -1,10 +1,15 @@
 import Config from '../Config';
 
 class ImageDecoder {
-    static DecodeNoiseOrigin(dataURL) {
+
+    constructor(modelConfig) {
+        this.modelConfig = modelConfig;
+    }
+
+    DecodeNoiseOrigin(dataURL) {
         return new Promise((resolve, reject) => {
             var canvas = document.createElement('canvas');
-            var canvasWidth = Config.modelConfig[Config.currentModel].gan.noiseLength;
+            var canvasWidth = this.modelConfig.gan.noiseLength;
             var canvasHeight = 34;
             canvas.width = canvasWidth;
             canvas.height = canvasHeight;

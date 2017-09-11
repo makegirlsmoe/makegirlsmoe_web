@@ -41,7 +41,7 @@ class Stat {
     }
 
     static generate(options) {
-        var optionsConfig = Utils.arrayToObject(Config.modelConfig[Config.currentModel].options, item => item.key);
+        var optionsConfig = Utils.arrayToObject(Config.modelConfig[Config.defaultModel].options, item => item.key);
         options = Object.assign({}, options);
         Object.keys(options).forEach(key => {
             if (!optionsConfig.hasOwnProperty(key)) {
