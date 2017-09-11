@@ -175,7 +175,7 @@ class Options extends Component {
 
     renderModelSelector() {
         return (
-            <div className="col-xs-6 col-sm-4 option">
+            <div className="col-xs-12 col-sm-12 option">
                 <h5>Model</h5>
                 <Dropdown
                     options={Config.modelList}
