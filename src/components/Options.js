@@ -8,14 +8,19 @@ import NoiseVisualizer from './NoiseVisualizer';
 import ButtonGroup from './ButtonGroup';
 import ImageDecoder from '../utils/ImageDecoder';
 import PromptDialog from './PromptDialog';
+import Dropdown from './Dropdown';
 import './Options.css';
 
 class Options extends Component {
 
     constructor(props) {
         super();
-        this.options = Utils.arrayToObject(props.options, item => item.key);
+        this.options = Utils.arrayToObject(props.modelConfig.options, item => item.key);
         this.state = {};
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.options = Utils.arrayToObject(newProps.modelConfig.options, item => item.key);
     }
 
     onNoiseImportClick() {
@@ -39,7 +44,7 @@ class Options extends Component {
                     <b>Note: Conditions such as hair color, whether random or specified, are NOT included in the noise. Try generating images with fixed noise and different conditions!</b>
                 </p>
                 Noise Image:
-                <NoiseVisualizer noise={this.props.inputs.noise.value}/>
+                <NoiseVisualizer modelConfig={this.props.modelConfig} noise={this.props.inputs.noise.value}/>
             </div>
         );
     }
@@ -54,7 +59,7 @@ class Options extends Component {
         var reader = new FileReader();
         reader.onload = () => {
             var dataURL = reader.result;
-            ImageDecoder.DecodeNoiseOrigin(dataURL).then(noise => {
+            new ImageDecoder(this.props.modelConfig).DecodeNoiseOrigin(dataURL).then(noise => {
                 this.props.onChange('noise', false, noise);
                 this.alertDialog.show('Noise Import', 'Import Successful.');
             }).catch(err => {
@@ -139,7 +144,7 @@ class Options extends Component {
         return (
             <div className="col-xs-6 col-sm-4 option">
                 <h5>Current Noise</h5>
-                <NoiseVisualizer noise={this.props.inputs.noise.value} />
+                <NoiseVisualizer modelConfig={this.props.modelConfig} noise={this.props.inputs.noise.value} />
             </div>
         );
     }
@@ -167,6 +172,18 @@ class Options extends Component {
             </div>
         );
     }
+
+    renderModelSelector() {
+        return (
+            <div className="col-xs-6 col-sm-4 option">
+                <h5>Model</h5>
+                <Dropdown
+                    options={Config.modelList}
+                    value={this.props.inputs.currentModel}
+                    onChange={(value) => this.props.onModelChange(value)} />
+            </div>
+        );
+    }
     renderAllOptions(){
         return Object.keys(this.options).map(item => this.renderSelector(item));
     }
@@ -180,6 +197,9 @@ class Options extends Component {
                         <input type="checkbox" checked={this.props.mode === 'expert'} onChange={event => this.props.onModeChange(event.target.checked ? 'expert' : 'normal')} />
                         <span>Expert Mode</span>
                     </span>
+                </div>
+                <div className="row">
+                    {this.renderModelSelector()}
                 </div>
                 <div className="row">
                     {this.renderAllOptions()}

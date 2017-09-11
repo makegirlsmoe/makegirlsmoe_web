@@ -1,10 +1,15 @@
 import Config from '../Config';
 
 class ImageEncoder {
-    static encode(result) {
+
+    constructor(modelConfig) {
+        this.modelConfig = modelConfig;
+    }
+
+    encode(result) {
         var canvas = document.createElement('canvas');
-        var canvasWidth = Config.modelConfig[Config.currentModel].gan.imageWidth;
-        var canvasHeight = Config.modelConfig[Config.currentModel].gan.imageHeight;
+        var canvasWidth = this.modelConfig.gan.imageWidth;
+        var canvasHeight = this.modelConfig.gan.imageHeight;
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
 
@@ -18,9 +23,9 @@ class ImageEncoder {
         return canvas.toDataURL();
     }
 
-    static encodeNoiseOrigin(noiseOrigin) {
+    encodeNoiseOrigin(noiseOrigin) {
         var canvas = document.createElement('canvas');
-        var canvasWidth = Config.modelConfig[Config.currentModel].gan.noiseLength;
+        var canvasWidth = this.modelConfig.gan.noiseLength;
         var canvasHeight = 34;
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;

@@ -30,7 +30,8 @@ class Home extends Component {
                 isError: false
             },
             options: {
-                amount: 1
+                amount: 1,
+                currentModel: Config.defaultModel
             },
             results: [],
             twitter: {
@@ -39,12 +40,16 @@ class Home extends Component {
             rating: 0,
             mode: 'normal'
         };
-        this.initOptions(this.state.options);
-        this.gan = new GAN();
+        this.initOptions(this.state.options, Config.defaultModel);
+        this.ganDict = {};
     }
 
-    initOptions(options) {
-        Config.modelConfig[Config.currentModel].options.forEach(option => {
+    getModelConfig() {
+        return Config.modelConfig[this.state.options.currentModel];
+    }
+
+    initOptions(options, modelName) {
+        Config.modelConfig[modelName].options.forEach(option => {
             options[option.key] = {
                 random: true,
                 value: option.type === 'multiple' ? Array.apply(null, {length: option.options.length}).fill(-1) : -1
@@ -56,33 +61,72 @@ class Home extends Component {
         return options;
     }
 
+    setModel(modelName) {
+        return new Promise((resolve, reject) => {
+            var options = {
+                amount: 1,
+                currentModel: modelName
+            };
+            this.initOptions(options, modelName);
+            this.setState({options: options});
+
+            if (!this.ganDict[modelName]) {
+                var gan = new GAN(Config.modelConfig[modelName]);
+                var state = {
+                    loadingProgress: 0,
+                    isReady: false,
+                    isRunning: false,
+                    isCanceled: false,
+                    isError: false
+                };
+                this.ganDict[modelName] = {
+                    gan: gan,
+                    state: state
+                };
+                this.setState({gan: state}, async () => {
+                    if (Utils.usingCellularData()) {
+                        try {
+                            await this.dialog.show();
+                        }
+                        catch (err) {
+                            this.setState({gan: Object.assign(state, {isCanceled: true})});
+                            return;
+                        }
+                    }
+                    try {
+                        await this.gan.init((current, total) => this.setState({gan: Object.assign(state, {loadingProgress: current / total * 100})}));
+                        this.setState({gan: Object.assign(state, {isReady: true})});
+                        resolve();
+                    }
+                    catch (err) {
+                        this.setState({gan: Object.assign(state, {isError: true})});
+                        reject(err);
+                    }
+                });
+            }
+            else {
+                resolve();
+            }
+            this.gan = this.ganDict[modelName].gan;
+            this.setState({gan: this.ganDict[modelName].state});
+
+        });
+    }
+
     async componentDidMount() {
         Stat.init({cellularData: Utils.usingCellularData()});
         this.showTwitterTimeline();
 
-        if (Utils.usingCellularData()) {
-            try {
-                await this.dialog.show();
-            }
-            catch (err) {
-                this.setState({gan: Object.assign({}, this.state.gan, {isCanceled: true})});
-                return;
-            }
-        }
-
         try {
             var startTime = new Date();
-            await this.gan.init((current, total) => this.setState({gan: Object.assign({}, this.state.gan, {loadingProgress: current / total * 100})}));
+            await this.setModel(Config.defaultModel);
             var endTime = new Date();
             var loadTime = (endTime.getTime() - startTime.getTime()) / 1000;
+            Stat.modelLoaded(loadTime);
         }
         catch (err) {
-            this.setState({gan: Object.assign({}, this.state.gan, {isError: true})});
-            return;
+            console.log(err);
         }
-
-        Stat.modelLoaded(loadTime);
-        this.setState({gan: {isReady: true}});
     }
 
     showTwitterTimeline() {
@@ -105,7 +149,7 @@ class Home extends Component {
 
     getRandomOptionValues(originalOptionInputs) {
         var optionInputs = window.$.extend(true, {}, originalOptionInputs);
-        Config.modelConfig[Config.currentModel].options.forEach(option => {
+        this.getModelConfig().options.forEach(option => {
             var optionInput = optionInputs[option.key];
 
             if (!optionInput || optionInput.random) {
@@ -141,15 +185,15 @@ class Home extends Component {
         if (!optionInputs.noise || optionInputs.noise.random) {
             var value = [];
             optionInputs.noise = {random: true, value: value};
-            Array.apply(null, {length: Config.modelConfig[Config.currentModel].gan.noiseLength}).map(() => Utils.randomNormal((u, v) => value.push([u, v])));
+            Array.apply(null, {length: this.getModelConfig().gan.noiseLength}).map(() => Utils.randomNormal((u, v) => value.push([u, v])));
         }
 
         return optionInputs;
     }
 
     getLabel(optionInputs) {
-        var label = Array.apply(null, {length: Config.modelConfig[Config.currentModel].gan.labelLength});
-        Config.modelConfig[Config.currentModel].options.forEach(option => {
+        var label = Array.apply(null, {length: this.getModelConfig().gan.labelLength});
+        this.getModelConfig().options.forEach(option => {
             var optionInput = optionInputs[option.key];
 
             if (option.type === 'multiple') {
@@ -266,8 +310,8 @@ class Home extends Component {
     }
 
     shareOnTwitter() {
-        localStorage['twitter_image'] = ImageEncoder.encode(this.state.results.slice(-1)[0]);
-        localStorage['twitter_noise'] = ImageEncoder.encodeNoiseOrigin(this.state.gan.noiseOrigin);
+        localStorage['twitter_image'] = new ImageEncoder(this.getModelConfig()).encode(this.state.results.slice(-1)[0]);
+        localStorage['twitter_noise'] = new ImageEncoder(this.getModelConfig()).encodeNoiseOrigin(this.state.gan.noiseOrigin);
         var win = window.open(Twitter.getAuthUrl(), '_blank');
         win.focus();
     }
@@ -286,7 +330,7 @@ class Home extends Component {
                         <div className="row progress-container">
                             <CSSTransitionGroup
                                 transitionName="progress-transition"
-                                transitionEnterTimeout={0}
+                                transitionEnterTimeout={100}
                                 transitionLeaveTimeout={1000}>
 
                                 {!this.state.gan.isReady &&
@@ -304,6 +348,7 @@ class Home extends Component {
                         <div className="row">
                             <div className="col-sm-3 col-xs-12 generator-container">
                                 <Generator gan={this.state.gan}
+                                           modelConfig={this.getModelConfig()}
                                            results={this.state.results}
                                            onGenerateClick={() => this.generate()}
                                            onTwitterClick={() => this.shareOnTwitter()}
@@ -316,19 +361,21 @@ class Home extends Component {
                                     <Route exact path="/" render={() =>
                                         this.state.mode === 'expert' ?
                                             <OptionsExpert
-                                                options={Config.modelConfig[Config.currentModel].options}
+                                                modelConfig={this.getModelConfig()}
                                                 inputs={this.state.options}
                                                 onChange={(key, random, value) => this.onOptionChange(key, random, value)}
                                                 onOperationClick={operation => this.onOptionOperationClick(operation)}
                                                 mode={this.state.mode}
-                                                onModeChange={value => this.setState({mode: value})}/> :
+                                                onModeChange={value => this.setState({mode: value})}
+                                                onModelChange={modelName => this.setModel(modelName)} /> :
                                             <Options
-                                                options={Config.modelConfig[Config.currentModel].options}
+                                                modelConfig={this.getModelConfig()}
                                                 inputs={this.state.options}
                                                 onChange={(key, random, value) => this.onOptionChange(key, random, value)}
                                                 onOperationClick={operation => this.onOptionOperationClick(operation)}
                                                 mode={this.state.mode}
-                                                onModeChange={value => this.setState({mode: value})}/>
+                                                onModeChange={value => this.setState({mode: value})}
+                                                onModelChange={modelName => this.setModel(modelName)} />
                                     } />
                                     <Route path="/about" component={About}/>
                                     <Route path="/news" component={News}/>

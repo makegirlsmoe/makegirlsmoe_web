@@ -17,7 +17,7 @@ class NoiseVisualizer extends Component {
     }
 
     draw(noise) {
-        var dataURL = noise ? ImageEncoder.encodeNoiseOrigin(noise) : null;
+        var dataURL = noise ? new ImageEncoder(this.props.modelConfig).encodeNoiseOrigin(noise) : null;
         this.setState({dataURL: dataURL});
     }
 
