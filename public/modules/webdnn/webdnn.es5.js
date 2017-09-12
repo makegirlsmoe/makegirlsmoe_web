@@ -504,7 +504,17 @@ var PlaceholderContext = (function () {
  * @protected
  */
 function flatten(arr) {
-    return (arr instanceof Array) ? Array.prototype.concat.apply([], arr.map(function (arr) { return flatten(arr); })) : arr;
+    var result = [];
+    for (var i = 0; i < arr.length; i++) {
+        var v = arr[i];
+        if (v instanceof Array) {
+            result.splice(result.length, 0, flatten(v));
+        }
+        else {
+            result[result.length] = v;
+        }
+    }
+    return result;
 }
 /**
  * SymbolicTypedArray is wrapper class of buffers used in DNN model.
@@ -1640,6 +1650,8 @@ var WebGLHandler = (function () {
         gl = WebGLHandler.initializeWebGL2Context(canvas);
         if (gl) {
             isWebGL2 = true;
+            if (isDebugMode())
+                console.info('WebGL2 is enabled');
         }
         else {
             var res = WebGLHandler.initializeWebGL1Context(canvas);
@@ -1647,6 +1659,8 @@ var WebGLHandler = (function () {
                 gl = res.gl;
                 vao = res.vao;
                 isWebGL2 = false;
+                if (isDebugMode())
+                    console.info('WebGL2 is disabled');
             }
             else {
                 return null;
@@ -1769,7 +1783,7 @@ var DescriptorRunnerWebGL = (function (_super) {
     DescriptorRunnerWebGL.prototype.initializeStaticBuffer = function (weightRawArray) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var descriptor, decoder, weight, buffers;
+            var descriptor, decoder, weight, buffers, mapping;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1781,6 +1795,7 @@ var DescriptorRunnerWebGL = (function (_super) {
                     case 1:
                         weight = _a.sent();
                         buffers = this.buffers;
+                        mapping = descriptor.memory_layout.mapping;
                         Object.entries(descriptor.memory_layout.static.allocations)
                             .forEach(function (_a) {
                             var name = _a[0], _b = _a[1], width = _b.width, height = _b.height, size = _b.size, channel_mode = _b.channel_mode;
@@ -1795,12 +1810,12 @@ var DescriptorRunnerWebGL = (function (_super) {
                     case 2:
                         (_a.sent())
                             .filter(function (view) { return !view.isDynamic; })
-                            .forEach(function (view) { return view.setArrayBuffer(buffers.get(view.name).getWriteView(0, view.length, Float32Array).buffer); });
+                            .forEach(function (view) { return view.setArrayBuffer(buffers.get(mapping[view.name]).getWriteView(0, view.length, Float32Array).buffer); });
                         return [4 /*yield*/, this.getOutputViews()];
                     case 3:
                         (_a.sent())
                             .filter(function (view) { return !view.isDynamic; })
-                            .forEach(function (view) { return view.setArrayBuffer(buffers.get(view.name).getReadView(0, view.length, Float32Array).buffer); });
+                            .forEach(function (view) { return view.setArrayBuffer(buffers.get(mapping[view.name]).getReadView(0, view.length, Float32Array).buffer); });
                         return [2 /*return*/];
                 }
             });
@@ -1809,7 +1824,7 @@ var DescriptorRunnerWebGL = (function (_super) {
     DescriptorRunnerWebGL.prototype.initializeDynamicBuffer = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var descriptor, placeholderContext, buffers;
+            var descriptor, placeholderContext, buffers, mapping;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1820,6 +1835,7 @@ var DescriptorRunnerWebGL = (function (_super) {
                         descriptor = this.descriptor;
                         placeholderContext = this.placeholderContext;
                         buffers = this.buffers;
+                        mapping = descriptor.memory_layout.mapping;
                         Object.entries(descriptor.memory_layout.dynamic.allocations)
                             .forEach(function (_a) {
                             var name = _a[0], _b = _a[1], width = _b.width, height = _b.height, size = _b.size, channel_mode = _b.channel_mode;
@@ -1829,12 +1845,12 @@ var DescriptorRunnerWebGL = (function (_super) {
                     case 1:
                         (_a.sent())
                             .filter(function (view) { return view.isDynamic; })
-                            .forEach(function (view) { return view.setArrayBuffer(buffers.get(view.name).getWriteView(0, placeholderContext.resolve(view.length), Float32Array).buffer); });
+                            .forEach(function (view) { return view.setArrayBuffer(buffers.get(mapping[view.name]).getWriteView(0, placeholderContext.resolve(view.length), Float32Array).buffer); });
                         return [4 /*yield*/, this.getOutputViews()];
                     case 2:
                         (_a.sent())
                             .filter(function (view) { return view.isDynamic; })
-                            .forEach(function (view) { return view.setArrayBuffer(buffers.get(view.name).getReadView(0, placeholderContext.resolve(view.length), Float32Array).buffer); });
+                            .forEach(function (view) { return view.setArrayBuffer(buffers.get(mapping[view.name]).getReadView(0, placeholderContext.resolve(view.length), Float32Array).buffer); });
                         this.buildPipeline();
                         return [2 /*return*/];
                 }
@@ -1907,10 +1923,11 @@ var DescriptorRunnerWebGL = (function (_super) {
             throw new Error('PlaceholderContext is not initialized');
         var descriptor = this.descriptor;
         var placeholderContext = this.placeholderContext;
+        var mapping = this.descriptor.memory_layout.mapping;
         this.inputViews = descriptor.inputs.map(function (name) {
             var view = new SymbolicFloat32Array({
                 name: name,
-                size: _this.buffers.get(name).length,
+                size: _this.buffers.get(mapping[name]).length,
                 offset: 0
             }, placeholderContext, true);
             return view;
@@ -1927,10 +1944,11 @@ var DescriptorRunnerWebGL = (function (_super) {
             throw new Error('PlaceholderContext is not initialized');
         var descriptor = this.descriptor;
         var placeholderContext = this.placeholderContext;
+        var mapping = this.descriptor.memory_layout.mapping;
         this.outputViews = descriptor.outputs.map(function (name) {
             var view = new SymbolicFloat32Array({
                 name: name,
-                size: _this.buffers.get(name).length,
+                size: _this.buffers.get(mapping[name]).length,
                 offset: 0
             }, placeholderContext, true);
             return view;
@@ -1947,14 +1965,15 @@ var DescriptorRunnerWebGL = (function (_super) {
             throw new Error("Not all placeholders are resolved: " + this.placeholderContext);
         var gl = this.handler.gl;
         var buffers = this.buffers;
+        var mapping = this.descriptor.memory_layout.mapping;
         var referenceCount = new Map();
         this.runtimeInfo = {
-            inputs: this.getInputViews().map(function (view) { return buffers.get(view.name); }),
-            outputs: this.getOutputViews().map(function (view) { return buffers.get(view.name); }),
+            inputs: this.getInputViews().map(function (view) { return buffers.get(mapping[view.name]); }),
+            outputs: this.getOutputViews().map(function (view) { return buffers.get(mapping[view.name]); }),
             programs: this.descriptor.exec_infos.map(function (execInfo) {
                 // inputs
                 var inputs = execInfo.inputs.map(function (input) {
-                    var buffer = buffers.get(input.variable_name);
+                    var buffer = buffers.get(mapping[input.variable_name]);
                     if (!referenceCount.has(buffer))
                         referenceCount.set(buffer, 0);
                     referenceCount.set(buffer, referenceCount.get(buffer) + 1);
@@ -1964,7 +1983,7 @@ var DescriptorRunnerWebGL = (function (_super) {
                     };
                 });
                 //output
-                var output = buffers.get(execInfo.output);
+                var output = buffers.get(mapping[execInfo.output]);
                 // shader
                 var program = _this.programs.get(execInfo.shader_name);
                 _this.handler.useProgram(program);
@@ -3017,12 +3036,6 @@ function loadImageByDialog() {
     return __awaiter(this, void 0, void 0, function () {
         var input;
         return __generator(this, function (_a) {
-            if (navigator.userAgent.match(/Chrome|Firefox/)) {
-                /* OK */
-            }
-            else {
-                throw Error('This browser does not support opening File-Picker-Dialog programmatically.');
-            }
             input = document.createElement('input');
             input.type = 'file';
             input.accept = 'image/*';

@@ -1,4 +1,4 @@
-var debug = true;
+var debug = false;
 var backendUrlPrefix = (debug ? 'http://localhost:6253' : '');
 var frontendUrlPrefix = (debug ? 'http://localhost:3000' : '');
 
@@ -7,9 +7,9 @@ var Config = {
         theme: '#bd1c1b',
         themeDarker: '#961a19'
     },
-    defaultModel: 'Experimental_0',
-    modelList: ['Amaryllis', 'Experimental_0', 'Experimental_1'],
-    modelCompression: false,
+    defaultModel: 'Amaryllis',
+    modelList: ['Amaryllis'],
+    modelCompression: true,
     modelConfig: {
         Amaryllis: {
             options: [
@@ -83,9 +83,7 @@ var Config = {
                 imageHeight: 128,
                 model: '/models/Amaryllis',
                 modelServers: debug ? ['localhost:3000'] : [
-                    {host: '106.187.49.34:8080', country: 'CN'},
-                    //{host: '107.161.27.213', country: 'CN'},
-                    'd130f4reeykfib.cloudfront.net'
+                    'maketest.girls.moe'
                 ]
             },
         },
