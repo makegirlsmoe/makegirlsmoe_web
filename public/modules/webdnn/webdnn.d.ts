@@ -611,6 +611,9 @@ declare module 'webdnn/graph_descriptor/graph_descriptor_webgl' {
 	            [index: string]: WebGLAllocation;
 	        };
 	    };
+	    mapping: {
+	        [variableName: string]: string;
+	    };
 	}
 	/**
 	 * @protected

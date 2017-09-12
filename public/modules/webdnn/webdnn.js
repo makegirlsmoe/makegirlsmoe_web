@@ -437,7 +437,17 @@ class PlaceholderContext {
  * @protected
  */
 function flatten(arr) {
-    return (arr instanceof Array) ? Array.prototype.concat.apply([], arr.map(arr => flatten(arr))) : arr;
+    let result = [];
+    for (let i = 0; i < arr.length; i++) {
+        let v = arr[i];
+        if (v instanceof Array) {
+            result.splice(result.length, 0, flatten(v));
+        }
+        else {
+            result[result.length] = v;
+        }
+    }
+    return result;
 }
 /**
  * SymbolicTypedArray is wrapper class of buffers used in DNN model.
@@ -1365,6 +1375,8 @@ class WebGLHandler {
         gl = WebGLHandler.initializeWebGL2Context(canvas);
         if (gl) {
             isWebGL2 = true;
+            if (isDebugMode())
+                console.info('WebGL2 is enabled');
         }
         else {
             let res = WebGLHandler.initializeWebGL1Context(canvas);
@@ -1372,6 +1384,8 @@ class WebGLHandler {
                 gl = res.gl;
                 vao = res.vao;
                 isWebGL2 = false;
+                if (isDebugMode())
+                    console.info('WebGL2 is disabled');
             }
             else {
                 return null;
@@ -1475,6 +1489,7 @@ class DescriptorRunnerWebGL extends DescriptorRunner {
             let decoder = get_weight_decoder(this.descriptor.weight_encoding);
             let weight = yield decoder.decode(new Uint8Array(weightRawArray));
             let buffers = this.buffers;
+            let mapping = descriptor.memory_layout.mapping;
             Object.entries(descriptor.memory_layout.static.allocations)
                 .forEach(([name, { width, height, size, channel_mode }]) => {
                 buffers.set(name, new BufferWebGL(this.handler.gl, size * Float32Array.BYTES_PER_ELEMENT, width, height, name, null, channel_mode));
@@ -1485,10 +1500,10 @@ class DescriptorRunnerWebGL extends DescriptorRunner {
             });
             (yield this.getInputViews())
                 .filter(view => !view.isDynamic)
-                .forEach(view => view.setArrayBuffer(buffers.get(view.name).getWriteView(0, view.length, Float32Array).buffer));
+                .forEach(view => view.setArrayBuffer(buffers.get(mapping[view.name]).getWriteView(0, view.length, Float32Array).buffer));
             (yield this.getOutputViews())
                 .filter(view => !view.isDynamic)
-                .forEach(view => view.setArrayBuffer(buffers.get(view.name).getReadView(0, view.length, Float32Array).buffer));
+                .forEach(view => view.setArrayBuffer(buffers.get(mapping[view.name]).getReadView(0, view.length, Float32Array).buffer));
         });
     }
     initializeDynamicBuffer() {
@@ -1500,16 +1515,17 @@ class DescriptorRunnerWebGL extends DescriptorRunner {
             let descriptor = this.descriptor;
             let placeholderContext = this.placeholderContext;
             let buffers = this.buffers;
+            let mapping = descriptor.memory_layout.mapping;
             Object.entries(descriptor.memory_layout.dynamic.allocations)
                 .forEach(([name, { width, height, size, channel_mode }]) => {
                 buffers.set(name, new BufferWebGL(this.handler.gl, placeholderContext.resolve(size) * Float32Array.BYTES_PER_ELEMENT, placeholderContext.resolve(width), placeholderContext.resolve(height), name, null, channel_mode));
             });
             (yield this.getInputViews())
                 .filter(view => view.isDynamic)
-                .forEach(view => view.setArrayBuffer(buffers.get(view.name).getWriteView(0, placeholderContext.resolve(view.length), Float32Array).buffer));
+                .forEach(view => view.setArrayBuffer(buffers.get(mapping[view.name]).getWriteView(0, placeholderContext.resolve(view.length), Float32Array).buffer));
             (yield this.getOutputViews())
                 .filter(view => view.isDynamic)
-                .forEach(view => view.setArrayBuffer(buffers.get(view.name).getReadView(0, placeholderContext.resolve(view.length), Float32Array).buffer));
+                .forEach(view => view.setArrayBuffer(buffers.get(mapping[view.name]).getReadView(0, placeholderContext.resolve(view.length), Float32Array).buffer));
             this.buildPipeline();
         });
     }
@@ -1567,10 +1583,11 @@ class DescriptorRunnerWebGL extends DescriptorRunner {
             throw new Error('PlaceholderContext is not initialized');
         let descriptor = this.descriptor;
         let placeholderContext = this.placeholderContext;
+        let mapping = this.descriptor.memory_layout.mapping;
         this.inputViews = descriptor.inputs.map(name => {
             let view = new SymbolicFloat32Array({
                 name: name,
-                size: this.buffers.get(name).length,
+                size: this.buffers.get(mapping[name]).length,
                 offset: 0
             }, placeholderContext, true);
             return view;
@@ -1586,10 +1603,11 @@ class DescriptorRunnerWebGL extends DescriptorRunner {
             throw new Error('PlaceholderContext is not initialized');
         let descriptor = this.descriptor;
         let placeholderContext = this.placeholderContext;
+        let mapping = this.descriptor.memory_layout.mapping;
         this.outputViews = descriptor.outputs.map(name => {
             let view = new SymbolicFloat32Array({
                 name: name,
-                size: this.buffers.get(name).length,
+                size: this.buffers.get(mapping[name]).length,
                 offset: 0
             }, placeholderContext, true);
             return view;
@@ -1605,14 +1623,15 @@ class DescriptorRunnerWebGL extends DescriptorRunner {
             throw new Error(`Not all placeholders are resolved: ${this.placeholderContext}`);
         let gl = this.handler.gl;
         let buffers = this.buffers;
+        let mapping = this.descriptor.memory_layout.mapping;
         let referenceCount = new Map();
         this.runtimeInfo = {
-            inputs: this.getInputViews().map(view => buffers.get(view.name)),
-            outputs: this.getOutputViews().map(view => buffers.get(view.name)),
+            inputs: this.getInputViews().map(view => buffers.get(mapping[view.name])),
+            outputs: this.getOutputViews().map(view => buffers.get(mapping[view.name])),
             programs: this.descriptor.exec_infos.map(execInfo => {
                 // inputs
                 let inputs = execInfo.inputs.map(input => {
-                    let buffer = buffers.get(input.variable_name);
+                    let buffer = buffers.get(mapping[input.variable_name]);
                     if (!referenceCount.has(buffer))
                         referenceCount.set(buffer, 0);
                     referenceCount.set(buffer, referenceCount.get(buffer) + 1);
@@ -1622,7 +1641,7 @@ class DescriptorRunnerWebGL extends DescriptorRunner {
                     };
                 });
                 //output
-                let output = buffers.get(execInfo.output);
+                let output = buffers.get(mapping[execInfo.output]);
                 // shader
                 let program = this.programs.get(execInfo.shader_name);
                 this.handler.useProgram(program);
@@ -2421,12 +2440,6 @@ function loadImageFromFileInput(input) {
  */
 function loadImageByDialog() {
     return __awaiter(this, void 0, void 0, function* () {
-        if (navigator.userAgent.match(/Chrome|Firefox/)) {
-            /* OK */
-        }
-        else {
-            throw Error('This browser does not support opening File-Picker-Dialog programmatically.');
-        }
         let input = document.createElement('input');
         input.type = 'file';
         input.accept = 'image/*';
