@@ -1756,7 +1756,7 @@ var DescriptorRunnerWebGL = (function (_super) {
                     case 0: return [4 /*yield*/, Promise.all([
                             webdnnFetch(directory + "/graph_" + this.backendName + ".json", { ignoreCache: this.ignoreCache })
                                 .then(function (res) { return res.json(); }),
-                            webdnnFetch(directory + "/weight_" + this.backendName + ".bin", { ignoreCache: this.ignoreCache })
+                            webdnnFetch(directory + "/weight_" + this.backendName + ".bin", { ignoreCache: this.ignoreCache, progressCallback: progressCallback })
                                 .then(function (res) { return readArrayBufferProgressively(res, progressCallback); })
                         ])];
                     case 1:
@@ -2523,7 +2523,7 @@ var DescriptorRunnerWebGPU = (function (_super) {
                     case 0: return [4 /*yield*/, Promise.all([
                             webdnnFetch(directory + "/graph_" + this.backendName + ".json", { ignoreCache: this.ignoreCache })
                                 .then(function (res) { return res.json(); }),
-                            webdnnFetch(directory + "/weight_" + this.backendName + ".bin", { ignoreCache: this.ignoreCache })
+                            webdnnFetch(directory + "/weight_" + this.backendName + ".bin", { ignoreCache: this.ignoreCache, progressCallback: progressCallback })
                                 .then(function (res) { return readArrayBufferProgressively(res, progressCallback); })
                         ])];
                     case 1:

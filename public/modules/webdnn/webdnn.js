@@ -1471,7 +1471,7 @@ class DescriptorRunnerWebGL extends DescriptorRunner {
             let [descriptor, weightRawArray] = yield Promise.all([
                 webdnnFetch(`${directory}/graph_${this.backendName}.json`, { ignoreCache: this.ignoreCache })
                     .then(res => res.json()),
-                webdnnFetch(`${directory}/weight_${this.backendName}.bin`, { ignoreCache: this.ignoreCache })
+                webdnnFetch(`${directory}/weight_${this.backendName}.bin`, { ignoreCache: this.ignoreCache, progressCallback: progressCallback })
                     .then(res => readArrayBufferProgressively(res, progressCallback))
             ]);
             yield this.setDescriptor(descriptor);
@@ -2046,7 +2046,7 @@ using namespace metal;
             let [descriptor, weightRawArray] = yield Promise.all([
                 webdnnFetch(`${directory}/graph_${this.backendName}.json`, { ignoreCache: this.ignoreCache })
                     .then(res => res.json()),
-                webdnnFetch(`${directory}/weight_${this.backendName}.bin`, { ignoreCache: this.ignoreCache })
+                webdnnFetch(`${directory}/weight_${this.backendName}.bin`, { ignoreCache: this.ignoreCache, progressCallback: progressCallback })
                     .then(res => readArrayBufferProgressively(res, progressCallback))
             ]);
             yield this.setDescriptor(descriptor);
