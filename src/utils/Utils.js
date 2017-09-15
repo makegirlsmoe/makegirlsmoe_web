@@ -59,9 +59,9 @@ class Utils {
         return Array.prototype.concat.apply([], arr.map(lambda));
     };
 
-    static promiseTimeout(timeout) {
-        return new Promise(function (fulfill, reject) {
-            setTimeout(reject, timeout);
+    static promiseTimeout(timeout, isResolve = false) {
+        return new Promise(function (resolve, reject) {
+            setTimeout(isResolve ? resolve : reject, timeout);
         });
     }
 

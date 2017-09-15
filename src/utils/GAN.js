@@ -39,6 +39,10 @@ class GAN {
         return output;
     }
 
+    getBackendName() {
+        return this.runner.backendName;
+    }
+
     getCurrentNoise() {
         return this.currentNoise;
     }
