@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
-import Config from '../Config';
 import ButtonPrimary from './ButtonPrimary';
 import ResultCanvas from './ResultCanvas';
 import RatingButtons from './RatingButtons';

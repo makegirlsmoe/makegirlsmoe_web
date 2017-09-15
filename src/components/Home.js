@@ -29,10 +29,7 @@ class Home extends Component {
                 isCanceled: false,
                 isError: false
             },
-            options: {
-                amount: 1,
-                currentModel: Config.defaultModel
-            },
+            options: {},
             results: [],
             twitter: {
                 visible: false
@@ -49,6 +46,8 @@ class Home extends Component {
     }
 
     initOptions(options, modelName) {
+        options.amount = 1;
+        options.currentModel = modelName;
         Config.modelConfig[modelName].options.forEach(option => {
             options[option.key] = {
                 random: true,
@@ -63,12 +62,7 @@ class Home extends Component {
 
     setModel(modelName) {
         return new Promise((resolve, reject) => {
-            var options = {
-                amount: 1,
-                currentModel: modelName
-            };
-            this.initOptions(options, modelName);
-            this.setState({options: options});
+            this.setState({options: this.initOptions({}, modelName)});
 
             if (!this.ganDict[modelName]) {
                 var gan = new GAN(Config.modelConfig[modelName]);
@@ -90,7 +84,7 @@ class Home extends Component {
                         }
                         catch (err) {
                             this.setState({gan: Object.assign(state, {isCanceled: true})});
-                            return;
+                            reject();
                         }
                     }
                     try {
@@ -306,7 +300,7 @@ class Home extends Component {
     }
 
     onResetClick() {
-        this.setState({options: this.initOptions(Object.assign({}, this.state.options))});
+        this.setState({options: this.initOptions({}, this.state.options.currentModel)});
     }
 
     shareOnTwitter() {

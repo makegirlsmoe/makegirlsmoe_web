@@ -1,5 +1,3 @@
-import Config from '../Config';
-
 class ImageEncoder {
 
     constructor(modelConfig) {
