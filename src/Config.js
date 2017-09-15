@@ -83,7 +83,8 @@ var Config = {
                 imageHeight: 128,
                 model: '/models/Amaryllis',
                 modelServers: debug ? ['localhost:3000'] : [
-                    'make.girls.moe'
+                    {host: 'make.girls.moe', country: 'CN'},
+                    'd130f4reeykfib.cloudfront.net'
                 ]
             },
         }
