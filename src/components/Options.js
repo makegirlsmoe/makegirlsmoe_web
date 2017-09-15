@@ -198,9 +198,9 @@ class Options extends Component {
                         <span>Expert Mode</span>
                     </span>
                 </div>
-                <div className="row">
-                    {this.renderModelSelector()}
-                </div>
+                {/*<div className="row">*/}
+                    {/*{this.renderModelSelector()}*/}
+                {/*</div>*/}
                 <div className="row">
                     {this.renderAllOptions()}
                 </div>
