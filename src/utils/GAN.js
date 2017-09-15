@@ -23,9 +23,23 @@ class GAN {
         return 'http://' + (servers[index].host || servers[index]) + modelPath;
     }
 
+    getBackendOrder() {
+        var order = ['webgpu', 'webassembly'];
+        try {
+            var gl = document.createElement('canvas').getContext('webgl');
+            var maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+            if (maxTextureSize >= 16000) {
+                order.splice(1, 0, 'webgl')
+            }
+        }
+        catch (err) {}
+
+        return order;
+    }
+
     async init(onInitProgress) {
         var modelPath = Config.modelCompression ? this.modelConfig.gan.model + '_8bit' : this.modelConfig.gan.model;
-        this.runner = await window.WebDNN.load(modelPath, {progressCallback: onInitProgress, weightDirectory: await this.getWeightFilePrefix()});
+        this.runner = await window.WebDNN.load(modelPath, {progressCallback: onInitProgress, weightDirectory: await this.getWeightFilePrefix(), backendOrder: this.getBackendOrder()});
     }
 
     async run(label, noise) {
