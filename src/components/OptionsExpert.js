@@ -15,7 +15,7 @@ class OptionsExpert extends Options {
     renderBinarySelector(key, title) {
         var input = this.props.inputs[key];
         return (
-            <div className="col-xs-6 col-sm-4 option">
+            <div key={key} className="col-xs-6 col-sm-4 option">
                 {this.renderLabel(key, title)}
                 <RandomButtons
                     value={input.random ? 1 : 0}
@@ -28,7 +28,7 @@ class OptionsExpert extends Options {
     renderMultipleSelector(key, options, title) {
         var input = this.props.inputs[key];
         return (
-            <div className="col-xs-12 option">
+            <div key={key} className="col-xs-12 option">
                 <div className="row option-expert-multiple"
                      onClick={() => this.setState({expended: Object.assign({}, this.state.expended, {[key]: !this.state.expended[key]})})}>
 
