@@ -213,6 +213,10 @@ class Home extends Component {
             gan: Object.assign({}, this.state.gan, {isRunning: true})
         });
 
+        if (this.gan.getBackendName() === 'webgl') {
+            await Utils.promiseTimeout(100, true); // XXX: wait for components to refresh
+        }
+
         for (var i = 0; i < this.state.options.amount; i++) {
             var optionInputs = this.getRandomOptionValues(this.state.options);
             var label = this.getLabel(optionInputs);
