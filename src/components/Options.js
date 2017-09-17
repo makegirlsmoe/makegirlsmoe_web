@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { ReactHintFactory } from 'react-hint';
+import 'react-hint/css/index.css';
 import Config from '../Config';
 import Utils from '../utils/Utils';
 import BinarySelector from './BinarySelector';
@@ -10,6 +12,8 @@ import ImageDecoder from '../utils/ImageDecoder';
 import PromptDialog from './PromptDialog';
 import Dropdown from './Dropdown';
 import './Options.css';
+
+const ReactHint = ReactHintFactory(React);
 
 class Options extends Component {
 
@@ -60,7 +64,7 @@ class Options extends Component {
         reader.onload = () => {
             var dataURL = reader.result;
             new ImageDecoder(this.props.modelConfig).DecodeNoiseOrigin(dataURL).then(noise => {
-                this.props.onChange('noise', false, noise);
+                this.props.onModelOptionChange('noise', false, noise);
                 this.alertDialog.show('Noise Import', 'Import Successful.');
             }).catch(err => {
                 this.alertDialog.show('Import Error', err.error);
@@ -94,7 +98,7 @@ class Options extends Component {
                 {(this.isBinaryOptionSimple(input) &&
                     <BinarySelector
                         value={input.random ? 0 : input.value}
-                        onChange={(value) => this.props.onChange(key, value === 0, value)} />) ||
+                        onChange={(value) => this.props.onModelOptionChange(key, value === 0, value)} />) ||
                     <span><i>(User-defined)</i></span>}
             </div>
         );
@@ -115,7 +119,7 @@ class Options extends Component {
                     <MultipleSelector
                         options={options}
                         value={input.random ? 0 : input.value.indexOf(1) + 1}
-                        onChange={(value) => this.props.onChange(key, value === 0, Array.apply(null, {length: options.length}).map((item, index) => index === value - 1 ? 1 : -1))} />) ||
+                        onChange={(value) => this.props.onModelOptionChange(key, value === 0, Array.apply(null, {length: options.length}).map((item, index) => index === value - 1 ? 1 : -1))} />) ||
                     <span><i>(User-defined)</i></span>}
             </div>
         );
@@ -125,7 +129,7 @@ class Options extends Component {
         return (
             <div className="col-xs-6 col-sm-4 option">
                 {this.renderLabel('noise')}
-                <NoiseSelector value={this.props.inputs.noise.random ? 0 : 1} onChange={(value) => this.props.onChange('noise', value === 0)} />
+                <NoiseSelector value={this.props.inputs.noise.random ? 0 : 1} onChange={(value) => this.props.onModelOptionChange('noise', value === 0)} />
             </div>
         );
     }
@@ -164,7 +168,7 @@ class Options extends Component {
 
     renderOperations() {
         return (
-            <div className="col-xs-12 option">
+            <div className="col-xs-6 col-sm-4 option">
                 <h5>Operations</h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Reset', onClick: () => this.props.onOperationClick('reset')}
@@ -180,10 +184,35 @@ class Options extends Component {
                 <Dropdown
                     options={Config.modelList}
                     value={this.props.inputs.currentModel}
-                    onChange={(value) => this.props.onModelChange(value)} />
+                    onChange={(value) => this.props.onOptionChange('model', value)} />
             </div>
         );
     }
+
+    renderWebglOption() {
+        return (
+            this.props.webglAvailable &&
+            <div className="col-xs-6 col-sm-4 option">
+                <h5>WebGL <span className="glyphicon glyphicon-question-sign" data-rh="Using WebGL can generate image faster. Disable WebGL if you encounter any problems." /></h5>
+                {new ButtonGroup().renderButtonGroup([
+                    {name: 'Disabled', isActive: this.props.inputs.disableWebgl, onClick: () => this.props.onOptionChange('disableWebgl', true)},
+                    {name: 'Enabled', isActive: !this.props.inputs.disableWebgl, onClick: () => this.props.onOptionChange('disableWebgl', false)}
+                ])}
+            </div>
+        );
+    }
+
+    renderBackendName() {
+        var backendNameDict = {'webgpu': 'WebGPU', 'webgl': 'WebGL', 'webassembly': 'WebAssembly'};
+        return (
+            this.props.backendName &&
+            <div className="col-xs-6 col-sm-4 option">
+                <h5>Current Backend</h5>
+                <span>{backendNameDict[this.props.backendName] || 'Unknown'}</span>
+            </div>
+        );
+    }
+
     renderAllOptions(){
         return Object.keys(this.options).map(item => this.renderSelector(item));
     }
@@ -194,7 +223,7 @@ class Options extends Component {
                 <div className="row">
                     <h3 className="col-xs-4 col-sm-2" style={{color: Config.colors.theme}}>Options</h3>
                     <span className="col-xs-6 mode-selector">
-                        <input type="checkbox" checked={this.props.mode === 'expert'} onChange={event => this.props.onModeChange(event.target.checked ? 'expert' : 'normal')} />
+                        <input type="checkbox" checked={this.props.mode === 'expert'} onChange={event => this.props.onOptionChange('mode', event.target.checked ? 'expert' : 'normal')} />
                         <span>Expert Mode</span>
                     </span>
                 </div>
@@ -211,9 +240,12 @@ class Options extends Component {
                 </div>
                 <div className="row">
                     {this.renderOperations()}
+                    {this.renderWebglOption()}
+                    {this.renderBackendName()}
                 </div>
 
                 <PromptDialog type="alert" ref={dialog => this.alertDialog = dialog} />
+                <ReactHint events delay={100} />
             </div>
         );
     }

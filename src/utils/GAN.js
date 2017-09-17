@@ -3,11 +3,12 @@ import Utils from '../utils/Utils';
 
 class GAN {
 
-    constructor(modelConfig) {
+    constructor(modelConfig, options) {
         this.runner = null;
         this.currentNoise = null;
         this.input = null;
         this.modelConfig = modelConfig;
+        this.options = options || {};
     }
 
     async getWeightFilePrefix() {
@@ -25,14 +26,17 @@ class GAN {
 
     getBackendOrder() {
         var order = ['webgpu', 'webassembly'];
-        try {
-            var gl = document.createElement('canvas').getContext('webgl');
-            var maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
-            if (maxTextureSize >= 16000) {
-                order.splice(1, 0, 'webgl')
+
+        if (!this.options.disableWebgl) {
+            try {
+                var gl = document.createElement('canvas').getContext('webgl');
+                var maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+                if (maxTextureSize >= 16000) {
+                    order.splice(1, 0, 'webgl')
+                }
             }
+            catch (err) {}
         }
-        catch (err) {}
 
         return order;
     }

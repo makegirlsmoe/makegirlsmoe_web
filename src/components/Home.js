@@ -35,7 +35,8 @@ class Home extends Component {
                 visible: false
             },
             rating: 0,
-            mode: 'normal'
+            mode: 'normal',
+            webglAvailable: false
         };
         this.initOptions(this.state.options, Config.defaultModel);
         this.ganDict = {};
@@ -60,12 +61,18 @@ class Home extends Component {
         return options;
     }
 
-    setModel(modelName) {
+    setModel(modelName, disableWebgl = this.state.options && this.state.options.disableWebgl) {
         return new Promise((resolve, reject) => {
-            this.setState({options: this.initOptions({}, modelName)});
+            var keyName = modelName + (disableWebgl ? '_nowebgl' : '');
 
-            if (!this.ganDict[modelName]) {
-                var gan = new GAN(Config.modelConfig[modelName]);
+            if (!this.state.options || this.state.options.currentModel !== modelName) {
+                this.setState({options: this.initOptions({}, modelName)});
+            }
+
+            this.setState({options: Object.assign({}, this.state.options, {disableWebgl: disableWebgl})});
+
+            if (!this.ganDict[keyName]) {
+                var gan = new GAN(Config.modelConfig[modelName], {disableWebgl: disableWebgl});
                 var state = {
                     loadingProgress: 0,
                     isReady: false,
@@ -73,7 +80,7 @@ class Home extends Component {
                     isCanceled: false,
                     isError: false
                 };
-                this.ganDict[modelName] = {
+                this.ganDict[keyName] = {
                     gan: gan,
                     state: state
                 };
@@ -89,7 +96,7 @@ class Home extends Component {
                     }
                     try {
                         await this.gan.init((current, total) => this.setState({gan: Object.assign(state, {loadingProgress: current / total * 100})}));
-                        this.setState({gan: Object.assign(state, {isReady: true})});
+                        this.setState({gan: Object.assign(state, {isReady: true, backendName: this.gan.getBackendName()})});
                         resolve();
                     }
                     catch (err) {
@@ -101,9 +108,8 @@ class Home extends Component {
             else {
                 resolve();
             }
-            this.gan = this.ganDict[modelName].gan;
-            this.setState({gan: this.ganDict[modelName].state});
-
+            this.gan = this.ganDict[keyName].gan;
+            this.setState({gan: this.ganDict[keyName].state});
         });
     }
 
@@ -117,6 +123,9 @@ class Home extends Component {
             var endTime = new Date();
             var loadTime = (endTime.getTime() - startTime.getTime()) / 1000;
             Stat.modelLoaded(loadTime);
+            if (this.gan.getBackendName() === 'webgl') {
+                this.setState({webglAvailable: true});
+            }
         }
         catch (err) {
             console.log(err);
@@ -237,7 +246,7 @@ class Home extends Component {
         });
     }
 
-    onOptionChange(key, random, value = this.state.options[key].value) {
+    onModelOptionChange(key, random, value = this.state.options[key].value) {
         if (key === 'noise' && !random && !value) {
             return;
         }
@@ -254,6 +263,22 @@ class Home extends Component {
                     [key]: Object.assign({}, this.state.options[key], {random: false, value: value})
                 })
             });
+        }
+    }
+
+    onOptionChange(key, value) {
+        switch (key) {
+            case 'mode':
+                this.setState({mode: value});
+                break;
+            case 'model':
+                this.setModel(value);
+                break;
+            case 'disableWebgl':
+                this.setModel(this.state.options.currentModel, value);
+                break;
+            default:
+                return;
         }
     }
 
@@ -361,19 +386,21 @@ class Home extends Component {
                                             <OptionsExpert
                                                 modelConfig={this.getModelConfig()}
                                                 inputs={this.state.options}
-                                                onChange={(key, random, value) => this.onOptionChange(key, random, value)}
+                                                onModelOptionChange={(key, random, value) => this.onModelOptionChange(key, random, value)}
+                                                onOptionChange={(key, value) => this.onOptionChange(key, value)}
                                                 onOperationClick={operation => this.onOptionOperationClick(operation)}
                                                 mode={this.state.mode}
-                                                onModeChange={value => this.setState({mode: value})}
-                                                onModelChange={modelName => this.setModel(modelName)} /> :
+                                                webglAvailable={this.state.webglAvailable}
+                                                backendName={this.state.gan.backendName} /> :
                                             <Options
                                                 modelConfig={this.getModelConfig()}
                                                 inputs={this.state.options}
-                                                onChange={(key, random, value) => this.onOptionChange(key, random, value)}
+                                                onModelOptionChange={(key, random, value) => this.onModelOptionChange(key, random, value)}
+                                                onOptionChange={(key, value) => this.onOptionChange(key, value)}
                                                 onOperationClick={operation => this.onOptionOperationClick(operation)}
                                                 mode={this.state.mode}
-                                                onModeChange={value => this.setState({mode: value})}
-                                                onModelChange={modelName => this.setModel(modelName)} />
+                                                webglAvailable={this.state.webglAvailable}
+                                                backendName={this.state.gan.backendName} />
                                     } />
                                     <Route path="/about" component={About}/>
                                     <Route path="/news" component={News}/>
