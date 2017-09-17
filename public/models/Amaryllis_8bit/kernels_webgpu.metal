@@ -1597,7 +1597,7 @@ kernel void sgemm_2f5fb17c61936ed97c3b40058a42f14de9b21cb6b4208d457114dbc7(devic
 }
 
 
-kernel void tanh_fd911b3cc95391106f251c10b5b65ece7023974a928d033d52e3744c(device float * static_buffer[[buffer(0)]],
+kernel void tanh_12158bf8ef245bf959c54665a3039e8d4c237d99a71939dc9a5a142c(device float * static_buffer[[buffer(0)]],
                           device float * dynamic_buffer[[buffer(1)]],
                           const device int * meta_buffer [[buffer(2)]],
                           uint gid[[thread_position_in_grid]],
@@ -1611,7 +1611,7 @@ kernel void tanh_fd911b3cc95391106f251c10b5b65ece7023974a928d033d52e3744c(device
         const float v3 = v1[d0];
         float v4;
         {
-            v4 = tanh(v3);
+            v4 = (v3 >= 10.0 ? 1.0 : tanh(v3));
         }
         v2[d0] = v4;
     }
