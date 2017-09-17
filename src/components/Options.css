@@ -32,6 +32,18 @@
     cursor: pointer;
 }
 
+.option > span {
+    display: block;
+    margin-top: 15px;
+}
+
+.option > h5 > .glyphicon {
+    display: inline-block;
+    margin: 0 3px;
+    position: relative;
+    top: 2px;
+}
+
 @media not screen and (min-width: 768px) {
     .option .btn-group button {
         padding-left: 10px;

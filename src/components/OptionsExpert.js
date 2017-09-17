@@ -19,8 +19,8 @@ class OptionsExpert extends Options {
                 {this.renderLabel(key, title)}
                 <RandomButtons
                     value={input.random ? 1 : 0}
-                    onChange={(value) => this.props.onChange(key, value === 1)}/>
-                <SliderWithInput value={input.value} onChange={value => this.props.onChange(key, false, value)}/>
+                    onChange={(value) => this.props.onModelOptionChange(key, value === 1)}/>
+                <SliderWithInput value={input.value} onChange={value => this.props.onModelOptionChange(key, false, value)}/>
             </div>
         );
     }
@@ -38,7 +38,7 @@ class OptionsExpert extends Options {
                     <div className="col-xs-6">
                         <RandomButtons
                             value={input.random ? 1 : 0}
-                            onChange={(value) => this.props.onChange(key, value === 1)}/>
+                            onChange={(value) => this.props.onModelOptionChange(key, value === 1)}/>
                     </div>
                     <div className="col-xs-1 pull-right">
                         {this.state.expended[key] ?
@@ -55,7 +55,7 @@ class OptionsExpert extends Options {
                                 <SliderWithInput value={input.value[index]} onChange={value => {
                                     var newInput = input.value.slice();
                                     newInput[index] = value;
-                                    this.props.onChange(key, false, newInput)
+                                    this.props.onModelOptionChange(key, false, newInput)
                                 }}/>
                             </div>
                         )}
