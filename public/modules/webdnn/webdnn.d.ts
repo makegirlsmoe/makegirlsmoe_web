@@ -685,7 +685,7 @@ declare module 'webdnn/webgl_handler' {
 	    readonly vao: any | null;
 	    readonly isWebGL2: boolean;
 	    constructor();
-	    createTexture(textureWidth: number, textureHeight: number): WebGLTexture;
+	    createTexture(textureWidth: number, textureHeight: number, internalFormat: number, format: number): WebGLTexture;
 	    createVertexShader(source: string): WebGLShader;
 	    createFragmentShader(source: string): WebGLShader;
 	    createShader(type: number, source: string): WebGLShader;
@@ -794,18 +794,22 @@ declare module 'webdnn/buffer/buffer_webgl' {
 	/**
 	 * @protected
 	 */
-	export class BufferWebGL extends Buffer {
-	    private gl;
+	export default class BufferWebGL extends Buffer {
+	    private static handler;
 	    readonly channelMode: ChannelMode;
 	    readonly elementsPerPixel: number;
+	    readonly pixelStride: number;
 	    readonly array: Float32Array;
 	    readonly textureWidth: number;
 	    readonly textureHeight: number;
+	    readonly textureFormat: number;
+	    readonly textureInternalFormat: number;
 	    private _texture;
 	    readonly name: string;
-	    private readTextureUnitInices;
+	    private readTextureUnitIndices;
 	    private isBoundToDrawFrameBuffer;
-	    constructor(gl: WebGLRenderingContext, byteLength: number, textureWidth: number, textureHeight: number, name: string, array: Float32Array | null, channelMode: ChannelMode);
+	    static init(handler: WebGLHandler): void;
+	    constructor(byteLength: number, textureWidth: number, textureHeight: number, name: string, array: Float32Array | null, channelMode: ChannelMode);
 	    readonly texture: WebGLTexture | null;
 	    readonly length: number;
 	    /**
@@ -863,12 +867,6 @@ declare module 'webdnn/buffer/buffer_webgl' {
 	    private unpack(array);
 	    private allocateTexture();
 	}
-	export const TextureManager: {
-	    handler: WebGLHandler;
-	    init(handler: WebGLHandler): void;
-	    allocate(textureWidth: number, textureHeight: number): WebGLTexture;
-	    release(texture: WebGLTexture): void;
-	};
 
 }
 declare module 'webdnn/descriptor_runner/descriptor_runner_webgl' {
