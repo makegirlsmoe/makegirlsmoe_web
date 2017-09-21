@@ -5,7 +5,7 @@ This repo contains the front-end part of [make.girls.moe](http://make.girls.moe/
 We decide to open-source model training scripts after the release of Chainer 3.0. Since Chainer do not support gradient norm function currently, we use some tricks in the training. 
 Also, my personal repo [Chainer-GANs](https://github.com/Aixile/chainer-gan-experiments) contains some necessary references for reproducing our results.
 
-## Run on local machine
+## Running on local machine
 1. Modify `src/Config.js` and set `var debug=true;`
 2. `npm install`
 3. `npm start`
