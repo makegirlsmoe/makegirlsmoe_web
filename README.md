@@ -1,4 +1,4 @@
-# MakeGirls.moe-Web
+# MakeGirlsMoe-Web
 
 This repo contains the front-end part of [make.girls.moe](http://make.girls.moe/).
 
