@@ -64,12 +64,13 @@ class Home extends Component {
     setModel(modelName, disableWebgl = this.state.options && this.state.options.disableWebgl) {
         return new Promise((resolve, reject) => {
             var keyName = modelName + (disableWebgl ? '_nowebgl' : '');
+            var options = this.state.options;
 
             if (!this.state.options || this.state.options.currentModel !== modelName) {
-                this.setState({options: this.initOptions({}, modelName)});
+                options = this.initOptions({}, modelName);
             }
 
-            this.setState({options: Object.assign({}, this.state.options, {disableWebgl: disableWebgl})});
+            this.setState({options: Object.assign(options, {disableWebgl: disableWebgl})});
 
             if (!this.ganDict[keyName]) {
                 var gan = new GAN(Config.modelConfig[modelName], {disableWebgl: disableWebgl});
