@@ -3651,7 +3651,9 @@
         "depth": 1
       },
       "threads_per_thread_group": {
-        "width": 1024,
+        "width": {
+          "eval": "placeholders['__MAX_THREADS_PER_THREADGROUP__'];"
+        },
         "height": 1,
         "depth": 1
       },
@@ -3791,7 +3793,9 @@
         "depth": 1
       },
       "threads_per_thread_group": {
-        "width": 1024,
+        "width": {
+          "eval": "placeholders['__MAX_THREADS_PER_THREADGROUP__'];"
+        },
         "height": 1,
         "depth": 1
       },
