@@ -5,8 +5,6 @@
 .generator-container {
     text-align: center;
     padding-top: 30px;
-    position: sticky;
-    top: 0;
 }
 
 .progress-text {
@@ -60,6 +58,11 @@
 }
 
 @media screen and (min-width: 768px) {
+    .generator-container {
+        position: sticky;
+        top: 100px;
+    }
+
     .options-container {
         min-height: 392px;
         border-left: 1px solid #ddd;
@@ -72,7 +75,6 @@
         text-align: center;
         padding-top: 20px;
         padding-bottom: 40px;
-        position: relative;
     }
 
     .options-container {
