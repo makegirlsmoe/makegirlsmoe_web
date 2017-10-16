@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ReactHintFactory } from 'react-hint';
+import { FormattedMessage } from "react-intl";
 import 'react-hint/css/index.css';
 import Config from '../Config';
 import Utils from '../utils/Utils';
@@ -11,6 +12,7 @@ import ButtonGroup from './ButtonGroup';
 import ImageDecoder from '../utils/ImageDecoder';
 import PromptDialog from './PromptDialog';
 import Dropdown from './Dropdown';
+import LabelHelper from './LabelHelper';
 import './Options.css';
 
 const ReactHint = ReactHintFactory(React);
@@ -22,6 +24,7 @@ class Options extends Component {
         this.options = Utils.arrayToObject(props.modelConfig.options, item => item.key);
         this.state = {};
     }
+
 
     componentWillReceiveProps(newProps) {
         this.options = Utils.arrayToObject(newProps.modelConfig.options, item => item.key);
@@ -76,12 +79,16 @@ class Options extends Component {
     renderLabel(key, title, large = false) {
         if (!large) {
             return (
-                <h5>{title || Utils.keyToString(key)}</h5>
+                <h5>
+                    <FormattedMessage id={title || Utils.keyToString(key)}/>
+                </h5>
             );
         }
         else {
             return (
-                <h4>{title || Utils.keyToString(key)}</h4>
+                <h4>
+                    <FormattedMessage id={title || Utils.keyToString(key)}/>
+                </h4>
             );
         }
     }
@@ -147,7 +154,7 @@ class Options extends Component {
     renderNoiseVisualizer() {
         return (
             <div className="col-xs-6 col-sm-4 option">
-                <h5>Current Noise</h5>
+                <h5><FormattedMessage id="CurrentNoise"/></h5>
                 <NoiseVisualizer modelConfig={this.props.modelConfig} noise={this.props.inputs.noise.value} />
             </div>
         );
@@ -156,7 +163,7 @@ class Options extends Component {
     renderNoiseImportExport() {
         return (
             <div className="col-xs-6 col-sm-4 option">
-                <h5>Noise Import/Export</h5>
+                <h5><FormattedMessage id="NoiseImportExport"/></h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Import', onClick: () => this.onNoiseImportClick()},
                     {name: 'Export', onClick: () => this.onNoiseExportClick()}
@@ -169,7 +176,7 @@ class Options extends Component {
     renderOperations() {
         return (
             <div className="col-xs-6 col-sm-4 option">
-                <h5>Operations</h5>
+                <h5><FormattedMessage id="Operations"/></h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Reset', onClick: () => this.props.onOperationClick('reset')}
                 ])}
@@ -193,7 +200,7 @@ class Options extends Component {
         return (
             this.props.webglAvailable &&
             <div className="col-xs-6 col-sm-4 option">
-                <h5>WebGL <span className="glyphicon glyphicon-question-sign" data-rh="Using WebGL can generate image faster. Disable WebGL if you encounter any problems." /></h5>
+                <h5>WebGL <LabelHelper mesg="WebGLHelper"/></h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Disabled', isActive: this.props.inputs.disableWebgl, onClick: () => this.props.onOptionChange('disableWebgl', true)},
                     {name: 'Enabled', isActive: !this.props.inputs.disableWebgl, onClick: () => this.props.onOptionChange('disableWebgl', false)}
@@ -207,7 +214,7 @@ class Options extends Component {
         return (
             this.props.backendName &&
             <div className="col-xs-6 col-sm-4 option">
-                <h5>Current Backend</h5>
+                <h5><FormattedMessage id="CurrentBackend"/></h5>
                 <span>{backendNameDict[this.props.backendName] || 'Unknown'}</span>
             </div>
         );
@@ -224,7 +231,7 @@ class Options extends Component {
                     <h3 className="col-xs-4 col-sm-2" style={{color: Config.colors.theme}}>Options</h3>
                     <span className="col-xs-6 mode-selector">
                         <input type="checkbox" checked={this.props.mode === 'expert'} onChange={event => this.props.onOptionChange('mode', event.target.checked ? 'expert' : 'normal')} />
-                        <span>Expert Mode</span>
+                        <span><FormattedMessage id="ExpertMode"/></span>
                     </span>
                 </div>
                 {/*<div className="row">*/}

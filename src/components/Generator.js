@@ -32,7 +32,7 @@ class Generator extends Component {
                     {this.props.results ? this.props.results.map((result, index) => this.renderResultCanvas(result, index)) : null}
                 </div>
                 <ButtonPrimary
-                    text={this.props.gan.isRunning ? 'Generating...' : 'Generate'}
+                    text={this.props.gan.isRunning ? 'Generating': 'Generate' }
                     disabled={this.props.gan.isRunning || !this.props.gan.isReady}
                     onClick={this.props.onGenerateClick} />
 

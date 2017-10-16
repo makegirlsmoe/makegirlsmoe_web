@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Utils from '../utils/Utils';
 import './Dropdown.css';
+import { FormattedMessage } from "react-intl";
+
 
 class Dropdown extends Component {
 
@@ -15,7 +17,7 @@ class Dropdown extends Component {
 
     renderOption(title, index) {
         return (
-            <li key={title}><a onClick={() => this.onOptionClick(index)}>{title}</a></li>
+            <li key={title}><a onClick={() => this.onOptionClick(index)}><FormattedMessage id={title}/></a></li>
         )
     }
 
@@ -34,7 +36,7 @@ class Dropdown extends Component {
             <div className="dropdown multiple-selector">
                 <button className="btn btn-default" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <div className="dropdown-toggle">
-                        <div>{this.getValue()}</div>
+                        <div><FormattedMessage id={this.getValue()}/></div>
                         <div className="caret" />
                     </div>
 

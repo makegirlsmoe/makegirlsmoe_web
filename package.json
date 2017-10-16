@@ -5,6 +5,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "echarts": "^3.6.2",
+    "intl": "^1.2.5",
     "jquery": "^3.2.1",
     "rc-dialog": "^6.5.10",
     "rc-slider": "^8.3.1",
@@ -12,6 +13,7 @@
     "react-dom": "^15.6.1",
     "react-fa": "^4.2.0",
     "react-hint": "^2.0.2",
+    "react-intl": "^2.4.0",
     "react-mathjax": "^0.1.1",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
