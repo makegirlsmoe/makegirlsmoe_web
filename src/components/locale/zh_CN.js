@@ -17,6 +17,7 @@ const zh_CN = {
     Reset: '重置',
     'Options Import': '导入设置',
     'Options Export': '导出设置',
+    'Fix All': '固定全部',
     NoiseImportExport: '导入或导出噪声',
     CurrentNoise: '当前噪声',
     Operations: '控制',

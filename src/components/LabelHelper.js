@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { injectIntl, intlShape } from "react-intl";
 
 const LabelHelper = ({mesg, intl}) => (

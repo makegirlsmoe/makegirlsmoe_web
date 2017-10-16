@@ -73,6 +73,7 @@ class OptionsExpert extends Options {
                 <h5><FormattedMessage id="OperationsExpertMode"/></h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Reset', onClick: () => this.props.onOperationClick('reset')},
+                    {name: 'Fix All', onClick: () => this.props.onOperationClick('fix_all')},
                     {name: 'Options Import', onClick: () => this.props.onOperationClick('json_import')},
                     {name: 'Options Export', onClick: () => this.props.onOperationClick('json_export')}
                 ])}

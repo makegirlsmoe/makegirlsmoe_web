@@ -288,6 +288,8 @@ class Home extends Component {
         switch (operation) {
             case 'reset':
                 return this.onResetClick();
+            case 'fix_all':
+                return this.onFixAllClick();
             case 'json_import':
                 return this.onJSONImport();
             case 'json_export':
@@ -332,6 +334,21 @@ class Home extends Component {
 
     onResetClick() {
         this.setState({options: this.initOptions({}, this.state.options.currentModel)});
+    }
+
+    onFixAllClick() {
+        let opt = Object.assign({}, this.state.options);
+
+        Object.keys(opt).map((key, index)=>
+        {
+
+            if(opt[key] && opt[key].hasOwnProperty('random')){
+                opt[key] = Object.assign({},opt[key], {random:false})
+            }
+            return true;
+        });
+
+        this.setState({options: opt});
     }
 
     shareOnTwitter() {
