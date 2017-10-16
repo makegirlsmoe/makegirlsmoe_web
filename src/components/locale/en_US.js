@@ -17,6 +17,7 @@ const en_US = {
     Reset: 'Reset',
     'Options Import': 'Options Import',
     'Options Export': 'Options Export',
+    'Fix All': 'Fix All',
     NoiseImportExport: 'Noise Import/Export',
     CurrentNoise: 'Current Noise',
     Operations: 'Operations',

@@ -17,6 +17,7 @@ const ja_JP = {
     Reset: 'リセット',
     'Options Import': '設定をロード',
     'Options Export': '設定をセーブ',
+    'Fix All': '全部固定',
     NoiseImportExport: 'ノイズをロード／セーブ',
     CurrentNoise: '今のノイズ',
     Operations: 'コントロール',
