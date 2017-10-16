@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from "react-intl";
 import Options from './Options';
 import RandomButtons from './RandomButtons';
 import SliderWithInput from './SliderWithInput';
@@ -69,7 +70,7 @@ class OptionsExpert extends Options {
     renderOperations() {
         return (
             <div className="col-xs-12 option">
-                <h5>Operations (Import/Export are not supported on mobile devices)</h5>
+                <h5><FormattedMessage id="OperationsExpertMode"/></h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Reset', onClick: () => this.props.onOperationClick('reset')},
                     {name: 'Options Import', onClick: () => this.props.onOperationClick('json_import')},

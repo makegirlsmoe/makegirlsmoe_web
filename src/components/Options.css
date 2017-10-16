@@ -44,6 +44,13 @@
     top: 2px;
 }
 
+@media screen and (min-width: 768px) {
+    .option .btn-group button {
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+}
+
 @media not screen and (min-width: 768px) {
     .option .btn-group button {
         padding-left: 10px;

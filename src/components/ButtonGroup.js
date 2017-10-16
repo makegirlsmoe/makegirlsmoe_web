@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Config from '../Config';
+import { FormattedMessage } from "react-intl";
 
 class ButtonGroup extends Component {
 
@@ -13,7 +14,6 @@ class ButtonGroup extends Component {
                 boxShadow: 'inset 0 3px 5px rgba(0, 0, 0, .125)',
             }
         };
-
         return (
             <button type="button" className="btn btn-default"
                     key={props.key || props.name}
@@ -23,7 +23,9 @@ class ButtonGroup extends Component {
                         event.stopPropagation();
                         event.nativeEvent.stopImmediatePropagation();
                     }}>
-                {props.name}
+
+                {typeof props.name === 'string' ? <FormattedMessage id={props.name}/> : props.name}
+
             </button>
         );
     }

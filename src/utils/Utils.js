@@ -6,7 +6,7 @@ class Utils {
     }
 
     static keyToString(key) {
-        return key.split('_').map(Utils.capitalize).join(' ');
+        return key.split('_').map(Utils.capitalize).join('');
     }
 
     static arrayToObject(arr, key, value) {

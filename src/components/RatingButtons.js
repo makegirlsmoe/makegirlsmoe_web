@@ -1,5 +1,4 @@
 import React from 'react';
-
 import ButtonGroupSelector from './ButtonGroupSelector';
 
 class RatingButtons extends ButtonGroupSelector {
