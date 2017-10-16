@@ -5,6 +5,8 @@
 .generator-container {
     text-align: center;
     padding-top: 30px;
+    position: sticky;
+    top: 0;
 }
 
 .progress-text {
@@ -25,6 +27,7 @@
     height: 55px;
     opacity: 1;
 }
+
 
 .progress-transition-leave.progress-transition-leave-active {
     height: 0;
@@ -69,6 +72,7 @@
         text-align: center;
         padding-top: 20px;
         padding-bottom: 40px;
+        position: relative;
     }
 
     .options-container {
