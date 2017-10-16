@@ -25,6 +25,9 @@ const ja_JP = {
     Generate: '生成',
     Generating: '生成中...',
     WebGLHelper: 'WebGLを使うと高速生成ができますが、何かのバグがある場合は無効化にしてお願いします。',
+    Canceled: 'キャンセル済',
+    NetworkError:'ネットワークエラー',
+    LoadingModel: 'モデル読み込み中...',
 
     HairColor:"髪の色",
     HairStyle:"髪型",
