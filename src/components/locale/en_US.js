@@ -25,6 +25,9 @@ const en_US = {
     Generate: 'Generate',
     Generating: 'Generating...',
     WebGLHelper: 'Using WebGL can generate image faster. Disable WebGL if you encounter any problems.',
+    Canceled: 'Canceled',
+    NetworkError:'Network Error',
+    LoadingModel: 'Loading Model...',
 
     HairColor:"Hair Color",
     HairStyle:"Hair Style",

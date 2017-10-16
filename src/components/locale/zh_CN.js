@@ -25,6 +25,9 @@ const zh_CN = {
     Generate: '生成',
     Generating: '生成中...',
     WebGLHelper: '启用WebGL可以高速生产图片，但如果遇到任何问题，建议停用此选项。',
+    Canceled: '已取消',
+    NetworkError:'网络错误',
+    LoadingModel: '模型载入中...',
 
     HairColor:"发色",
     HairStyle:"发型",

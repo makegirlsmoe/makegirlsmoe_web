@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { FormattedMessage } from "react-intl";
 import { CSSTransitionGroup } from 'react-transition-group';
 import Config from '../Config';
 import About from './About';
@@ -361,7 +362,7 @@ class Home extends Component {
                                 <div className="col-xs-12">
                                     <ProgressBar value={this.state.gan.loadingProgress} />
                                     <h5 className="progress-text" style={{color: this.state.gan.isCanceled || this.state.gan.isError ? '#f00' : '#000'}}>
-                                        {this.state.gan.isCanceled ? 'Canceled' : this.state.gan.isError ? 'Network Error' : 'Loading Model...'}
+                                        {this.state.gan.isCanceled ? <FormattedMessage id="Canceled"/>: this.state.gan.isError ? <FormattedMessage id="NetworkError"/>: <FormattedMessage id="LoadingModel"/>}
                                     </h5>
                                 </div>
                                 }
