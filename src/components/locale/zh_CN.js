@@ -14,7 +14,7 @@ const zh_CN = {
     Disabled: '无效',
     Import: '导入',
     Export: '导出',
-    Reset: '重制',
+    Reset: '重置',
     'Options Import': '导入设置',
     'Options Export': '导出设置',
     NoiseImportExport: '导入或导出噪声',
