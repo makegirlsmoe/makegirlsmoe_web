@@ -24,7 +24,7 @@ const ja_JP = {
     CurrentBackend: 'バックグラウンド',
     Generate: '生成',
     Generating: '生成中...',
-    WebGLHelper: 'WebGLを使うと高速生成ができますが、何かのバグがある場合は無効化してお願いします。',
+    WebGLHelper: 'WebGLを使うと高速生成ができますが、何かのバグがある場合は無効化にしてお願いします。',
 
     HairColor:"髪の色",
     HairStyle:"髪型",
@@ -33,7 +33,7 @@ const ja_JP = {
     Smile:"笑顔",
     OpenMouth:"開口",
     Hat:"帽子",
-    Ribbon:"リポン",
+    Ribbon:"リボン",
     Glasses:"メガネ",
     Noise:"ノイズ",
 
