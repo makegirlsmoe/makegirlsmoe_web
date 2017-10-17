@@ -45,20 +45,20 @@ const zh_CN = {
     Brown: '棕色',
     Black: '黑色',
     Blue: '蓝色',
-    Pink: '粉红色',
+    Pink: '粉色',
     Purple: '紫色',
     Green: '绿色',
     Red: '红色',
     Silver: '银色',
     White: '白色',
     Orange: '橙色',
-    Aqua: '碧绿色',
+    Aqua: '水色',
     Grey: '灰色',
     Yellow: '黄色',
     LongHair: '长发',
     ShortHair: '短发',
     TwinTail: '双马尾',
-    DrillHair: '公主卷',
+    DrillHair: '双螺旋',
     Ponytail: '马尾'
 };
 export default zh_CN;
