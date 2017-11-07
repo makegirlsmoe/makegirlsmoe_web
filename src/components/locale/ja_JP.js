@@ -29,6 +29,9 @@ const ja_JP = {
     Canceled: 'キャンセル済',
     NetworkError:'ネットワークエラー',
     LoadingModel: 'モデル読み込み中...',
+    Amaryllis:"Amaryllis 128x128 Ver.170716",
+    Test:"Test Model 256x256 Ver.171107",
+
 
     HairColor:"髪の色",
     HairStyle:"髪型",
@@ -40,6 +43,8 @@ const ja_JP = {
     Ribbon:"リボン",
     Glasses:"メガネ",
     Noise:"ノイズ",
+    DarkSkin:"褐色肌",
+    Year:"スタイル",
 
     Blonde: '金',
     Brown: '茶',

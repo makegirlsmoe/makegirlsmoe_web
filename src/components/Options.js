@@ -132,6 +132,10 @@ class Options extends Component {
         );
     }
 
+    renderContinousSelector(key, options, titls) {
+
+    }
+
     renderNoiseSelector() {
         return (
             <div className="col-xs-6 col-sm-4 option">
@@ -145,7 +149,7 @@ class Options extends Component {
         var option = this.options[key];
         if (option.type === 'multiple') {
             return this.renderMultipleSelector(key, option.options);
-        }
+        }else
         else {
             return this.renderBinarySelector(key);
         }
@@ -234,9 +238,9 @@ class Options extends Component {
                         <span><FormattedMessage id="ExpertMode"/></span>
                     </span>
                 </div>
-                {/*<div className="row">*/}
-                    {/*{this.renderModelSelector()}*/}
-                {/*</div>*/}
+                <div className="row">
+                    {this.renderModelSelector()}
+                </div>
                 <div className="row">
                     {this.renderAllOptions()}
                 </div>
