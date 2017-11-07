@@ -368,7 +368,7 @@ class Home extends Component {
             <div className="home">
 
                 <div className="row main-row">
-                    <div className={(this.state.twitter.visible ? 'col-lg-8 ' : '') + 'col-xs-12'}>
+                    <div className={(this.state.twitter.visible ? 'col-lg-9 ' : '') + 'col-xs-12'}>
                         <div className="row progress-container">
                             <CSSTransitionGroup
                                 transitionName="progress-transition"
@@ -388,7 +388,7 @@ class Home extends Component {
                         </div>
 
                         <div className="row">
-                            <div className="col-sm-3 col-xs-12 generator-container">
+                            <div className="col-sm-4 col-xs-12 generator-container">
                                 <Generator gan={this.state.gan}
                                            modelConfig={this.getModelConfig()}
                                            results={this.state.results}
@@ -398,7 +398,7 @@ class Home extends Component {
                                            rating={this.state.rating}
                                 />
                             </div>
-                            <div className="col-sm-9 col-xs-12 options-container">
+                            <div className="col-sm-8 col-xs-12 options-container">
                                 <Switch>
                                     <Route exact path="/" render={() =>
                                         this.state.mode === 'expert' ?
@@ -430,7 +430,7 @@ class Home extends Component {
                         </div>
                     </div>
 
-                    <div className="col-lg-4 col-xs-12" style={{display: this.state.twitter.visible ? 'block' : 'none'}}>
+                    <div className="col-lg-3 col-xs-12" style={{display: this.state.twitter.visible ? 'block' : 'none'}}>
                         <div className="row twitter-timeline-row">
                             <div className="col-xs-12">
                                 <h3 className="twitter-timeline-title" style={{color: Config.colors.theme}}>#MakeGirlsMoe on Twitter</h3>

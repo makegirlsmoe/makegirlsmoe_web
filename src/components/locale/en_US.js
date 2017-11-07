@@ -29,6 +29,9 @@ const en_US = {
     Canceled: 'Canceled',
     NetworkError:'Network Error',
     LoadingModel: 'Loading Model...',
+    Amaryllis:"Amaryllis 128x128 Ver.170716",
+    Test:"Test Model 256x256 Ver.171107",
+
 
     HairColor:"Hair Color",
     HairStyle:"Hair Style",
@@ -39,6 +42,8 @@ const en_US = {
     Hat:"Hat",
     Ribbon:"Ribbon",
     Glasses:"Glasses",
+    DarkSkin:'Dark Skin',
+    Year:'Style',
     Noise:"Noise",
 
     Blonde: 'Blonde',

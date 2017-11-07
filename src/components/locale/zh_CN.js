@@ -29,6 +29,9 @@ const zh_CN = {
     Canceled: '已取消',
     NetworkError:'网络错误',
     LoadingModel: '模型载入中...',
+    Amaryllis:"Amaryllis 128x128 Ver.170716",
+    Test:"Test Model 256x256 Ver.171107",
+
 
     HairColor:"发色",
     HairStyle:"发型",
@@ -39,6 +42,8 @@ const zh_CN = {
     Hat:"帽子",
     Ribbon:"丝带",
     Glasses:"眼镜",
+    Year: "风格",
+    DarkSkin:"褐色肌肤",
     Noise:"噪声",
 
     Blonde: '金色',
