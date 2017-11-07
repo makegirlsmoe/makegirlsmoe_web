@@ -31,6 +31,7 @@ class GAN {
             try {
                 var gl = document.createElement('canvas').getContext('webgl');
                 var maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+                order.splice(1, 0, 'webgl')
                 //if (maxTextureSize >= 16000) {
                 //    order.splice(1, 0, 'webgl')
                 //}
