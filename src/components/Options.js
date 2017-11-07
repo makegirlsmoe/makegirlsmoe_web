@@ -149,8 +149,7 @@ class Options extends Component {
         var option = this.options[key];
         if (option.type === 'multiple') {
             return this.renderMultipleSelector(key, option.options);
-        }else
-        else {
+        } else {
             return this.renderBinarySelector(key);
         }
     }
