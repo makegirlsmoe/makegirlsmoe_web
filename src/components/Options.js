@@ -190,7 +190,7 @@ class Options extends Component {
     renderModelSelector() {
         return (
             <div className="col-xs-12 col-sm-12 option">
-                <h5>Model</h5>
+                <h5><FormattedMessage id="Model"/></h5>
                 <Dropdown
                     options={Config.modelList}
                     value={this.props.inputs.currentModel}
@@ -203,7 +203,7 @@ class Options extends Component {
         return (
             this.props.webglAvailable &&
             <div className="col-xs-6 col-sm-4 option">
-                <h5>WebGL <LabelHelper mesg="WebGLHelper"/></h5>
+                <h5><FormattedMessage id="WebGLAcceleration"/><LabelHelper mesg="WebGLHelper"/></h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Disabled', isActive: this.props.inputs.disableWebgl, onClick: () => this.props.onOptionChange('disableWebgl', true)},
                     {name: 'Enabled', isActive: !this.props.inputs.disableWebgl, onClick: () => this.props.onOptionChange('disableWebgl', false)}

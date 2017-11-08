@@ -15,6 +15,8 @@ const en_US = {
     Import: 'Import',
     Export: 'Export',
     Reset: 'Reset',
+    WebGLAcceleration: 'WebGL Acceleration',
+    Model: 'Model',
     'Options Import': 'Options Import',
     'Options Export': 'Options Export',
     'Fix All': 'Fix All',

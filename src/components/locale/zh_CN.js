@@ -15,6 +15,8 @@ const zh_CN = {
     Import: '导入',
     Export: '导出',
     Reset: '重置',
+    WebGLAcceleration: 'WebGL加速',
+    Model: '模型',
     'Options Import': '导入设置',
     'Options Export': '导出设置',
     'Fix All': '固定全部',

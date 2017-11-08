@@ -15,6 +15,8 @@ const ja_JP = {
     Import: 'ロード',
     Export: 'セーブ',
     Reset: 'リセット',
+    WebGLAcceleration: 'WebGLアクセラレーション',
+    Model: 'モデル',
     'Options Import': '設定をロード',
     'Options Export': '設定をセーブ',
     'Fix All': '全部固定',
