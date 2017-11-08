@@ -826,6 +826,7 @@ declare module 'webdnn/buffer/buffer_webgl' {
 	 */
 	export default class BufferWebGL extends Buffer {
 	    private static handler;
+	    readonly handler: WebGLHandler;
 	    readonly channelMode: ChannelMode;
 	    readonly elementsPerPixel: number;
 	    readonly pixelStride: number;
@@ -976,6 +977,7 @@ declare module 'webdnn/buffer/buffer_webgpu' {
 	 */
 	export default class BufferWebGPU extends Buffer {
 	    private static handler;
+	    readonly handler: WebGPUHandler;
 	    buffer: WebGPUBuffer;
 	    bufferView: Uint8Array;
 	    constructor(byteLength: number);
