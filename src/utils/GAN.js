@@ -28,18 +28,20 @@ class GAN {
         var order = ['webgpu', 'webassembly'];
 
         if (!this.options.disableWebgl) {
-            try {
-                var gl = document.createElement('canvas').getContext('webgl');
-                var maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
-                order.splice(1, 0, 'webgl')
-                //if (maxTextureSize >= 16000) {
-                //    order.splice(1, 0, 'webgl')
-                //}
-            }
-            catch (err) {}
+            order.splice(1, 0, 'webgl')
         }
 
         return order;
+    }
+
+    static getWebglTextureSize() {
+        try {
+            var gl = document.createElement('canvas').getContext('webgl');
+            return gl.getParameter(gl.MAX_TEXTURE_SIZE);
+        }
+        catch (err) {
+            return null;
+        }
     }
 
     async init(onInitProgress) {
@@ -53,7 +55,7 @@ class GAN {
         this.currentInput = input;
         this.runner.getInputViews()[0].set(input);
         await this.runner.run();
-        let output = this.runner.getOutputViews()[0].toActual();
+        let output = this.runner.getOutputViews()[0].toActual().slice();
         return output;
     }
 

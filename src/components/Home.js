@@ -69,6 +69,7 @@ class Home extends Component {
 
             if (!this.state.options || this.state.options.currentModel !== modelName) {
                 options = this.initOptions({}, modelName);
+                this.setState({results: []});
             }
 
             this.setState({options: Object.assign(options, {disableWebgl: disableWebgl})});
@@ -120,14 +121,23 @@ class Home extends Component {
         this.showTwitterTimeline();
 
         try {
+            if (window.WebDNN.getBackendAvailability().status.webgl
+                    && !window.WebDNN.getBackendAvailability().status.webgpu) {
+                this.setState({webglAvailable: true});
+            }
+
+            var textureSize = GAN.getWebglTextureSize();
+            var disableWebgl = false;
+            if (textureSize === null || textureSize < 16000) {
+                disableWebgl = true;
+                this.setState({options: Object.assign({}, this.state.options, {disableWebgl: true})});
+            }
+
             var startTime = new Date();
-            await this.setModel(Config.defaultModel);
+            await this.setModel(Config.defaultModel, disableWebgl);
             var endTime = new Date();
             var loadTime = (endTime.getTime() - startTime.getTime()) / 1000;
             Stat.modelLoaded(loadTime);
-            if (this.gan.getBackendName() === 'webgl') {
-                this.setState({webglAvailable: true});
-            }
         }
         catch (err) {
             console.log(err);
