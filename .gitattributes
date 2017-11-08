@@ -1,0 +1,2 @@
+public/models/test_8bit/* filter=lfs diff=lfs merge=lfs -text
+public/models/Amaryllis_8bit/* filter=lfs diff=lfs merge=lfs -text
