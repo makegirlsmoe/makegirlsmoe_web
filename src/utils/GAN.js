@@ -53,7 +53,7 @@ class GAN {
         this.currentInput = input;
         this.runner.getInputViews()[0].set(input);
         await this.runner.run();
-        let output = this.runner.getOutputViews()[0].toActual();
+        let output = this.runner.getOutputViews()[0].toActual().slice();
         return output;
     }
 

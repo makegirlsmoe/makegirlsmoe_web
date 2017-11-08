@@ -69,6 +69,7 @@ class Home extends Component {
 
             if (!this.state.options || this.state.options.currentModel !== modelName) {
                 options = this.initOptions({}, modelName);
+                this.setState({results: []});
             }
 
             this.setState({options: Object.assign(options, {disableWebgl: disableWebgl})});
