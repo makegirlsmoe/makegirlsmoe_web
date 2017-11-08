@@ -43,7 +43,7 @@ function __extends(d, b) {
 function __awaiter(thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -84,7 +84,7 @@ function __generator(thisArg, body) {
 /**
  * @protected
  */
-var WeightDecoderEightbit = (function () {
+var WeightDecoderEightbit = /** @class */ (function () {
     function WeightDecoderEightbit() {
     }
     WeightDecoderEightbit.prototype.decode = function (data) {
@@ -160,7 +160,7 @@ var WeightDecoderEightbit = (function () {
 /**
  * @protected
  */
-var WeightDecoderRaw = (function () {
+var WeightDecoderRaw = /** @class */ (function () {
     function WeightDecoderRaw() {
     }
     WeightDecoderRaw.prototype.decode = function (data) {
@@ -204,7 +204,7 @@ var NOT_SCHEDULED = -1;
  *
  * @private
  */
-var DispatchScheduler = (function () {
+var DispatchScheduler = /** @class */ (function () {
     function DispatchScheduler() {
         this.scheduledCallbackId = NOT_SCHEDULED;
     }
@@ -395,7 +395,7 @@ function fetchUsingXHR(url, callback) {
  * PlaceholderContext manages the placeholders
  * @protected
  */
-var PlaceholderContext = (function () {
+var PlaceholderContext = /** @class */ (function () {
     function PlaceholderContext(values) {
         this.values = {};
         if (values) {
@@ -460,7 +460,7 @@ function flatten(arr) {
 /**
  * SymbolicTypedArray is wrapper class of buffers used in DNN model.
  */
-var SymbolicTypedArray = (function () {
+var SymbolicTypedArray = /** @class */ (function () {
     /**
      * toActual:
      *
@@ -560,7 +560,7 @@ var SymbolicTypedArray = (function () {
 /**
  * @protected
  */
-var SymbolicFloat32Array = (function (_super) {
+var SymbolicFloat32Array = /** @class */ (function (_super) {
     __extends(SymbolicFloat32Array, _super);
     function SymbolicFloat32Array() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -581,7 +581,7 @@ var SymbolicFloat32Array = (function (_super) {
 /**
  * `DescriptorRunner` provides interface to execute DNN model and access input and output buffers.
  */
-var DescriptorRunner = (function () {
+var DescriptorRunner = /** @class */ (function () {
     function DescriptorRunner() {
         /**
          * For Developper:
@@ -648,7 +648,7 @@ function wait(duration) {
 /**
  * @protected
  */
-var DescriptorRunnerFallback = (function (_super) {
+var DescriptorRunnerFallback = /** @class */ (function (_super) {
     __extends(DescriptorRunnerFallback, _super);
     function DescriptorRunnerFallback() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -912,7 +912,7 @@ var DescriptorRunnerFallback = (function (_super) {
 /**
  * @protected
  */
-var DescriptorRunnerWebassembly = (function (_super) {
+var DescriptorRunnerWebassembly = /** @class */ (function (_super) {
     __extends(DescriptorRunnerWebassembly, _super);
     function DescriptorRunnerWebassembly() {
         var _this = _super.call(this) || this;
@@ -1237,7 +1237,7 @@ function isWebGL2(gl) {
 /**
  * @protected
  */
-var WebGLHandler = (function () {
+var WebGLHandler = /** @class */ (function () {
     function WebGLHandler() {
         this.gl = checkNull(WebGLHandler.initializeContext());
     }
@@ -1429,7 +1429,7 @@ function checkNull(obj) {
  *
  * @protected
  */
-var Buffer = (function () {
+var Buffer = /** @class */ (function () {
     function Buffer(byteLength, backend) {
         this.byteLength = byteLength;
         this.backend = backend;
@@ -1444,13 +1444,14 @@ var Buffer = (function () {
 /**
  * @protected
  */
-var BufferWebGL = (function (_super) {
+var BufferWebGL = /** @class */ (function (_super) {
     __extends(BufferWebGL, _super);
     function BufferWebGL(byteLength, textureWidth, textureHeight, name, array, channelMode) {
         var _this = _super.call(this, byteLength, 'webgl') || this;
         _this._texture = null;
         _this.readTextureUnitIndices = [];
         _this.isBoundToDrawFrameBuffer = false;
+        _this.handler = BufferWebGL.handler;
         _this.name = name;
         _this.channelMode = channelMode;
         switch (channelMode) {
@@ -1463,16 +1464,16 @@ var BufferWebGL = (function (_super) {
             default:
                 throw Error('Unknown channel mode');
         }
-        if (isWebGL2(BufferWebGL.handler.gl)) {
+        if (isWebGL2(_this.handler.gl)) {
             switch (channelMode) {
                 case 'RGBA':
-                    _this.textureFormat = BufferWebGL.handler.gl.RGBA;
-                    _this.textureInternalFormat = BufferWebGL.handler.gl.RGBA32F;
+                    _this.textureFormat = _this.handler.gl.RGBA;
+                    _this.textureInternalFormat = _this.handler.gl.RGBA32F;
                     _this.pixelStride = 4;
                     break;
                 case 'R':
-                    _this.textureFormat = BufferWebGL.handler.gl.RED;
-                    _this.textureInternalFormat = BufferWebGL.handler.gl.R32F;
+                    _this.textureFormat = _this.handler.gl.RED;
+                    _this.textureInternalFormat = _this.handler.gl.R32F;
                     _this.pixelStride = 1;
                     break;
                 default:
@@ -1482,8 +1483,8 @@ var BufferWebGL = (function (_super) {
         else {
             // In WebGL1, always RGBA channel mode is specified. If R channel mode is specified in graph descriptor,
             // other 3 channels are not used.
-            _this.textureFormat = BufferWebGL.handler.gl.RGBA;
-            _this.textureInternalFormat = BufferWebGL.handler.gl.RGBA;
+            _this.textureFormat = _this.handler.gl.RGBA;
+            _this.textureInternalFormat = _this.handler.gl.RGBA;
             _this.pixelStride = 4;
         }
         if (_this.pixelStride < _this.elementsPerPixel)
@@ -1572,7 +1573,7 @@ var BufferWebGL = (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        gl = BufferWebGL.handler.gl;
+                        gl = this.handler.gl;
                         if (!this.texture)
                             this.allocateTexture();
                         tmp = this.pack(this.array);
@@ -1600,7 +1601,7 @@ var BufferWebGL = (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             var gl, ELEMENT_PER_PIXEL, FORMAT, tmp;
             return __generator(this, function (_a) {
-                gl = BufferWebGL.handler.gl;
+                gl = this.handler.gl;
                 ELEMENT_PER_PIXEL = 4;
                 FORMAT = gl.RGBA;
                 tmp = new Float32Array(this.textureWidth * this.textureHeight * ELEMENT_PER_PIXEL);
@@ -1622,7 +1623,7 @@ var BufferWebGL = (function (_super) {
                         if (this.isBoundToDrawFrameBuffer)
                             throw Error('This buffer is already registered as draw buffer. ' +
                                 'You may forgot to unbind the binding while previous operations.');
-                        gl = BufferWebGL.handler.gl;
+                        gl = this.handler.gl;
                         if (!!this.texture) return [3 /*break*/, 2];
                         this.allocateTexture();
                         return [4 /*yield*/, this.syncWriteViews()];
@@ -1639,7 +1640,7 @@ var BufferWebGL = (function (_super) {
         });
     };
     BufferWebGL.prototype.unbindFromReadTexture = function () {
-        var gl = BufferWebGL.handler.gl;
+        var gl = this.handler.gl;
         for (var _i = 0, _a = this.readTextureUnitIndices; _i < _a.length; _i++) {
             var unit = _a[_i];
             gl.activeTexture(gl.TEXTURE0 + unit);
@@ -1654,7 +1655,7 @@ var BufferWebGL = (function (_super) {
         if (this.isBoundToDrawFrameBuffer)
             throw Error('This buffer is already registered as draw buffer. ' +
                 'You may forgot to unbind the binding while previous operations.');
-        var gl = BufferWebGL.handler.gl;
+        var gl = this.handler.gl;
         if (!this.texture)
             this.allocateTexture();
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.texture, 0);
@@ -1663,7 +1664,7 @@ var BufferWebGL = (function (_super) {
     BufferWebGL.prototype.unbindFromDrawTexture = function () {
         if (!this.isBoundToDrawFrameBuffer)
             return;
-        var gl = BufferWebGL.handler.gl;
+        var gl = this.handler.gl;
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, null, 0);
         this.isBoundToDrawFrameBuffer = false;
     };
@@ -1696,7 +1697,7 @@ var BufferWebGL = (function (_super) {
     BufferWebGL.prototype.allocateTexture = function () {
         if (this.texture)
             throw Error('Texture is already allocated.');
-        this._texture = BufferWebGL.handler.createTexture(this.textureWidth, this.textureHeight, this.textureInternalFormat, this.textureFormat);
+        this._texture = this.handler.createTexture(this.textureWidth, this.textureHeight, this.textureInternalFormat, this.textureFormat);
     };
     return BufferWebGL;
 }(Buffer));
@@ -1718,7 +1719,7 @@ var vertexArray = new Float32Array([
 /**
  * @protected
  */
-var DescriptorRunnerWebGL = (function (_super) {
+var DescriptorRunnerWebGL = /** @class */ (function (_super) {
     __extends(DescriptorRunnerWebGL, _super);
     function DescriptorRunnerWebGL() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -2261,14 +2262,15 @@ var DescriptorRunnerWebGL = (function (_super) {
 /**
  * @protected
  */
-var BufferWebGPU = (function (_super) {
+var BufferWebGPU = /** @class */ (function (_super) {
     __extends(BufferWebGPU, _super);
     function BufferWebGPU(byteLength) {
         var _this = _super.call(this, byteLength, 'webgpu') || this;
+        _this.handler = BufferWebGPU.handler;
         if (byteLength == 0) {
             byteLength = 4; //0 length buffer causes error
         }
-        _this.buffer = BufferWebGPU.handler.createBuffer(new Uint8Array(byteLength));
+        _this.buffer = _this.handler.createBuffer(new Uint8Array(byteLength));
         _this.bufferView = new Uint8Array(_this.buffer.contents);
         return _this;
     }
@@ -2278,7 +2280,7 @@ var BufferWebGPU = (function (_super) {
             var viewSameType;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, BufferWebGPU.handler.sync()];
+                    case 0: return [4 /*yield*/, this.handler.sync()];
                     case 1:
                         _a.sent();
                         viewSameType = new src.constructor(this.bufferView.buffer);
@@ -2297,7 +2299,7 @@ var BufferWebGPU = (function (_super) {
                     case 0:
                         if (!dst)
                             throw new Error('dst cannot be null');
-                        return [4 /*yield*/, BufferWebGPU.handler.sync()];
+                        return [4 /*yield*/, this.handler.sync()];
                     case 1:
                         _a.sent();
                         if (this.byteLength === 0)
@@ -2332,7 +2334,7 @@ var BufferWebGPU = (function (_super) {
                 switch (_a.label) {
                     case 0: 
                     // if the user awaits promise from final kernel execution, this function call is not needed.
-                    return [4 /*yield*/, BufferWebGPU.handler.sync()];
+                    return [4 /*yield*/, this.handler.sync()];
                     case 1:
                         // if the user awaits promise from final kernel execution, this function call is not needed.
                         _a.sent();
@@ -2352,7 +2354,7 @@ var BufferWebGPU = (function (_super) {
 /**
  * @protected
  */
-var WebGPUHandler = (function () {
+var WebGPUHandler = /** @class */ (function () {
     function WebGPUHandler() {
         this.pipelineStates = new Map();
         if (!IS_WEBGPU_SUPPORTED)
@@ -2462,7 +2464,7 @@ var IS_IOS = navigator.userAgent.includes('iPhone');
 /**
  * @protected
  */
-var DescriptorRunnerWebGPU = (function (_super) {
+var DescriptorRunnerWebGPU = /** @class */ (function (_super) {
     __extends(DescriptorRunnerWebGPU, _super);
     //noinspection JSUnusedLocalSymbols
     function DescriptorRunnerWebGPU(option) {
