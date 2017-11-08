@@ -674,16 +674,54 @@ declare module 'webdnn/graph_descriptor/graph_descriptor_webgl' {
 	}
 
 }
+declare namespace WebGL2RenderingContext {
+}
+
+
+declare class WebGL2RenderingContext extends WebGLRenderingContext {
+    RED: GLenum;
+    RGBA32F: GLenum;
+    R32F: GLenum;
+    SYNC_GPU_COMMANDS_COMPLETE: GLenum;
+    ALREADY_SIGNALED: GLenum;
+    CONDITION_SATISFIED: GLenum;
+
+    createVertexArray(): WebGLVertexArrayObject;
+
+    bindVertexArray(vertexArray: WebGLVertexArrayObject): void;
+
+    fenceSync(condition: GLenum, flags: GLbitfield): WebGLSync;
+
+    clientWaitSync(sync: WebGLSync, flags: GLbitfield, timeout: 0): GLenum;
+
+    deleteSync(sync: WebGLSync): void;
+}
+
+declare class WebGLVertexArrayObject {
+
+}
+
+declare class WebGLSync {
+
+}
+
+declare interface WebGLVertexArrayObjectExtension {
+    bindVertexArrayOES(vertexArray: WebGLVertexArrayObject): void;
+
+    createVertexArrayOES(): WebGLVertexArrayObject;
+}
 declare module 'webdnn/webgl_handler' {
-	export interface WebGLVertexArray {
-	}
+	/// <reference path="webgl2.d.ts" />
+	/**
+	 * @protected
+	 */
+	export function isWebGL2(gl: WebGLRenderingContext | WebGL2RenderingContext): gl is WebGL2RenderingContext;
 	/**
 	 * @protected
 	 */
 	export default class WebGLHandler {
-	    readonly gl: WebGLRenderingContext;
-	    readonly vao: any | null;
-	    readonly isWebGL2: boolean;
+	    static IS_SAFARI: boolean;
+	    readonly gl: WebGLRenderingContext | WebGL2RenderingContext;
 	    constructor();
 	    createTexture(textureWidth: number, textureHeight: number, internalFormat: number, format: number): WebGLTexture;
 	    createVertexShader(source: string): WebGLShader;
@@ -691,28 +729,20 @@ declare module 'webdnn/webgl_handler' {
 	    createShader(type: number, source: string): WebGLShader;
 	    createProgram(vertexShader: WebGLShader, fragmentShader: WebGLShader): WebGLProgram;
 	    createArrayBuffer(vertexArray: number | Float32Array): WebGLBuffer;
-	    createVertexArray(): WebGLVertexArray;
 	    createFrameBuffer(): WebGLFramebuffer;
 	    bindArrayBuffer(buffer: WebGLBuffer): void;
 	    bindFrameBuffer(frameBuffer: WebGLFramebuffer, width: number, height: number): void;
 	    useProgram(program: WebGLProgram): void;
-	    bindVertexArray(vao: WebGLVertexArray): void;
 	    deleteTexture(texture: WebGLTexture): void;
-	    static initializeWebGL2Context(canvas: HTMLCanvasElement): WebGLRenderingContext | null;
-	    static initializeWebGL1Context(canvas: HTMLCanvasElement): {
-	        gl: WebGLRenderingContext;
-	        vao: any;
-	    } | null;
-	    static initializeContext(): {
-	        gl: WebGLRenderingContext;
-	        vao: any;
-	        isWebGL2: boolean;
-	    } | null;
+	    static initializeWebGL2Context(canvas?: HTMLCanvasElement): WebGLRenderingContext | null;
+	    static initializeWebGL1Context(canvas?: HTMLCanvasElement): WebGLRenderingContext | null;
+	    static initializeContext(): WebGLRenderingContext | null;
 	    /**
 	     * Check whether WebGL is supported or not
 	     * @protected
 	     */
 	    static checkAvailability(): boolean;
+	    waitForComplete(): Promise<void>;
 	}
 
 }
@@ -796,6 +826,7 @@ declare module 'webdnn/buffer/buffer_webgl' {
 	 */
 	export default class BufferWebGL extends Buffer {
 	    private static handler;
+	    readonly handler: WebGLHandler;
 	    readonly channelMode: ChannelMode;
 	    readonly elementsPerPixel: number;
 	    readonly pixelStride: number;
@@ -873,6 +904,7 @@ declare module 'webdnn/descriptor_runner/descriptor_runner_webgl' {
 	import { GraphDescriptorWebGL } from 'webdnn/graph_descriptor/graph_descriptor_webgl';
 	import SymbolicFloat32Array from 'webdnn/symbolic_typed_array/symbolic_float32array';
 	import { BackendName } from 'webdnn/webdnn';
+	import WebGLHandler from 'webdnn/webgl_handler';
 	import { DescriptorRunner } from 'webdnn/descriptor_runner/descriptor_runner';
 	/**
 	 * @protected
@@ -880,7 +912,7 @@ declare module 'webdnn/descriptor_runner/descriptor_runner_webgl' {
 	export default class DescriptorRunnerWebGL extends DescriptorRunner<GraphDescriptorWebGL> {
 	    readonly backendName: BackendName;
 	    private runtimeInfo;
-	    private handler;
+	    handler: WebGLHandler;
 	    private vertexShader;
 	    private programs;
 	    private buffers;
@@ -917,12 +949,13 @@ declare module 'webdnn/webgpu_handler' {
 	    private context;
 	    private commandQueue;
 	    private pipelineStates;
+	    private commandBuffer;
 	    constructor();
 	    createBuffer(arrayBuffer: ArrayBufferView): WebGPUBuffer;
 	    loadKernel(librarySource: string, namespace?: string): void;
 	    createCommandBuffer(): WebGPUCommandBuffer;
 	    getPipelineStateByName(name: string): WebGPUComputePipelineState;
-	    executeSinglePipelineState(name: string, threadgroupsPerGrid: WebGPUSize, threadsPerThreadgroup: WebGPUSize, buffers: (WebGPUBuffer | BufferWebGPU)[], getCompletedPromise?: boolean): Promise<void> | null;
+	    executeSinglePipelineState(name: string, threadgroupsPerGrid: WebGPUSize, threadsPerThreadgroup: WebGPUSize, buffers: (WebGPUBuffer | BufferWebGPU)[], getCompletedPromise?: boolean, flagDelay?: boolean): Promise<void> | null;
 	    sync(): Promise<void>;
 	}
 	/**
@@ -944,6 +977,7 @@ declare module 'webdnn/buffer/buffer_webgpu' {
 	 */
 	export default class BufferWebGPU extends Buffer {
 	    private static handler;
+	    readonly handler: WebGPUHandler;
 	    buffer: WebGPUBuffer;
 	    bufferView: Uint8Array;
 	    constructor(byteLength: number);
@@ -1177,15 +1211,6 @@ declare module 'webdnn/image/image_array' {
 	/**
 	 * Get image array as `{Float32 or Int32}ArrayBufferView` from ImageData object.
 	 *
-	 * @see getImageArrayFromCanvas
-	 *
-	 * @param {ImageData} imageData Canvas ImageData object
-	 * @param [options] Options
-	 * @param [options.type=Float32Array] Data type of image array. Valid value is `Float32Array` or `Int32Array`.
-	 * @param {Color} [options.color=Color.RGB] Color order of image array
-	 * @param {Order} [options.order=Order.HWC] Data order of image array
-	 * @param {number[]} [options.bias=[0, 0, 0]] Bias value of image data (`ImageData = ImageArray + bias`). This value is
-	 * parsed based on `options.order`.
 	 * @returns {ArrayBufferView} buffer with specified type
 	 * @protected
 	 */
@@ -1193,31 +1218,6 @@ declare module 'webdnn/image/image_array' {
 	/**
 	 * Get image array from canvas element as `{Float32 or Int32}ArrayBufferView`.
 	 *
-	 * @example <caption>Get image data into Float32Array</caption>
-	 *
-	 * let array = getImageArrayFromCanvas(canvas);
-	 *
-	 * @example <caption>Get image data with rescaling to 224x224</caption>
-	 *
-	 * let array = getImageArrayFromCanvas(canvas, { dstW: 224, dstH: 224 });
-	 *
-	 * @example <caption>Get image data with considering mean image value normalization</caption>
-	 *
-	 * let array = getImageArrayFromCanvas(canvas, { bias: [MEAN_B, MEAN_G, MEAN_R], color: BGR });
-	 *
-	 * @param {HTMLCanvasElement} canvas Canvas
-	 * @param [options] Options
-	 * @param [options.type=Float32Array] Data type of image array. Valid value is `Float32Array` or `Int32Array`.
-	 * @param {Color} [options.color=Color.RGB] Color order of image array
-	 * @param {Order} [options.order=Order.HWC] Data order of image array
-	 * @param {number} [options.srcX=0] left position of input clipping rect
-	 * @param {number} [options.srcY=0] top position of input clipping rect
-	 * @param {number} [options.srcW=canvas.width] width of input clipping rect
-	 * @param {number} [options.srcH=canvas.height] height of input clipping rect
-	 * @param {number} [options.dstW=canvas.width] width of output
-	 * @param {number} [options.dstH=canvas.height] height of output
-	 * @param {number[]} [options.bias=[0, 0, 0]] Bias value of image data (`ImageData = ImageArray + bias`). This value is
-	 * parsed based on `options.order`.
 	 * @returns {ImageData} buffer with specified type
 	 * @protected
 	 */
@@ -1225,31 +1225,6 @@ declare module 'webdnn/image/image_array' {
 	/**
 	 * Get image array from image element as `{Float32 or Int32}ArrayBufferView`.
 	 *
-	 * @example <caption>Get image data into Float32Array</caption>
-	 *
-	 * let array = getImageArrayFromCanvas(canvas);
-	 *
-	 * @example <caption>Get image data with rescaling to 224x224</caption>
-	 *
-	 * let array = getImageArrayFromCanvas(canvas, { dstW: 224, dstH: 224 });
-	 *
-	 * @example <caption>Get image data with considering mean image value normalization</caption>
-	 *
-	 * let array = getImageArrayFromCanvas(canvas, { bias: [MEAN_B, MEAN_G, MEAN_R], color: BGR });
-	 *
-	 * @param {HTMLImageElement|HTMLVideoElement} drawable Image
-	 * @param [options] Options
-	 * @param [options.type=Float32Array] Data type of image array. Valid value is `Float32Array` or `Int32Array`.
-	 * @param {Color} [options.color=Color.RGB] Color order of image array
-	 * @param {Order} [options.order=Order.HWC] Data order of image array
-	 * @param {number} [options.srcX=0] left position of input clipping rect
-	 * @param {number} [options.srcY=0] top position of input clipping rect
-	 * @param {number} [options.srcW=canvas.width] width of input clipping rect
-	 * @param {number} [options.srcH=canvas.height] height of input clipping rect
-	 * @param {number} [options.dstW=canvas.width] width of output
-	 * @param {number} [options.dstH=canvas.height] height of output
-	 * @param {number[]} [options.bias=[0, 0, 0]] Bias value of image data (`ImageData = ImageArray + bias`). This value is
-	 * parsed based on `options.order`.
 	 * @returns {ImageData} buffer with specified type
 	 * @protected
 	 */
@@ -1288,7 +1263,7 @@ declare module 'webdnn/image/image_array' {
 	 *   packed value `y` as follows:
 	 *
 	 *   - `y = (x - bias) / scale`
-	 *   - `x= y * scale + bias`
+	 *   - `x = y * scale + bias`
 	 *
 	 * ### Examples
 	 *
@@ -1349,6 +1324,7 @@ declare module 'webdnn/image/image_array' {
 	 * @param imageH height of image. The length of `array` must be `imageW * imageH * (# of channels)`
 	 * @param canvas destination canvas
 	 * @param options please see above descriptions and descriptions in [[webdnn/image.getImageArray|getImageArray()]].
+	 *                `srcW` and `srcH` is ignored (overwritten by `imageW` and `imageH`).
 	 */
 	export function setImageArrayToCanvas(array: Float32Array | Int32Array, imageW: number, imageH: number, canvas: HTMLCanvasElement, options?: SourceRect & DestinationRect & ImageArrayOption): void;
 
@@ -1417,7 +1393,7 @@ declare module 'webdnn/webdnn' {
 	 * Module `WebDNN` provides main features of WebDNN.
 	 */
 	/** Don't Remove This comment block */
-	import { DescriptorRunner } from 'webdnn/descriptor_runner/descriptor_runner';
+	import { DescriptorRunner as _DescriptorRunner } from 'webdnn/descriptor_runner/descriptor_runner';
 	import { GraphDescriptor } from 'webdnn/graph_descriptor/graph_descriptor';
 	import * as Image from 'webdnn/image';
 	import * as Math from 'webdnn/math';
@@ -1435,6 +1411,10 @@ declare module 'webdnn/webdnn' {
 	 * Backend names supported in WebDNN
 	 */
 	export type BackendName = 'webgpu' | 'webgl' | 'webassembly' | 'fallback';
+	/**
+	 * Descriptor runner
+	 */
+	export type DescriptorRunner = _DescriptorRunner<GraphDescriptor>;
 	/**
 	 * Result structure of [[getBackendAvailability|`WebDNN.getBackendAvailability`]]
 	 */
@@ -1590,8 +1570,8 @@ declare module 'webdnn/webdnn' {
 	 * @param initOption Initialize option
 	 * @return DescriptorRunner instance, which is the interface to input/output data and run the model.
 	 */
-	export function load(directory: string, initOption?: InitOption): Promise<DescriptorRunner<GraphDescriptor>>;
-	export { DescriptorRunner, GraphDescriptor };
+	export function load(directory: string, initOption?: InitOption): Promise<DescriptorRunner>;
+	export { GraphDescriptor };
 	export { Math, Image };
 
 }
