@@ -722,7 +722,14 @@ declare module 'webdnn/webgl_handler' {
 	export default class WebGLHandler {
 	    static IS_SAFARI: boolean;
 	    readonly gl: WebGLRenderingContext | WebGL2RenderingContext;
-	    constructor();
+	    static getInstance(): WebGLHandler;
+	    /**
+	     * WebGLHandler is singleton class and instantiate directly is forbidden (constructor is hidden).
+	     *
+	     * Since the number of GPU contexts may be limited, the handler is used as a singleton
+	     * and only one context is shared among multiple runners.
+	     */
+	    private constructor();
 	    createTexture(textureWidth: number, textureHeight: number, internalFormat: number, format: number): WebGLTexture;
 	    createVertexShader(source: string): WebGLShader;
 	    createFragmentShader(source: string): WebGLShader;
@@ -819,14 +826,12 @@ declare module 'webdnn/buffer/buffer_webgl' {
 	 */
 	/** Don't Remove This comment block */
 	import { ChannelMode } from 'webdnn/graph_descriptor/graph_descriptor_webgl';
-	import WebGLHandler from 'webdnn/webgl_handler';
 	import { Buffer } from 'webdnn/buffer/buffer';
 	/**
 	 * @protected
 	 */
 	export default class BufferWebGL extends Buffer {
-	    private static handler;
-	    readonly handler: WebGLHandler;
+	    private handler;
 	    readonly channelMode: ChannelMode;
 	    readonly elementsPerPixel: number;
 	    readonly pixelStride: number;
@@ -839,7 +844,6 @@ declare module 'webdnn/buffer/buffer_webgl' {
 	    readonly name: string;
 	    private readTextureUnitIndices;
 	    private isBoundToDrawFrameBuffer;
-	    static init(handler: WebGLHandler): void;
 	    constructor(byteLength: number, textureWidth: number, textureHeight: number, name: string, array: Float32Array | null, channelMode: ChannelMode);
 	    readonly texture: WebGLTexture | null;
 	    readonly length: number;
@@ -904,7 +908,6 @@ declare module 'webdnn/descriptor_runner/descriptor_runner_webgl' {
 	import { GraphDescriptorWebGL } from 'webdnn/graph_descriptor/graph_descriptor_webgl';
 	import SymbolicFloat32Array from 'webdnn/symbolic_typed_array/symbolic_float32array';
 	import { BackendName } from 'webdnn/webdnn';
-	import WebGLHandler from 'webdnn/webgl_handler';
 	import { DescriptorRunner } from 'webdnn/descriptor_runner/descriptor_runner';
 	/**
 	 * @protected
@@ -912,7 +915,7 @@ declare module 'webdnn/descriptor_runner/descriptor_runner_webgl' {
 	export default class DescriptorRunnerWebGL extends DescriptorRunner<GraphDescriptorWebGL> {
 	    readonly backendName: BackendName;
 	    private runtimeInfo;
-	    handler: WebGLHandler;
+	    private handler;
 	    private vertexShader;
 	    private programs;
 	    private buffers;
@@ -950,7 +953,14 @@ declare module 'webdnn/webgpu_handler' {
 	    private commandQueue;
 	    private pipelineStates;
 	    private commandBuffer;
-	    constructor();
+	    static getInstance(): WebGPUHandler;
+	    /**
+	     * WebGPUHandler is singleton class and instantiate directly is forbidden (constructor is hidden).
+	     *
+	     * Since the number of GPU contexts may be limited, the handler is used as a singleton
+	     * and only one context is shared among multiple runners.
+	     */
+	    private constructor();
 	    createBuffer(arrayBuffer: ArrayBufferView): WebGPUBuffer;
 	    loadKernel(librarySource: string, namespace?: string): void;
 	    createCommandBuffer(): WebGPUCommandBuffer;
@@ -966,24 +976,17 @@ declare module 'webdnn/webgpu_handler' {
 
 }
 declare module 'webdnn/buffer/buffer_webgpu' {
-	/**
-	 * @module webdnn
-	 */
-	/** Don't Remove This comment block */
-	import WebGPUHandler from 'webdnn/webgpu_handler';
 	import { Buffer } from 'webdnn/buffer/buffer';
 	/**
 	 * @protected
 	 */
 	export default class BufferWebGPU extends Buffer {
-	    private static handler;
-	    readonly handler: WebGPUHandler;
 	    buffer: WebGPUBuffer;
 	    bufferView: Uint8Array;
+	    private handler;
 	    constructor(byteLength: number);
 	    write(src: ArrayBufferView, dst_offset?: number): Promise<void>;
 	    read(dst: any, src_offset?: number, length?: number): Promise<void>;
-	    static init(webgpuHandler: WebGPUHandler): void;
 	    getWriteView(offset: number, length: number, type: Int32ArrayConstructor): Int32Array;
 	    getWriteView(offset: number, length: number, type: Float32ArrayConstructor): Float32Array;
 	    getReadView(offset: number, length: number, type: Int32ArrayConstructor): Int32Array;

@@ -35,7 +35,7 @@ and limitations under the License.
 function __awaiter(thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -1010,12 +1010,24 @@ class DescriptorRunnerWebassembly extends DescriptorRunner {
 function isWebGL2(gl) {
     return gl.constructor.name === 'WebGL2RenderingContext';
 }
+let instance;
 /**
  * @protected
  */
 class WebGLHandler {
+    /**
+     * WebGLHandler is singleton class and instantiate directly is forbidden (constructor is hidden).
+     *
+     * Since the number of GPU contexts may be limited, the handler is used as a singleton
+     * and only one context is shared among multiple runners.
+     */
     constructor() {
         this.gl = checkNull(WebGLHandler.initializeContext());
+    }
+    static getInstance() {
+        if (!instance)
+            instance = new WebGLHandler();
+        return instance;
     }
     createTexture(textureWidth, textureHeight, internalFormat, format) {
         let gl = this.gl;
@@ -1210,7 +1222,7 @@ class BufferWebGL extends Buffer {
         this._texture = null;
         this.readTextureUnitIndices = [];
         this.isBoundToDrawFrameBuffer = false;
-        this.handler = BufferWebGL.handler;
+        this.handler = WebGLHandler.getInstance();
         this.name = name;
         this.channelMode = channelMode;
         switch (channelMode) {
@@ -1251,9 +1263,6 @@ class BufferWebGL extends Buffer {
         this.array = array || new Float32Array(this.length);
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
-    }
-    static init(handler) {
-        this.handler = handler;
     }
     get texture() {
         return this._texture;
@@ -1440,8 +1449,7 @@ class DescriptorRunnerWebGL extends DescriptorRunner {
         return __awaiter(this, void 0, void 0, function* () {
             if (!DescriptorRunnerWebGL.checkAvailability())
                 throw Error('WebGL backend is not supported in this browser.');
-            this.handler = new WebGLHandler();
-            BufferWebGL.init(this.handler);
+            this.handler = WebGLHandler.getInstance();
             let vertexBuffer = this.handler.createArrayBuffer(vertexArray);
             this.handler.bindArrayBuffer(vertexBuffer);
             this.buffers = new Map();
@@ -1810,75 +1818,22 @@ class DescriptorRunnerWebGL extends DescriptorRunner {
     }
 }
 
-/**
- * @module webdnn
- */
-/** Don't Remove This comment block */
-/**
- * @protected
- */
-class BufferWebGPU extends Buffer {
-    constructor(byteLength) {
-        super(byteLength, 'webgpu');
-        this.handler = BufferWebGPU.handler;
-        if (byteLength == 0) {
-            byteLength = 4; //0 length buffer causes error
-        }
-        this.buffer = this.handler.createBuffer(new Uint8Array(byteLength));
-        this.bufferView = new Uint8Array(this.buffer.contents);
-    }
-    // async: there may be platforms synchronization is needed before writing
-    write(src, dst_offset) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.handler.sync();
-            let viewSameType = new src.constructor(this.bufferView.buffer);
-            viewSameType.set(src, dst_offset);
-        });
-    }
-    read(dst, src_offset = 0, length) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!dst)
-                throw new Error('dst cannot be null');
-            yield this.handler.sync();
-            if (this.byteLength === 0)
-                return;
-            let dstConstructor = dst.constructor;
-            let viewSameType = new dstConstructor(this.bufferView.buffer, this.bufferView.byteOffset + src_offset * dstConstructor.BYTES_PER_ELEMENT, length);
-            dst.set(viewSameType);
-            return;
-        });
-    }
-    static init(webgpuHandler) {
-        this.handler = webgpuHandler;
-    }
-    getWriteView(offset, length, type) {
-        return new type(this.bufferView.buffer, this.bufferView.byteOffset + offset * type.BYTES_PER_ELEMENT, length);
-    }
-    getReadView(offset, length, type) {
-        return new type(this.bufferView.buffer, this.bufferView.byteOffset + offset * type.BYTES_PER_ELEMENT, length);
-    }
-    syncWriteViews() {
-        return __awaiter(this, void 0, void 0, function* () {
-            // no sync needed
-        });
-    }
-    syncReadViews() {
-        return __awaiter(this, void 0, void 0, function* () {
-            // if the user awaits promise from final kernel execution, this function call is not needed.
-            yield this.handler.sync();
-        });
-    }
-}
-
 ///<reference path="./webgpu.d.ts" />
 /**
  * @module webdnn
  */
 /** Don't Remove This comment block */
+let instance$1;
 /**
  * @protected
  */
 class WebGPUHandler {
+    /**
+     * WebGPUHandler is singleton class and instantiate directly is forbidden (constructor is hidden).
+     *
+     * Since the number of GPU contexts may be limited, the handler is used as a singleton
+     * and only one context is shared among multiple runners.
+     */
     constructor() {
         this.pipelineStates = new Map();
         if (!IS_WEBGPU_SUPPORTED)
@@ -1894,6 +1849,11 @@ class WebGPUHandler {
             throw new Error('WebGPURenderingContext initialization failed');
         this.context = context;
         this.commandQueue = context.createCommandQueue();
+    }
+    static getInstance() {
+        if (!instance$1)
+            instance$1 = new WebGPUHandler();
+        return instance$1;
     }
     createBuffer(arrayBuffer) {
         return this.context.createBuffer(arrayBuffer);
@@ -1976,6 +1936,63 @@ const IS_WEBGPU_SUPPORTED = 'WebGPURenderingContext' in window && 'WebGPUCompute
  */
 /** Don't Remove This comment block */
 /**
+ * @protected
+ */
+class BufferWebGPU extends Buffer {
+    constructor(byteLength) {
+        super(byteLength, 'webgpu');
+        if (byteLength == 0) {
+            byteLength = 4; //0 length buffer causes error
+        }
+        this.handler = WebGPUHandler.getInstance();
+        this.buffer = this.handler.createBuffer(new Uint8Array(byteLength));
+        this.bufferView = new Uint8Array(this.buffer.contents);
+    }
+    // async: there may be platforms synchronization is needed before writing
+    write(src, dst_offset) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.handler.sync();
+            let viewSameType = new src.constructor(this.bufferView.buffer);
+            viewSameType.set(src, dst_offset);
+        });
+    }
+    read(dst, src_offset = 0, length) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!dst)
+                throw new Error('dst cannot be null');
+            yield this.handler.sync();
+            if (this.byteLength === 0)
+                return;
+            let dstConstructor = dst.constructor;
+            let viewSameType = new dstConstructor(this.bufferView.buffer, this.bufferView.byteOffset + src_offset * dstConstructor.BYTES_PER_ELEMENT, length);
+            dst.set(viewSameType);
+            return;
+        });
+    }
+    getWriteView(offset, length, type) {
+        return new type(this.bufferView.buffer, this.bufferView.byteOffset + offset * type.BYTES_PER_ELEMENT, length);
+    }
+    getReadView(offset, length, type) {
+        return new type(this.bufferView.buffer, this.bufferView.byteOffset + offset * type.BYTES_PER_ELEMENT, length);
+    }
+    syncWriteViews() {
+        return __awaiter(this, void 0, void 0, function* () {
+            // no sync needed
+        });
+    }
+    syncReadViews() {
+        return __awaiter(this, void 0, void 0, function* () {
+            // if the user awaits promise from final kernel execution, this function call is not needed.
+            yield this.handler.sync();
+        });
+    }
+}
+
+/**
+ * @module webdnn
+ */
+/** Don't Remove This comment block */
+/**
  * @private
  */
 const IS_IOS = navigator.userAgent.includes('iPhone');
@@ -1997,8 +2014,7 @@ class DescriptorRunnerWebGPU extends DescriptorRunner {
                 throw Error('WebGPU backend is not supported in this browser.');
             // initialize webgpu, build kernels
             this.shaderLanguage = 'metal';
-            this.webgpuHandler = new WebGPUHandler();
-            BufferWebGPU.init(this.webgpuHandler);
+            this.webgpuHandler = WebGPUHandler.getInstance();
             this.initializeBasicKernels();
             yield this.checkIncompatibleGPU();
         });
