@@ -1,4 +1,5 @@
 const en_US = {
+    CurrentLanguage:"English",
     About: "About",
     Home: "Home",
     News: "News",

@@ -1,4 +1,5 @@
 const ru_RU = {
+    CurrentLanguage:"Русский",
     About: "Информация",
     Home: "Домой",
     News: "Новости",

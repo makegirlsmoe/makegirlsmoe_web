@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from "react-intl";
 import Config from '../Config';
 import './Navbar.css';
+import Dropdown, {DropdownContent, DropdownTrigger} from 'react-simple-dropdown';
 
 class Navbar extends Component {
 
@@ -14,6 +15,26 @@ class Navbar extends Component {
                     id={title}
                 /></Link>
             </li>
+        );
+    }
+
+    renderLanguageDropdown() {
+        return (
+            <Dropdown className="language-dropdown">
+                <DropdownTrigger>
+                    <span className="language-dropdown__name">
+                        <FormattedMessage id="CurrentLanguage"/>
+                    </span>
+                </DropdownTrigger>
+                <DropdownContent>
+                    <ul className="language-dropdown__segment language-dropdown__quick-links">
+                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.onLocaleChange('en');}}>English</a></li>
+                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.onLocaleChange('ja');}}>日本語</a></li>
+                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.onLocaleChange('zh');}}>中文</a></li>
+                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.onLocaleChange('ru');}}>Русский</a></li>
+                    </ul>
+                </DropdownContent>
+            </Dropdown>
         );
     }
 
@@ -41,10 +62,9 @@ class Navbar extends Component {
                             <li><a href="https://github.com/makegirlsmoe" target="_blank" rel="noopener noreferrer">Github</a></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                            <li><a href="#" onClick={()=>{this.props.onLocaleChange('en');}}>English</a></li>
-                            <li><a href="#" onClick={()=>{this.props.onLocaleChange('ja');}}>日本語</a></li>
-                            <li><a href="#" onClick={()=>{this.props.onLocaleChange('zh');}}>中文</a></li>
-                            <li><a href="#" onClick={()=>{this.props.onLocaleChange('ru');}}>Русский</a></li>
+                            <li>
+                                {this.renderLanguageDropdown()}
+                            </li>
                             <li>
                                 <a className="twitter-share-button"
                                     href={"https://twitter.com/intent/tweet?"
