@@ -18,6 +18,7 @@
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-scripts": "1.0.10",
+    "react-simple-dropdown": "^3.2.0",
     "react-transition-group": "^1.2.0",
     "webfontloader": "^1.6.28"
   },

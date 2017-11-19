@@ -9,11 +9,13 @@ import './App.css';
 import zh_CN from './locale/zh_CN';
 import en_US from './locale/en_US';
 import ja_JP from './locale/ja_JP';
+import ru_RU from './locale/ru_RU';
 import intl from 'intl';
 import en from "react-intl/locale-data/en";
 import zh from "react-intl/locale-data/zh";
 import ja from "react-intl/locale-data/ja";
-addLocaleData([...en,...zh,...ja]);
+import ru from "react-intl/locale-data/ru";
+addLocaleData([...en,...zh,...ja,...ru]);
 
 class App extends Component {
     constructor(prop) {
@@ -37,6 +39,8 @@ class App extends Component {
                 return 'zh';
             case 'ja':
                 return 'ja';
+            case 'ru':
+                return 'ru';
             default:
                 return 'en';
         }
@@ -50,6 +54,8 @@ class App extends Component {
                 return zh_CN;
             case 'ja':
                 return ja_JP;
+            case 'ru':
+                return ru_RU;
             default:
                 return en_US;
         }

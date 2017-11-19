@@ -1,4 +1,5 @@
 const ja_JP = {
+    CurrentLanguage:"日本語",
     About: "サイトについて",
     Home: "ホーム",
     News: "ニュース",

@@ -1,4 +1,5 @@
 const zh_CN = {
+    CurrentLanguage:"中文",
     About: "关于",
     Home: "主页",
     News: "新闻",
