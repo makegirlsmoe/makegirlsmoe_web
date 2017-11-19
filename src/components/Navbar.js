@@ -44,6 +44,7 @@ class Navbar extends Component {
                             <li><a href="#" onClick={()=>{this.props.onLocaleChange('en');}}>English</a></li>
                             <li><a href="#" onClick={()=>{this.props.onLocaleChange('ja');}}>日本語</a></li>
                             <li><a href="#" onClick={()=>{this.props.onLocaleChange('zh');}}>中文</a></li>
+                            <li><a href="#" onClick={()=>{this.props.onLocaleChange('ru');}}>Русский</a></li>
                             <li>
                                 <a className="twitter-share-button"
                                     href={"https://twitter.com/intent/tweet?"
