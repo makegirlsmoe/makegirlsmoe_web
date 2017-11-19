@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Utils from '../utils/Utils';
+import Utils from '../../utils/Utils';
 import './Dropdown.css';
 import { FormattedMessage } from "react-intl";
 

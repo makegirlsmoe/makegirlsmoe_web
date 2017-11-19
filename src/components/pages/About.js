@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Config from '../Config';
-import pfnLogo from '../img/PFN_logo.png';
+import Config from '../../Config';
+import pfnLogo from '../../img/PFN_logo.png';
 
 class About extends Component {
     render() {

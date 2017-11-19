@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ImageEncoder from '../utils/ImageEncoder';
+import ImageEncoder from '../../utils/ImageEncoder';
 
 class ResultCanvas extends Component {
 

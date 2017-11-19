@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Config from '../Config';
-import ButtonPrimary from './ButtonPrimary';
-import TwitterUtils from '../utils/Twitter';
-import Stat from '../utils/Stat';
+import Config from '../../Config';
+import ButtonPrimary from '../generator-widgets/ButtonPrimary';
+import TwitterUtils from '../../utils/Twitter';
+import Stat from '../../utils/Stat';
 import './Twitter.css';
 
 class Twitter extends Component {

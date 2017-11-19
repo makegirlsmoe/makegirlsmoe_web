@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Config from '../Config';
+import Config from '../../Config';
 import { FormattedMessage } from "react-intl";
 
 class ButtonGroup extends Component {

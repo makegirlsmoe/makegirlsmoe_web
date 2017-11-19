@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from "react-intl";
 import Options from './Options';
-import RandomButtons from './RandomButtons';
-import SliderWithInput from './SliderWithInput';
-import ButtonGroup from './ButtonGroup';
+import RandomButtons from '../generator-widgets/RandomButtons';
+import SliderWithInput from '../generator-widgets/SliderWithInput';
+import ButtonGroup from '../generator-widgets/ButtonGroup';
 import './Options.css';
 
 class OptionsExpert extends Options {

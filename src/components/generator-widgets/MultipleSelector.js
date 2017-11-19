@@ -1,4 +1,4 @@
-import Utils from '../utils/Utils';
+import Utils from '../../utils/Utils';
 import Dropdown from './Dropdown';
 
 const DEFAULT_VALUE = 0;

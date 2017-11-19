@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
-import ButtonPrimary from './ButtonPrimary';
-import ResultCanvas from './ResultCanvas';
-import RatingButtons from './RatingButtons';
-import twitterLogo from '../img/Twitter_bird_logo_2012.svg';
+import ButtonPrimary from '../generator-widgets/ButtonPrimary';
+import ResultCanvas from '../generator-widgets/ResultCanvas';
+import RatingButtons from '../generator-widgets/RatingButtons';
+import twitterLogo from '../../img/Twitter_bird_logo_2012.svg';
 import './Generator.css';
 
 class Generator extends Component {

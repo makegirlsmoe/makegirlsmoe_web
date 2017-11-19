@@ -1,7 +1,7 @@
 import 'rc-dialog/assets/bootstrap.css';
 import React, { Component } from 'react';
 import Dialog from 'rc-dialog';
-import ButtonPrimary from './ButtonPrimary';
+import ButtonPrimary from '../generator-widgets/ButtonPrimary';
 import './PromptDialog.css';
 
 class PromptDialog extends Component {

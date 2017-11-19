@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import echarts from 'echarts';
-import Config from '../Config';
-import Utils from '../utils/Utils';
-import StatUtils from '../utils/Stat';
+import Config from '../../Config';
+import Utils from '../../utils/Utils';
+import StatUtils from '../../utils/Stat';
 import './Stat.css';
 
 class Stat extends Component {

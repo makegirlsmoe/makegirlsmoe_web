@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from "react-intl";
-import Config from '../Config'
+import Config from '../../Config'
 
 class ButtonPrimary extends Component {
 
