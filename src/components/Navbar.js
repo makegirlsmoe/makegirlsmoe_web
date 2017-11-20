@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { FormattedMessage } from "react-intl";
 import Config from '../Config';
 import './Navbar.css';
 import Dropdown, {DropdownContent, DropdownTrigger} from 'react-simple-dropdown';
+import {localeAction } from '../_actions';
 
 class Navbar extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     renderLink(title, path) {
         var currentLocation = this.props.location.pathname;
@@ -28,10 +33,10 @@ class Navbar extends Component {
                 </DropdownTrigger>
                 <DropdownContent>
                     <ul className="language-dropdown__segment language-dropdown__quick-links">
-                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.onLocaleChange('en');}}>English</a></li>
-                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.onLocaleChange('ja');}}>日本語</a></li>
-                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.onLocaleChange('zh');}}>中文</a></li>
-                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.onLocaleChange('ru');}}>Русский</a></li>
+                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.dispatch(localeAction.changeLocale('en'));}}>English</a></li>
+                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.dispatch(localeAction.changeLocale('ja'));}}>日本語</a></li>
+                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.dispatch(localeAction.changeLocale('zh'));}}>中文</a></li>
+                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.dispatch(localeAction.changeLocale('ru'));}}>Русский</a></li>
                     </ul>
                 </DropdownContent>
             </Dropdown>
@@ -58,6 +63,7 @@ class Navbar extends Component {
                             {this.renderLink('About', '/about')}
                             {this.renderLink('News', '/news')}
                             {this.renderLink('Tips', '/tips')}
+                            {this.renderLink('Test', '/test')}
                             <li><a href="https://makegirlsmoe.github.io/" target="_blank" rel="noopener noreferrer">Official Blog</a></li>
                             <li><a href="https://github.com/makegirlsmoe" target="_blank" rel="noopener noreferrer">Github</a></li>
                         </ul>
@@ -81,4 +87,7 @@ class Navbar extends Component {
     }
 }
 
-export default Navbar;
+const connectedNavbar = connect()(Navbar);
+
+
+export  { connectedNavbar as Navbar };

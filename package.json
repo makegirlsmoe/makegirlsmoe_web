@@ -15,11 +15,13 @@
     "react-hint": "^2.0.2",
     "react-intl": "^2.4.0",
     "react-mathjax": "^0.1.1",
+    "react-redux": "^5.0.6",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-scripts": "1.0.10",
     "react-simple-dropdown": "^3.2.0",
     "react-transition-group": "^1.2.0",
+    "redux": "^3.7.2",
     "webfontloader": "^1.6.28"
   },
   "scripts": {
