@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ReactHintFactory } from 'react-hint';
+import { connect } from 'react-redux';
 import { FormattedMessage } from "react-intl";
 import 'react-hint/css/index.css';
 import Config from '../../Config';
@@ -14,6 +15,7 @@ import PromptDialog from '../general/PromptDialog';
 import Dropdown from '../generator-widgets/Dropdown';
 import LabelHelper from '../generator-widgets/LabelHelper';
 import './Options.css';
+import {generatorConfigAction } from '../../_actions';
 
 const ReactHint = ReactHintFactory(React);
 
@@ -205,8 +207,13 @@ class Options extends Component {
             <div className="col-xs-6 col-sm-4 option">
                 <h5><FormattedMessage id="WebGLAcceleration"/><LabelHelper mesg="WebGLHelper"/></h5>
                 {new ButtonGroup().renderButtonGroup([
-                    {name: 'Disabled', isActive: this.props.inputs.disableWebgl, onClick: () => this.props.onOptionChange('disableWebgl', true)},
-                    {name: 'Enabled', isActive: !this.props.inputs.disableWebgl, onClick: () => this.props.onOptionChange('disableWebgl', false)}
+                    {name: 'Disabled', isActive: this.props.webglDisabled,
+                        onClick: () => this.props.dispatch(generatorConfigAction.disableWebGL())
+
+                    },
+                    {name: 'Enabled', isActive: !this.props.webglDisabled,
+                        onClick: () => this.props.dispatch(generatorConfigAction.enableWebGL())
+                    }
                 ])}
             </div>
         );
@@ -261,4 +268,11 @@ class Options extends Component {
     }
 }
 
-export default Options;
+function mapStateToProps(state) {
+    return {
+        webglAvailable: state.generatorConfig.webglAvailable,
+        webglDisabled: state.generatorConfig.webglDisabled,
+    };
+}
+
+export default connect(mapStateToProps)(Options);

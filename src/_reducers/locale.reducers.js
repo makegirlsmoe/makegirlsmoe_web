@@ -44,6 +44,7 @@ export function selectLocale(state = initialState, action) {
     switch (action.type) {
         case localeConstants.CHANGE:
             return {
+                ...state,
                 locale: action.locale,
                 localeMessage: getLocaleMessage(action.locale)
             };

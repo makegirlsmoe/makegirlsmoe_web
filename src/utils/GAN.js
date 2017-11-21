@@ -1,5 +1,6 @@
 import Config from '../Config';
 import Utils from '../utils/Utils';
+import { store } from '../_helpers/store';
 
 class GAN {
 
@@ -25,9 +26,9 @@ class GAN {
     }
 
     getBackendOrder() {
-        var order = ['webgpu', 'webassembly'];
-
-        if (!this.options.disableWebgl) {
+        let order = ['webgpu', 'webassembly'];
+        let state = store.getState();
+        if (!state.generatorConfig.webglDisabled) {
             order.splice(1, 0, 'webgl')
         }
 
@@ -36,7 +37,7 @@ class GAN {
 
     static getWebglTextureSize() {
         try {
-            var gl = document.createElement('canvas').getContext('webgl');
+            let gl = document.createElement('canvas').getContext('webgl');
             return gl.getParameter(gl.MAX_TEXTURE_SIZE);
         }
         catch (err) {

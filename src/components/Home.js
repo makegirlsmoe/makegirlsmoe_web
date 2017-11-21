@@ -18,7 +18,7 @@ import Stat from '../utils/Stat';
 import ImageEncoder from '../utils/ImageEncoder';
 import Twitter from '../utils/Twitter';
 import './Home.css';
-import {twitterAction } from '../_actions';
+import {twitterAction, generatorConfigAction } from '../_actions';
 
 
 class Home extends Component {
@@ -62,9 +62,10 @@ class Home extends Component {
         return options;
     }
 
-    setModel(modelName, disableWebgl = this.state.options && this.state.options.disableWebgl) {
+    setModel(modelName, disableWebgl=this.props.disableWebgl) {
         return new Promise((resolve, reject) => {
             var keyName = modelName + (disableWebgl ? '_nowebgl' : '');
+
             var options = this.state.options;
 
             if (!this.state.options || this.state.options.currentModel !== modelName) {
@@ -72,10 +73,10 @@ class Home extends Component {
                 this.setState({results: []});
             }
 
-            this.setState({options: Object.assign(options, {disableWebgl: disableWebgl})});
+            //this.setState({options: Object.assign(options, {disableWebgl: disableWebgl})});
 
             if (!this.ganDict[keyName]) {
-                var gan = new GAN(Config.modelConfig[modelName], {disableWebgl: disableWebgl});
+                var gan = new GAN(Config.modelConfig[modelName]);
                 var state = {
                     loadingProgress: 0,
                     isReady: false,
@@ -123,24 +124,36 @@ class Home extends Component {
         try {
             if (window.WebDNN.getBackendAvailability().status.webgl
                     && !window.WebDNN.getBackendAvailability().status.webgpu) {
-                this.setState({webglAvailable: true});
+                this.props.dispatch(
+                    generatorConfigAction.setWebGLAvailability(true)
+                );
+                //this.setState({webglAvailable: true});
             }
 
             var textureSize = GAN.getWebglTextureSize();
-            var disableWebgl = false;
-            if (textureSize === null || textureSize < 16000) {
-                disableWebgl = true;
-                this.setState({options: Object.assign({}, this.state.options, {disableWebgl: true})});
+            //var disableWebgl = false;
+            if (!(textureSize === null || textureSize < 16000)) {
+                //disableWebgl = true;
+                this.props.dispatch(
+                    generatorConfigAction.enableWebGL()
+                );
+                //this.setState({options: Object.assign({}, this.state.options, {disableWebgl: true})});
             }
 
             var startTime = new Date();
-            await this.setModel(Config.defaultModel, disableWebgl);
+            await this.setModel(Config.defaultModel);
             var endTime = new Date();
             var loadTime = (endTime.getTime() - startTime.getTime()) / 1000;
             Stat.modelLoaded(loadTime);
         }
         catch (err) {
             console.log(err);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.disableWebgl !== this.props.disableWebgl) {
+            this.setModel(this.state.options.currentModel, nextProps.disableWebgl)
         }
     }
 
@@ -288,8 +301,8 @@ class Home extends Component {
             case 'model':
                 this.setModel(value);
                 break;
-            case 'disableWebgl':
-                this.setModel(this.state.options.currentModel, value);
+            //case 'disableWebgl':
+            //    this.setModel(this.state.options.currentModel, value);
                 break;
             default:
                 return;
@@ -421,7 +434,7 @@ class Home extends Component {
                                                 onOptionChange={(key, value) => this.onOptionChange(key, value)}
                                                 onOperationClick={operation => this.onOptionOperationClick(operation)}
                                                 mode={this.state.mode}
-                                                webglAvailable={this.state.webglAvailable}
+                                                //webglAvailable={this.state.webglAvailable}
                                                 backendName={this.state.gan.backendName} /> :
                                             <Options
                                                 modelConfig={this.getModelConfig()}
@@ -430,7 +443,7 @@ class Home extends Component {
                                                 onOptionChange={(key, value) => this.onOptionChange(key, value)}
                                                 onOperationClick={operation => this.onOptionOperationClick(operation)}
                                                 mode={this.state.mode}
-                                                webglAvailable={this.state.webglAvailable}
+                                                //webglAvailable={this.state.webglAvailable}
                                                 backendName={this.state.gan.backendName} />
                                     } />
                                     <Route path="/about" component={About}/>
@@ -468,7 +481,8 @@ class Home extends Component {
 
 function mapStateToProps(state) {
     return {
-        twitterVisible: state.twitter.visible
+        twitterVisible: state.twitter.visible,
+        disableWebgl: state.generatorConfig.webglDisabled,
     };
 }
 

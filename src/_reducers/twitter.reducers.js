@@ -8,7 +8,10 @@ const initialState={
 export function twitter(state = initialState, action) {
     switch (action.type) {
         case twitterConstants.CHANGE_VISIBILITY:
+            console.log('action');
+            console.log(action.value);
             return {
+                ...state,
                 visible: action.value,
             };
         default:
