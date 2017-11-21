@@ -89,7 +89,8 @@ class Navbar extends Component {
 
 function mapStateToProps(state) {
     return {
-        twitterVisible: state.twitter.visible
+        twitterVisible: state.twitter.visible,
+        locale: state.selectLocale.locale
     };
 }
 
