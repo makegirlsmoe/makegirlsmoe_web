@@ -15,7 +15,7 @@ import PromptDialog from '../general/PromptDialog';
 import Dropdown from '../generator-widgets/Dropdown';
 import LabelHelper from '../generator-widgets/LabelHelper';
 import './Options.css';
-import {generatorConfigAction } from '../../_actions';
+import {generatorAction, generatorConfigAction } from '../../_actions';
 
 const ReactHint = ReactHintFactory(React);
 
@@ -195,8 +195,9 @@ class Options extends Component {
                 <h5><FormattedMessage id="Model"/></h5>
                 <Dropdown
                     options={Config.modelList}
-                    value={this.props.inputs.currentModel}
-                    onChange={(value) => this.props.onOptionChange('model', value)} />
+                    value={this.props.currentModel}
+                    onChange={(value) => this.props.dispatch(generatorAction.changeGeneratorModel(value))}
+                />
             </div>
         );
     }
@@ -272,6 +273,7 @@ function mapStateToProps(state) {
     return {
         webglAvailable: state.generatorConfig.webglAvailable,
         webglDisabled: state.generatorConfig.webglDisabled,
+        currentModel: state.generator.currentModel,
     };
 }
 

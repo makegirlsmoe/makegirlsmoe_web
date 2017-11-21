@@ -37,19 +37,18 @@ class Home extends Component {
             results: [],
             rating: 0,
             mode: 'normal',
-            webglAvailable: false
         };
         this.initOptions(this.state.options, Config.defaultModel);
         this.ganDict = {};
     }
 
     getModelConfig() {
-        return Config.modelConfig[this.state.options.currentModel];
+        return Config.modelConfig[this.props.currentModel];
     }
 
     initOptions(options, modelName) {
         options.amount = 1;
-        options.currentModel = modelName;
+        //options.currentModel = modelName;
         Config.modelConfig[modelName].options.forEach(option => {
             options[option.key] = {
                 random: true,
@@ -62,13 +61,13 @@ class Home extends Component {
         return options;
     }
 
-    setModel(modelName, disableWebgl=this.props.disableWebgl) {
+    setModel(modelName=this.props.currentModel, disableWebgl=this.props.disableWebgl) {
         return new Promise((resolve, reject) => {
             var keyName = modelName + (disableWebgl ? '_nowebgl' : '');
 
             var options = this.state.options;
 
-            if (!this.state.options || this.state.options.currentModel !== modelName) {
+            if (!this.state.options || this.props.currentModel !== modelName) {
                 options = this.initOptions({}, modelName);
                 this.setState({results: []});
             }
@@ -131,17 +130,14 @@ class Home extends Component {
             }
 
             var textureSize = GAN.getWebglTextureSize();
-            //var disableWebgl = false;
             if (!(textureSize === null || textureSize < 16000)) {
-                //disableWebgl = true;
                 this.props.dispatch(
                     generatorConfigAction.enableWebGL()
                 );
-                //this.setState({options: Object.assign({}, this.state.options, {disableWebgl: true})});
             }
 
             var startTime = new Date();
-            await this.setModel(Config.defaultModel);
+            await this.setModel();
             var endTime = new Date();
             var loadTime = (endTime.getTime() - startTime.getTime()) / 1000;
             Stat.modelLoaded(loadTime);
@@ -153,7 +149,10 @@ class Home extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.disableWebgl !== this.props.disableWebgl) {
-            this.setModel(this.state.options.currentModel, nextProps.disableWebgl)
+            this.setModel(this.props.currentModel, nextProps.disableWebgl)
+        }
+        if (nextProps.currentModel !== this.props.currentModel){
+            this.setModel(nextProps.currentModel)
         }
     }
 
@@ -298,12 +297,6 @@ class Home extends Component {
             case 'mode':
                 this.setState({mode: value});
                 break;
-            case 'model':
-                this.setModel(value);
-                break;
-            //case 'disableWebgl':
-            //    this.setModel(this.state.options.currentModel, value);
-                break;
             default:
                 return;
         }
@@ -358,7 +351,7 @@ class Home extends Component {
     }
 
     onResetClick() {
-        this.setState({options: this.initOptions({}, this.state.options.currentModel)});
+        this.setState({options: this.initOptions({}, this.props.currentModel)});
     }
 
     onFixAllClick() {
@@ -483,6 +476,7 @@ function mapStateToProps(state) {
     return {
         twitterVisible: state.twitter.visible,
         disableWebgl: state.generatorConfig.webglDisabled,
+        currentModel: state.generator.currentModel,
     };
 }
 

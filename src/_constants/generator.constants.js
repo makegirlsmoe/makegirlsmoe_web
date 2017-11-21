@@ -4,5 +4,5 @@ export const webglConstants = {
 };
 
 export const generatorConstants = {
-    SWITCH: 'SWITCH_MODEL',
+    CHANGE_MODEL: 'CHANGE_GENERATOR_MODEL',
 };

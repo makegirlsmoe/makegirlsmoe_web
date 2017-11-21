@@ -1,5 +1,5 @@
 import Config from '../Config';
-import {webglConstants} from '../_constants'
+import {webglConstants, generatorConstants} from '../_constants'
 
 const initOptions = (modelName)=>{
 
@@ -19,16 +19,22 @@ const initOptions = (modelName)=>{
     };
 };
 
-const initialState =
+const initialGeneratorState =
     {
-        options: initOptions(Config.defaultModel),
-        results: [],
-        rating: 0,
+        currentModel: Config.defaultModel,
     };
 
 
-export function generator(state = initialState, action) {
-    return state;
+export function generator(state = initialGeneratorState, action) {
+    switch (action.type) {
+        case generatorConstants.CHANGE_MODEL:
+            return {
+                ...state,
+                currentModel: action.model
+            };
+        default:
+            return state
+    }
 }
 
 const initialGeneratorConfigState =

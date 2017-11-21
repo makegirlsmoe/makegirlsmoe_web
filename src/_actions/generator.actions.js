@@ -1,4 +1,9 @@
-import {webglConstants} from '../_constants';
+import {webglConstants, generatorConstants} from '../_constants';
+
+
+export const generatorAction = {
+    changeGeneratorModel,
+};
 
 export const generatorConfigAction = {
     setWebGLAvailability,
@@ -16,4 +21,8 @@ function enableWebGL(){
 
 function disableWebGL(){
     return { type: webglConstants.CHANGE_VISIBILITY, value:false}
+}
+
+function changeGeneratorModel(model){
+    return { type: generatorConstants.CHANGE_MODEL, model}
 }
