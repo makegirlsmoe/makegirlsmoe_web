@@ -72,6 +72,7 @@ class Navbar extends Component {
                             </li>
                             <li>
                                 <a className="twitter-share-button"
+                                   style={{display: this.props.twitterVisible ? 'block' : 'none'}}
                                     href={"https://twitter.com/intent/tweet?"
                                     + "text=" + encodeURIComponent(Config.twitter.defaultText.substring(0, Config.twitter.defaultText.indexOf('http')))
                                     + "&url=" + encodeURIComponent(Config.twitter.defaultText.substring(Config.twitter.defaultText.indexOf('http')))}>
@@ -86,7 +87,10 @@ class Navbar extends Component {
     }
 }
 
-const connectedNavbar = connect()(Navbar);
+function mapStateToProps(state) {
+    return {
+        twitterVisible: state.twitter.visible
+    };
+}
 
-
-export  { connectedNavbar as Navbar };
+export default connect(mapStateToProps)(Navbar);

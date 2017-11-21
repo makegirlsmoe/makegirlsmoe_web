@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { IntlProvider, addLocaleData } from "react-intl";
-import {Navbar} from '../components/Navbar';
+import Navbar from '../components/Navbar';
 import Home from '../components/Home';
 import Stat from '../components/pages/Stat';
 import Twitter from '../components/generator/Twitter';

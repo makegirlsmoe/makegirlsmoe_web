@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { FormattedMessage } from "react-intl";
 import { CSSTransitionGroup } from 'react-transition-group';
 import Config from '../Config';
@@ -17,6 +18,8 @@ import Stat from '../utils/Stat';
 import ImageEncoder from '../utils/ImageEncoder';
 import Twitter from '../utils/Twitter';
 import './Home.css';
+import {twitterAction } from '../_actions';
+
 
 class Home extends Component {
 
@@ -32,9 +35,6 @@ class Home extends Component {
             },
             options: {},
             results: [],
-            twitter: {
-                visible: false
-            },
             rating: 0,
             mode: 'normal',
             webglAvailable: false
@@ -154,7 +154,9 @@ class Home extends Component {
                     chrome: "noheader"
                 }
             ).then(() =>{
-                this.setState({twitter: Object.assign({}, this.state.twitter, {visible: true})});
+                this.props.dispatch(
+                    twitterAction.enableTwitterTimeline()
+                );
                 if (this.props.onTimelineLoad) {
                     this.props.onTimelineLoad();
                 }
@@ -378,7 +380,7 @@ class Home extends Component {
             <div className="home">
 
                 <div className="row main-row">
-                    <div className={(this.state.twitter.visible ? 'col-lg-9 ' : '') + 'col-xs-12'}>
+                    <div className={(this.props.twitterVisible ? 'col-lg-9 ' : '') + 'col-xs-12'}>
                         <div className="row progress-container">
                             <CSSTransitionGroup
                                 transitionName="progress-transition"
@@ -440,7 +442,7 @@ class Home extends Component {
                         </div>
                     </div>
 
-                    <div className="col-lg-3 col-xs-12" style={{display: this.state.twitter.visible ? 'block' : 'none'}}>
+                    <div className="col-lg-3 col-xs-12" style={{display: this.props.twitterVisible ? 'block' : 'none'}}>
                         <div className="row twitter-timeline-row">
                             <div className="col-xs-12">
                                 <h3 className="twitter-timeline-title" style={{color: Config.colors.theme}}>#MakeGirlsMoe on Twitter</h3>
@@ -463,4 +465,11 @@ class Home extends Component {
     }
 }
 
-export default Home;
+
+function mapStateToProps(state) {
+    return {
+        twitterVisible: state.twitter.visible
+    };
+}
+
+export default connect(mapStateToProps)(Home);
