@@ -8,6 +8,20 @@
     font-size: 24px;
 }
 
+.navbar-collapse.in {
+    overflow-y: visible;
+}
+
+.navbar-default .navbar-nav > li a {
+    color: #777;
+    text-decoration: none;
+}
+
+.navbar-default .navbar-nav > li a:hover, .navbar-default .navbar-nav > li a:focus {
+    color: #333;
+    background-color: transparent;
+}
+
 .twitter-share-button {
     box-sizing: content-box;
     padding: 15px 15px 0 15px;

@@ -18,7 +18,7 @@ import Stat from '../utils/Stat';
 import ImageEncoder from '../utils/ImageEncoder';
 import Twitter from '../utils/Twitter';
 import './Home.css';
-import {twitterAction, generatorConfigAction } from '../_actions';
+import { twitterAction, generatorConfigAction } from '../_actions';
 
 
 class Home extends Component {

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { CSSTransitionGroup } from 'react-transition-group';
 import ButtonPrimary from '../generator-widgets/ButtonPrimary';
 import ResultCanvas from '../generator-widgets/ResultCanvas';
 import RatingButtons from '../generator-widgets/RatingButtons';
 import twitterLogo from '../../img/Twitter_bird_logo_2012.svg';
 import './Generator.css';
+import { getlanguageLength } from '../../_reducers/locale.reducers';
 
 class Generator extends Component {
 
@@ -32,6 +34,7 @@ class Generator extends Component {
                     {this.props.results ? this.props.results.map((result, index) => this.renderResultCanvas(result, index)) : null}
                 </div>
                 <ButtonPrimary
+                    className={"btn-primary-" + getlanguageLength(this.props.locale)}
                     text={this.props.gan.isRunning ? 'Generating': 'Generate' }
                     disabled={this.props.gan.isRunning || !this.props.gan.isReady}
                     onClick={this.props.onGenerateClick} />
@@ -72,4 +75,10 @@ class Generator extends Component {
     }
 }
 
-export default Generator;
+function mapStateToProps(state) {
+    return {
+        locale: state.selectLocale.locale
+    };
+}
+
+export default connect(mapStateToProps)(Generator);

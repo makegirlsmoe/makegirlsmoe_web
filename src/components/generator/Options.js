@@ -15,7 +15,8 @@ import PromptDialog from '../general/PromptDialog';
 import Dropdown from '../generator-widgets/Dropdown';
 import LabelHelper from '../generator-widgets/LabelHelper';
 import './Options.css';
-import {generatorAction, generatorConfigAction } from '../../_actions';
+import { generatorAction, generatorConfigAction } from '../../_actions';
+import { getlanguageLength } from '../../_reducers/locale.reducers';
 
 const ReactHint = ReactHintFactory(React);
 
@@ -26,7 +27,6 @@ class Options extends Component {
         this.options = Utils.arrayToObject(props.modelConfig.options, item => item.key);
         this.state = {};
     }
-
 
     componentWillReceiveProps(newProps) {
         this.options = Utils.arrayToObject(newProps.modelConfig.options, item => item.key);
@@ -99,10 +99,23 @@ class Options extends Component {
         return option.random || option.value === 1 || option.value === -1;
     }
 
+    getClassShortOption() {
+        if (getlanguageLength(this.props.locale) === 'long') {
+            return "col-xs-12 col-sm-6 option";
+        }
+        else {
+            return "col-xs-6 col-sm-4 option";
+        }
+    };
+
+    getClassLongOption() {
+        return "col-xs-12 col-sm-12 option";
+    };
+
     renderBinarySelector(key, title) {
         var input = this.props.inputs[key];
         return (
-            <div key={key}  className="col-xs-6 col-sm-4 option">
+            <div key={key}  className={this.getClassShortOption()}>
                 {this.renderLabel(key, title)}
                 {(this.isBinaryOptionSimple(input) &&
                     <BinarySelector
@@ -122,7 +135,7 @@ class Options extends Component {
     renderMultipleSelector(key, options, title) {
         var input = this.props.inputs[key];
         return (
-            <div key={key} className="col-xs-6 col-sm-4 option">
+            <div key={key} className={this.getClassShortOption()}>
                 {this.renderLabel(key, title)}
                 {(this.isMultipleOptionSimple(input) &&
                     <MultipleSelector
@@ -140,7 +153,7 @@ class Options extends Component {
 
     renderNoiseSelector() {
         return (
-            <div className="col-xs-6 col-sm-4 option">
+            <div className={this.getClassShortOption()}>
                 {this.renderLabel('noise')}
                 <NoiseSelector value={this.props.inputs.noise.random ? 0 : 1} onChange={(value) => this.props.onModelOptionChange('noise', value === 0)} />
             </div>
@@ -158,7 +171,7 @@ class Options extends Component {
 
     renderNoiseVisualizer() {
         return (
-            <div className="col-xs-6 col-sm-4 option">
+            <div className={this.getClassShortOption()}>
                 <h5><FormattedMessage id="CurrentNoise"/></h5>
                 <NoiseVisualizer modelConfig={this.props.modelConfig} noise={this.props.inputs.noise.value} />
             </div>
@@ -167,7 +180,7 @@ class Options extends Component {
 
     renderNoiseImportExport() {
         return (
-            <div className="col-xs-6 col-sm-4 option">
+            <div className={this.getClassShortOption()}>
                 <h5><FormattedMessage id="NoiseImportExport"/></h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Import', onClick: () => this.onNoiseImportClick()},
@@ -180,7 +193,7 @@ class Options extends Component {
 
     renderOperations() {
         return (
-            <div className="col-xs-6 col-sm-4 option">
+            <div className={this.getClassShortOption()}>
                 <h5><FormattedMessage id="Operations"/></h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Reset', onClick: () => this.props.onOperationClick('reset')}
@@ -191,7 +204,7 @@ class Options extends Component {
 
     renderModelSelector() {
         return (
-            <div className="col-xs-12 col-sm-12 option">
+            <div className={this.getClassLongOption()}>
                 <h5><FormattedMessage id="Model"/></h5>
                 <Dropdown
                     options={Config.modelList}
@@ -205,7 +218,7 @@ class Options extends Component {
     renderWebglOption() {
         return (
             this.props.webglAvailable &&
-            <div className="col-xs-6 col-sm-4 option">
+            <div className={this.getClassShortOption()}>
                 <h5><FormattedMessage id="WebGLAcceleration"/><LabelHelper mesg="WebGLHelper"/></h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Disabled', isActive: this.props.webglDisabled,
@@ -224,7 +237,7 @@ class Options extends Component {
         var backendNameDict = {'webgpu': 'WebGPU', 'webgl': 'WebGL', 'webassembly': 'WebAssembly'};
         return (
             this.props.backendName &&
-            <div className="col-xs-6 col-sm-4 option">
+            <div className={this.getClassShortOption()}>
                 <h5><FormattedMessage id="CurrentBackend"/></h5>
                 <span>{backendNameDict[this.props.backendName] || 'Unknown'}</span>
             </div>
@@ -274,6 +287,7 @@ function mapStateToProps(state) {
         webglAvailable: state.generatorConfig.webglAvailable,
         webglDisabled: state.generatorConfig.webglDisabled,
         currentModel: state.generator.currentModel,
+        locale: state.selectLocale.locale
     };
 }
 
