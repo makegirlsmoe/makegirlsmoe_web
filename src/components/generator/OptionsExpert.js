@@ -1,12 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { FormattedMessage } from "react-intl";
-import Options from './Options';
+import {OptionsClass} from './Options';
 import RandomButtons from '../generator-widgets/RandomButtons';
 import SliderWithInput from '../generator-widgets/SliderWithInput';
 import ButtonGroup from '../generator-widgets/ButtonGroup';
 import './Options.css';
 
-class OptionsExpert extends Options {
+class OptionsExpert extends OptionsClass {
 
     constructor(props) {
         super(props);
@@ -81,5 +82,12 @@ class OptionsExpert extends Options {
         );
     }
 }
+function mapStateToProps(state) {
+    return {
+        webglAvailable: state.generatorConfig.webglAvailable,
+        webglDisabled: state.generatorConfig.webglDisabled,
+        currentModel: state.generator.currentModel,
+    };
+}
 
-export default OptionsExpert;
+export default connect(mapStateToProps)(OptionsExpert);

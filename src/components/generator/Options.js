@@ -292,3 +292,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Options);
+export {Options as OptionsClass}
