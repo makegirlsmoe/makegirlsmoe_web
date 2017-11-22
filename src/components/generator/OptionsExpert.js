@@ -17,7 +17,7 @@ class OptionsExpert extends OptionsClass {
     renderBinarySelector(key, title) {
         var input = this.props.inputs[key];
         return (
-            <div key={key} className="col-xs-6 col-sm-4 option">
+            <div key={key} className={this.getClassShortOption()}>
                 {this.renderLabel(key, title)}
                 <RandomButtons
                     value={input.random ? 1 : 0}
@@ -30,7 +30,7 @@ class OptionsExpert extends OptionsClass {
     renderMultipleSelector(key, options, title) {
         var input = this.props.inputs[key];
         return (
-            <div key={key} className="col-xs-12 option">
+            <div key={key} className={this.getClassLongOption()}>
                 <div className="row option-expert-multiple"
                      onClick={() => this.setState({expended: Object.assign({}, this.state.expended, {[key]: !this.state.expended[key]})})}>
 
@@ -70,7 +70,7 @@ class OptionsExpert extends OptionsClass {
 
     renderOperations() {
         return (
-            <div className="col-xs-12 option">
+            <div className={this.getClassLongOption()}>
                 <h5><FormattedMessage id="OperationsExpertMode"/></h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Reset', onClick: () => this.props.onOperationClick('reset')},
@@ -87,6 +87,7 @@ function mapStateToProps(state) {
         webglAvailable: state.generatorConfig.webglAvailable,
         webglDisabled: state.generatorConfig.webglDisabled,
         currentModel: state.generator.currentModel,
+        locale: state.selectLocale.locale
     };
 }
 

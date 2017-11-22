@@ -5,20 +5,15 @@ import { FormattedMessage } from "react-intl";
 import Config from '../Config';
 import './Navbar.css';
 import Dropdown, {DropdownContent, DropdownTrigger} from 'react-simple-dropdown';
-import {localeAction } from '../_actions';
+import { localeAction } from '../_actions';
 
 class Navbar extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     renderLink(title, path) {
         var currentLocation = this.props.location.pathname;
         return (
-            <li className={currentLocation === path ? 'active': ''}><Link to={path}>
-                <FormattedMessage
-                    id={title}
-                /></Link>
+            <li className={currentLocation === path ? 'active': ''}>
+                <Link to={path}><FormattedMessage id={title} /></Link>
             </li>
         );
     }
@@ -26,17 +21,17 @@ class Navbar extends Component {
     renderLanguageDropdown() {
         return (
             <Dropdown className="language-dropdown">
-                <DropdownTrigger>
+                <DropdownTrigger role="button">
                     <span className="language-dropdown__name">
                         <FormattedMessage id="CurrentLanguage"/>
                     </span>
                 </DropdownTrigger>
                 <DropdownContent>
                     <ul className="language-dropdown__segment language-dropdown__quick-links">
-                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.dispatch(localeAction.changeLocale('en'));}}>English</a></li>
-                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.dispatch(localeAction.changeLocale('ja'));}}>日本語</a></li>
-                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.dispatch(localeAction.changeLocale('zh'));}}>中文</a></li>
-                        <li className="language-dropdown__link"><a href="#" onClick={()=>{this.props.dispatch(localeAction.changeLocale('ru'));}}>Русский</a></li>
+                        <li className="language-dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('en'))}>English</a></li>
+                        <li className="language-dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('ja'))}>日本語</a></li>
+                        <li className="language-dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('zh'))}>中文</a></li>
+                        <li className="language-dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('ru'))}>Русский</a></li>
                     </ul>
                 </DropdownContent>
             </Dropdown>

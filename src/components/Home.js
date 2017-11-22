@@ -18,7 +18,7 @@ import Stat from '../utils/Stat';
 import ImageEncoder from '../utils/ImageEncoder';
 import Twitter from '../utils/Twitter';
 import './Home.css';
-import {twitterAction, generatorConfigAction } from '../_actions';
+import { twitterAction, generatorConfigAction } from '../_actions';
 
 
 class Home extends Component {
@@ -381,6 +381,28 @@ class Home extends Component {
         this.setState({rating: value});
     }
 
+    getClassGeneratorContainer() {
+        var imageWidth = Config.modelConfig[this.props.currentModel].gan.imageWidth;
+
+        if (imageWidth <= 200) {
+            return 'col-sm-4 col-xs-12 generator-container';
+        }
+        else {
+            return 'col-md-4 col-sm-5 col-xs-12 generator-container';
+        }
+    }
+
+    getClassOptionsContainer() {
+        var imageWidth = Config.modelConfig[this.props.currentModel].gan.imageWidth;
+
+        if (imageWidth <= 200) {
+            return 'col-sm-8 col-xs-12 options-container';
+        }
+        else {
+            return 'col-md-8 col-sm-7 col-xs-12 options-container';
+        }
+    }
+
     render() {
         return (
             <div className="home">
@@ -406,7 +428,7 @@ class Home extends Component {
                         </div>
 
                         <div className="row">
-                            <div className="col-sm-4 col-xs-12 generator-container">
+                            <div className={this.getClassGeneratorContainer()}>
                                 <Generator gan={this.state.gan}
                                            modelConfig={this.getModelConfig()}
                                            results={this.state.results}
@@ -416,7 +438,7 @@ class Home extends Component {
                                            rating={this.state.rating}
                                 />
                             </div>
-                            <div className="col-sm-8 col-xs-12 options-container">
+                            <div className={this.getClassOptionsContainer()}>
                                 <Switch>
                                     <Route exact path="/" render={() =>
                                         this.state.mode === 'expert' ?

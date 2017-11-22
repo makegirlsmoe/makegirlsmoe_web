@@ -1,3 +1,7 @@
+.main-row {
+    margin: 0;
+}
+
 .main-row > * {
     margin: auto;
 }
@@ -71,6 +75,10 @@
 }
 
 @media not screen and (min-width: 768px) {
+    .main-row {
+        margin: 0 -15px;
+    }
+
     .generator-container {
         text-align: center;
         padding-top: 20px;

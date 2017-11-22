@@ -1,11 +1,25 @@
 .container-fluid {
-    max-width: 1200px;
+    max-width: 992px;
     margin: 0 auto;
     padding: 0;
 }
 
 .navbar-brand {
     font-size: 24px;
+}
+
+.navbar-collapse.in {
+    overflow-y: visible;
+}
+
+.navbar-default .navbar-nav > li a {
+    color: #777;
+    text-decoration: none;
+}
+
+.navbar-default .navbar-nav > li a:hover, .navbar-default .navbar-nav > li a:focus {
+    color: #333;
+    background-color: transparent;
 }
 
 .twitter-share-button {
@@ -15,7 +29,7 @@
 
 @media not screen and (min-width: 1200px) {
     .container-fluid {
-        width: 800px;
+        max-width: 992px;
     }
 }
 

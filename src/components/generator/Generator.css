@@ -15,6 +15,10 @@
     width: 100px;
 }
 
+.generator .btn-primary.btn-primary-long {
+    width: 130px;
+}
+
 .generator .twitter-logo {
     width: 20px;
 }
