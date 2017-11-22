@@ -1,11 +1,12 @@
 .main-content {
-    max-width: 800px;
+    max-width: 992px;
     margin: 0 auto 20px auto;
+    overflow-x: hidden;
 }
 
 @media not screen and (min-width: 1200px) {
     .main-content {
-        width: 800px;
+        max-width: 992px !important;
     }
 }
 

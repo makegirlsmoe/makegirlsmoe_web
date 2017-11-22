@@ -101,15 +101,15 @@ class Options extends Component {
 
     getClassShortOption() {
         if (getlanguageLength(this.props.locale) === 'long') {
-            return "col-xs-12 col-sm-6 option";
+            return "col-xs-12 col-md-6 option";
         }
         else {
-            return "col-xs-6 col-sm-4 option";
+            return "col-xs-6 col-md-4 option";
         }
     };
 
     getClassLongOption() {
-        return "col-xs-12 col-sm-12 option";
+        return "col-xs-12 col-md-12 option";
     };
 
     renderBinarySelector(key, title) {
@@ -252,7 +252,7 @@ class Options extends Component {
         return (
             <div className="options">
                 <div className="row">
-                    <h3 className="col-xs-4 col-sm-2" style={{color: Config.colors.theme}}>Options</h3>
+                    <h3 className="col-xs-3 col-md-2" style={{color: Config.colors.theme}}>Options</h3>
                     <span className="col-xs-6 mode-selector">
                         <input type="checkbox" checked={this.props.mode === 'expert'} onChange={event => this.props.onOptionChange('mode', event.target.checked ? 'expert' : 'normal')} />
                         <span><FormattedMessage id="ExpertMode"/></span>

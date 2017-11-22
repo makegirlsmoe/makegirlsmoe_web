@@ -1,5 +1,5 @@
 .container-fluid {
-    max-width: 1200px;
+    max-width: 992px;
     margin: 0 auto;
     padding: 0;
 }
@@ -29,7 +29,7 @@
 
 @media not screen and (min-width: 1200px) {
     .container-fluid {
-        width: 800px;
+        max-width: 992px;
     }
 }
 

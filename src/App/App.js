@@ -21,7 +21,7 @@ class App extends Component {
         super(props);
     }
 
-     onTimelineLoad() {
+    onTimelineLoad() {
         window.$('.main-content').css('max-width', 1200);
         window.$('.container-fluid').css('max-width', 1200);
     }
