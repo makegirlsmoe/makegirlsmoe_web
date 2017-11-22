@@ -61,41 +61,31 @@
     }
 }
 
-@media screen and (min-width: 992px) {
-    .generator-container {
-        width: 33.3333333333% !important;
-    }
-
-    .options-container {
-        width: 66.6666666667% !important;
-    }
-}
-
 @media screen and (min-width: 768px) {
     .generator-container {
         position: sticky;
         top: 100px;
-        width: 40%;
     }
 
     .options-container {
         min-height: 392px;
         border-left: 1px solid #ddd;
         padding-left: 25px;
-        width: 58%;
     }
 }
 
 @media not screen and (min-width: 768px) {
+    .main-row {
+        margin: 0 -15px;
+    }
+
     .generator-container {
         text-align: center;
         padding-top: 20px;
         padding-bottom: 40px;
-        width: 100%;
     }
 
     .options-container {
         border-top: 1px solid #ddd;
-        width: 100%;
     }
 }
