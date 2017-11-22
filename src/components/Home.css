@@ -1,3 +1,7 @@
+.main-row {
+    margin: 0;
+}
+
 .main-row > * {
     margin: auto;
 }
@@ -59,15 +63,10 @@
 
 @media screen and (min-width: 992px) {
     .generator-container {
-        position: sticky;
-        top: 100px;
         width: 33.3333333333% !important;
     }
 
     .options-container {
-        min-height: 392px;
-        border-left: 1px solid #ddd;
-        padding-left: 25px;
         width: 66.6666666667% !important;
     }
 }
