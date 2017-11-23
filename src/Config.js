@@ -173,7 +173,7 @@ var Config = {
                 imageWidth: 128,
                 imageHeight: 128,
                 model: '/models/Bouvardia128',
-                modelServers: debug ? ['localhost:3000'] : [
+                modelServers: debug ? [window.location.host] : [
                     'maketest.girls.moe'
                 ]
             },
