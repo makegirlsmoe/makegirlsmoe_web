@@ -330,6 +330,7 @@ class Home extends Component {
         reader.onload = () => {
             var json = reader.result;
             this.setOptions(JSON.parse(json));
+            this.props.dispatch(generatorAction.fixGeneratorOptions());
         };
         reader.readAsText(file);
     }

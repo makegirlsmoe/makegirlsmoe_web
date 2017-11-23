@@ -226,7 +226,10 @@ class Options extends Component {
             <div className={this.getClassShortOption()}>
                 <h5><FormattedMessage id="Operations"/></h5>
                 {new ButtonGroup().renderButtonGroup([
-                    {name: 'Reset', onClick: () => this.props.dispatch(generatorAction.resetGeneratorOptions())}
+                    {name: 'Import', onClick: () => this.props.onOperationClick('json_import')},
+                    {name: 'Export', onClick: () => this.props.onOperationClick('json_export')},
+                    {name: 'Reset', onClick: () => this.props.dispatch(generatorAction.resetGeneratorOptions())},
+
                 ])}
             </div>
         );
