@@ -193,7 +193,7 @@ class Home extends Component {
                     optionInput.value = value;
                 }
                 else if (option.type === 'continuous') {
-                    optionInput.value = Math.floor(Math.random() * ((option.max - option.min) / option.step + 1)) + option.min;
+                    optionInput.value = Math.floor(Math.random() * ((option.max - option.min) / option.step + 1))*option.step + option.min;
                 }
                 else {
                     optionInput.value = Math.random() < option.prob ? 1 : -1;

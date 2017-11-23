@@ -160,9 +160,9 @@ var Config = {
                 {
                     key: 'year',
                     type: 'continuous',
-                    min: 2010,
-                    max: 2017,
-                    step: 1,
+                    min: -1.5,
+                    max: 1.5,
+                    step: 0.1,
                     offset: 35,
                     prob: 0.8
                 }
