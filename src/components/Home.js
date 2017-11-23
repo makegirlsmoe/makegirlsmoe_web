@@ -52,7 +52,9 @@ class Home extends Component {
         Config.modelConfig[modelName].options.forEach(option => {
             options[option.key] = {
                 random: true,
-                value: option.type === 'multiple' ? Array.apply(null, {length: option.options.length}).fill(-1) : -1
+                value: option.type === 'multiple' ? Array.apply(null, {length: option.options.length}).fill(-1)
+                    : option.type === 'continuous' ? option.min
+                    :  -1
             }
         });
         options.noise = {

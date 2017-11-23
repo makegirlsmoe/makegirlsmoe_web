@@ -159,7 +159,10 @@ var Config = {
                 },
                 {
                     key: 'year',
-                    type: 'binary',
+                    type: 'continuous',
+                    min: 2010,
+                    max: 2017,
+                    step: 1,
                     offset: 35,
                     prob: 0.8
                 }

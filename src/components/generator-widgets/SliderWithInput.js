@@ -6,20 +6,26 @@ import './SliderWithInput.css';
 
 class SliderWithInput extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {};
+        this.min = props.min || -1;
+        this.max = props.max || -1;
+        this.step = props.step || -1;
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({text: null});
+        this.min = nextProps.min || -1;
+        this.max = nextProps.max || -1;
+        this.step = nextProps.step || -1;
     }
 
     render() {
         return (
             <div className="slider-container row">
                 <div className="col-xs-7 slider-container-inner">
-                    <Slider min={-1} max={1} step={0.1} value={Utils.clamp(this.props.value, -1, 1)} onChange={(value) => this.props.onChange(value)}/>
+                    <Slider min={this.min} max={this.max} step={this.step} value={Utils.clamp(this.props.value, this.min, this.max)} onChange={(value) => this.props.onChange(value)}/>
                 </div>
 
                 <div className="col-xs-5 slider-text">

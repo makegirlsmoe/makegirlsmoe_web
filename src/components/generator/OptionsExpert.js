@@ -68,6 +68,19 @@ class OptionsExpert extends OptionsClass {
         );
     }
 
+    renderContinuousSelector(key, min, max, step, title) {
+        var input = this.props.inputs[key];
+        return (
+            <div key={key} className={this.getClassShortOption()}>
+                {this.renderLabel(key, title)}
+                <RandomButtons
+                    value={input.random ? 1 : 0}
+                    onChange={(value) => this.props.onModelOptionChange(key, value === 1)}/>
+                <SliderWithInput min={min} max={max} step={step} value={input.value} onChange={value => this.props.onModelOptionChange(key, false, value)}/>
+            </div>
+        );
+    }
+
     renderOperations() {
         return (
             <div className={this.getClassLongOption()}>
