@@ -6,7 +6,7 @@ const en_US = {
     News: "News",
     Tips: "Tips",
     Options: "Options",
-    ExpertMode: "Expert Mode",
+    ExpertMode: "Advanced Mode",
 
     OK:"OK",
     On: 'On',
@@ -36,10 +36,9 @@ const en_US = {
     LoadingModel: 'Loading Model...',
     Note: "Note: Please see {here} for terms of use.",
     Here: "here",
-    Amaryllis:"Amaryllis 128x128 Ver.170716",
-    Bouvardia128: "Bouvardia 128x128 Ver.171123",
-    Test:"Test Model 256x256 Ver.171107",
-
+    Amaryllis:"Amaryllis 128x128 Ver.170716 (3.8MB)",
+    Bouvardia128: "Bouvardia 128x128 Ver.171123 (9.8MB)",
+    Bouvardia256: "Bouvardia 256x256 Ver.171123 (9.9MB)",
 
     HairColor:"Hair Color",
     HairStyle:"Hair Style",

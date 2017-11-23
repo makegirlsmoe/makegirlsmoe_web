@@ -6,7 +6,7 @@ const ja_JP = {
     News: "ニュース",
     Tips: "豆知識",
     Options: "設定",
-    ExpertMode: "エキスパートモード",
+    ExpertMode: "上級モード",
 
     OK:"OK",
     On: 'オン',
@@ -36,10 +36,9 @@ const ja_JP = {
     LoadingModel: 'モデル読み込み中...',
     Note: "ご利用規約については{here}をご覧ください。",
     Here: "こちら",
-    Amaryllis:"Amaryllis 128x128 Ver.170716",
-    Bouvardia128: "Bouvardia 128x128 Ver.171123",
-    Test:"Test Model 256x256 Ver.171107",
-
+    Amaryllis:"Amaryllis 128x128 Ver.170716 (3.8MB)",
+    Bouvardia128: "Bouvardia 128x128 Ver.171123 (9.8MB)",
+    Bouvardia256: "Bouvardia 256x256 Ver.171123 (9.9MB)",
 
 
     HairColor:"髪の色",

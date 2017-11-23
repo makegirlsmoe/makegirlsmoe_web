@@ -6,7 +6,7 @@ const zh_CN = {
     News: "新闻",
     Tips: "小贴士",
     Options: "选项",
-    ExpertMode: "专家模式",
+    ExpertMode: "高级模式",
 
     OK:"OK",
     On: '开',
@@ -36,10 +36,9 @@ const zh_CN = {
     LoadingModel: '模型载入中...',
     Note: "提示：请{here}查看使用条款。",
     Here: "点击这里",
-    Amaryllis:"Amaryllis 128x128 Ver.170716",
-    Bouvardia128: "Bouvardia 128x128 Ver.171123",
-    Test:"Test Model 256x256 Ver.171107",
-
+    Amaryllis:"Amaryllis 128x128 Ver.170716 (3.8MB)",
+    Bouvardia128: "Bouvardia 128x128 Ver.171123 (9.8MB)",
+    Bouvardia256: "Bouvardia 256x256 Ver.171123 (9.9MB)",
 
     HairColor:"发色",
     HairStyle:"发型",

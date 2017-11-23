@@ -36,9 +36,9 @@ const ru_RU = {
     LoadingModel: 'Загрузка модели...',
     Note: "Note: Please see License {here} for term of use.",
     Here: "here",
-    Amaryllis:"Amaryllis 128x128 Ver.170716",
-    Bouvardia128: "Bouvardia 128x128 Ver.171123",
-    Test:"Test Model 256x256 Ver.171107",
+    Amaryllis:"Amaryllis 128x128 Ver.170716 (3.8MB)",
+    Bouvardia128: "Bouvardia 128x128 Ver.171123 (9.8MB)",
+    Bouvardia256: "Bouvardia 256x256 Ver.171123 (9.9MB)",
 
 
     HairColor:"Цвет волос",
