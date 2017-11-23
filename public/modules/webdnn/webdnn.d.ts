@@ -138,6 +138,10 @@ declare module 'webdnn/graph_descriptor/graph_descriptor' {
 	 */
 	export interface GraphDescriptor {
 	    /**
+	     * Unix timestamp when this graph descriptor is generated
+	     */
+	    converted_at: number;
+	    /**
 	     * input variables' name
 	     */
 	    inputs: string[];
@@ -660,7 +664,7 @@ declare module 'webdnn/graph_descriptor/graph_descriptor_webgl' {
 	    shader_name: string;
 	    uniforms: {
 	        [name: string]: {
-	            type: 'int' | 'float' | 'vec2' | 'vec4' | 'sampler2D';
+	            type: 'int' | 'float' | 'vec2' | 'vec3' | 'vec4' | 'ivec2' | 'ivec3' | 'ivec4' | 'sampler2D';
 	            value: number;
 	        };
 	    };
@@ -1199,9 +1203,9 @@ declare module 'webdnn/image/image_array' {
 	    /** The data order */
 	    order?: Order;
 	    /** Bias value, which is parsed based on [[webdnn/image.ImageArrayOption.order|`order`]] value */
-	    bias?: number[];
+	    bias?: number[] | number;
 	    /** Scale value, which is parsed based on [[webdnn/image.ImageArrayOption.order|`order`]] value */
-	    scale?: number[];
+	    scale?: number[] | number;
 	}
 	/**
 	 * Types which are drawable at `HTMLCanvasElement`
@@ -1401,15 +1405,15 @@ declare module 'webdnn/webdnn' {
 	import * as Image from 'webdnn/image';
 	import * as Math from 'webdnn/math';
 	/**
-	 * get DEBUG flag for developing WebDNN
+	 * get configuration
 	 * @private
 	 */
-	export function isDebugMode(): boolean;
+	export function getConfiguration<T>(key: string, defaultValue?: T): T;
 	/**
-	 * set DEBUG flag for developing WebDNN
+	 * set configuration
 	 * @private
 	 */
-	export function setDebugMode(flag: any): void;
+	export function setConfiguration(key: string, value: any): void;
 	/**
 	 * Backend names supported in WebDNN
 	 */

@@ -7,8 +7,8 @@ var Config = {
         theme: '#bd1c1b',
         themeDarker: '#961a19'
     },
-    defaultModel: 'Test',
-    modelList: ['Amaryllis', 'Test'],
+    defaultModel: 'Bouvardia128',
+    modelList: ['Amaryllis', 'Bouvardia128'],
     modelCompression: true,
     modelConfig: {
         Amaryllis: {
@@ -87,7 +87,7 @@ var Config = {
                 ]
             },
         },
-        Test: {
+        Bouvardia128: {
             options: [
                 {
                     key: 'hair_color',
@@ -170,15 +170,14 @@ var Config = {
             gan: {
                 noiseLength: 128,
                 labelLength: 36,
-                imageWidth: 256,
-                imageHeight: 256,
-                model: '/models/test',
+                imageWidth: 128,
+                imageHeight: 128,
+                model: '/models/Bouvardia128',
                 modelServers: debug ? ['localhost:3000'] : [
                     'maketest.girls.moe'
                 ]
             },
         },
-
     },
 
     stat: {

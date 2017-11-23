@@ -1324,7 +1324,7 @@ var WebGLHandler = (function () {
             return null;
         if (!gl.getExtension('EXT_color_buffer_float'))
             return null;
-        if (isDebugMode() && !gl.getExtension('WEBGL_debug_renderer_info'))
+        if (getConfiguration('DEBUG', false) && !gl.getExtension('WEBGL_debug_renderer_info'))
             return null;
         return gl;
     };
@@ -1341,7 +1341,7 @@ var WebGLHandler = (function () {
             // currently when WebGLRenderingContext#readPixels is called, an error is thrown.
             return null;
         }
-        if (isDebugMode() && !gl.getExtension('WEBGL_debug_renderer_info'))
+        if (getConfiguration('DEBUG', false) && !gl.getExtension('WEBGL_debug_renderer_info'))
             return null;
         return gl;
     };
@@ -1350,13 +1350,13 @@ var WebGLHandler = (function () {
         var gl;
         gl = WebGLHandler.initializeWebGL2Context(canvas);
         if (gl) {
-            if (isDebugMode())
+            if (getConfiguration('DEBUG', false))
                 console.info('WebGL2 is enabled');
         }
         else {
             gl = WebGLHandler.initializeWebGL1Context(canvas);
             if (gl) {
-                if (isDebugMode())
+                if (getConfiguration('DEBUG', false))
                     console.info('WebGL2 is disabled');
             }
             else {
@@ -1384,7 +1384,7 @@ var WebGLHandler = (function () {
             if (!gl) {
                 availability = false;
             }
-            else if (gl.getParameter(gl.MAX_TEXTURE_SIZE) < 4096) {
+            else if (getConfiguration('MAX_TEXTURE_SIZE', gl.getParameter(gl.MAX_TEXTURE_SIZE)) < 4096) {
                 availability = false;
             }
             else {
@@ -1758,12 +1758,13 @@ var DescriptorRunnerWebGL = (function (_super) {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        MAX_TEXTURE_SIZE = this.handler.gl.getParameter(this.handler.gl.MAX_TEXTURE_SIZE);
+                        MAX_TEXTURE_SIZE = getConfiguration('MAX_TEXTURE_SIZE', this.handler.gl.getParameter(this.handler.gl.MAX_TEXTURE_SIZE));
+                        // FIXME: In most case, MAX_TEXTURE_SIZE=4096 is the fastest (Why?).
                         if (MAX_TEXTURE_SIZE >= 16384) {
-                            MAX_TEXTURE_SIZE = 16384;
+                            MAX_TEXTURE_SIZE = 4096;
                         }
                         else if (MAX_TEXTURE_SIZE >= 8192) {
-                            MAX_TEXTURE_SIZE = 8192;
+                            MAX_TEXTURE_SIZE = 4096;
                         }
                         else if (MAX_TEXTURE_SIZE >= 4096) {
                             MAX_TEXTURE_SIZE = 4096;
@@ -2027,9 +2028,29 @@ var DescriptorRunnerWebGL = (function (_super) {
                                 func: gl.uniform2fv,
                                 args: [gl.getUniformLocation(program, name), value]
                             };
+                        case 'vec3':
+                            return {
+                                func: gl.uniform3fv,
+                                args: [gl.getUniformLocation(program, name), value]
+                            };
                         case 'vec4':
                             return {
                                 func: gl.uniform4fv,
+                                args: [gl.getUniformLocation(program, name), value]
+                            };
+                        case 'ivec2':
+                            return {
+                                func: gl.uniform2iv,
+                                args: [gl.getUniformLocation(program, name), value]
+                            };
+                        case 'ivec3':
+                            return {
+                                func: gl.uniform3iv,
+                                args: [gl.getUniformLocation(program, name), value]
+                            };
+                        case 'ivec4':
+                            return {
+                                func: gl.uniform4iv,
                                 args: [gl.getUniformLocation(program, name), value]
                             };
                         case 'sampler2D':
@@ -2105,7 +2126,7 @@ var DescriptorRunnerWebGL = (function (_super) {
                         _i++;
                         return [3 /*break*/, 1];
                     case 4:
-                        if (!isDebugMode()) return [3 /*break*/, 18];
+                        if (!getConfiguration('DEBUG', false)) return [3 /*break*/, 18];
                         records = [];
                         totalElapsedTime_1 = 0;
                         _b = 0, _c = runtimeInfo.programs;
@@ -2807,7 +2828,7 @@ var DescriptorRunnerWebGPU = (function (_super) {
                         dynamicBuffer = this.dynamicBuffer;
                         metaBuffers = this.metaBuffers;
                         this._running = true;
-                        if (!isDebugMode()) return [3 /*break*/, 5];
+                        if (!getConfiguration('DEBUG', false)) return [3 /*break*/, 5];
                         records = [];
                         totalElapsedTime_1 = 0;
                         i = 0;
@@ -3088,6 +3109,25 @@ function flatten$1(arr) {
     return (arr instanceof Array) ? Array.prototype.concat.apply([], arr.map(function (arr) { return flatten$1(arr); })) : arr;
 }
 /**
+ * @protected
+ */
+function normalizeBiasTuple(arr) {
+    if (typeof (arr) == "number") {
+        return [arr, arr, arr];
+    }
+    else {
+        if (arr.length == 3) {
+            return [arr[0], arr[1], arr[2]];
+        }
+        else if (arr.length == 1) {
+            return [arr[0], arr[0], arr[0]];
+        }
+        else {
+            throw new Error('bias and scale must be scalar number or array of length 1 or 3.');
+        }
+    }
+}
+/**
  * Get image array as `{Float32 or Int32}ArrayBufferView` from ImageData object.
  *
  * @returns {ArrayBufferView} buffer with specified type
@@ -3096,6 +3136,8 @@ function flatten$1(arr) {
 function getImageArrayFromImageData(imageData, options) {
     if (options === void 0) { options = {}; }
     var _a = options.type, type = _a === void 0 ? Float32Array : _a, _b = options.color, color = _b === void 0 ? Color.RGB : _b, _c = options.order, order = _c === void 0 ? Order.HWC : _c, _d = options.bias, bias = _d === void 0 ? [0, 0, 0] : _d, _e = options.scale, scale = _e === void 0 ? [1, 1, 1] : _e;
+    var bias_n = normalizeBiasTuple(bias);
+    var scale_n = normalizeBiasTuple(scale);
     var width = imageData.width;
     var height = imageData.height;
     var data = imageData.data;
@@ -3105,8 +3147,8 @@ function getImageArrayFromImageData(imageData, options) {
     switch (color) {
         case Color.RGB:
             array = new type(width * height * 3);
-            scaleR = scale[0], scaleG = scale[1], scaleB = scale[2];
-            biasR = bias[0], biasG = bias[1], biasB = bias[2];
+            scaleR = scale_n[0], scaleG = scale_n[1], scaleB = scale_n[2];
+            biasR = bias_n[0], biasG = bias_n[1], biasB = bias_n[2];
             switch (order) {
                 case Order.HWC:
                     for (var h = 0; h < height; h++) {
@@ -3130,8 +3172,8 @@ function getImageArrayFromImageData(imageData, options) {
             break;
         case Color.BGR:
             array = new type(width * height * 3);
-            biasB = bias[0], biasG = bias[1], biasR = bias[2];
-            scaleB = scale[0], scaleG = scale[1], scaleR = scale[2];
+            biasB = bias_n[0], biasG = bias_n[1], biasR = bias_n[2];
+            scaleB = scale_n[0], scaleG = scale_n[1], scaleR = scale_n[2];
             switch (order) {
                 case Order.HWC:
                     for (var h = 0; h < height; h++) {
@@ -3155,12 +3197,14 @@ function getImageArrayFromImageData(imageData, options) {
             break;
         case Color.GREY:
             array = new type(width * height);
+            scaleR = scale_n[0], scaleG = scale_n[1], scaleB = scale_n[2];
+            biasR = bias_n[0], biasG = bias_n[1], biasB = bias_n[2];
             for (var h = 0; h < height; h++) {
                 for (var w = 0; w < width; w++) {
                     var r = data[(h * width + w) * 4 + 0];
                     var g = data[(h * width + w) * 4 + 1];
                     var b = data[(h * width + w) * 4 + 2];
-                    array[h * width + w] = ((0.2126 * r + 0.7162 * g + 0.0722 * b) - bias[0]) / scale[0];
+                    array[h * width + w] = 0.2126 * (r - biasR) / scaleR + 0.7162 * (g - biasG) / scaleG + 0.0722 * (b - biasB) / scaleB;
                 }
             }
             break;
@@ -3349,6 +3393,8 @@ function getImageArray(image, options) {
 function setImageArrayToCanvas(array, imageW, imageH, canvas, options) {
     if (options === void 0) { options = {}; }
     var _a = options.color, color = _a === void 0 ? Color.RGB : _a, _b = options.order, order = _b === void 0 ? Order.HWC : _b, _c = options.srcX, srcX = _c === void 0 ? 0 : _c, _d = options.srcY, srcY = _d === void 0 ? 0 : _d, _e = options.dstX, dstX = _e === void 0 ? 0 : _e, _f = options.dstY, dstY = _f === void 0 ? 0 : _f, _g = options.dstW, dstW = _g === void 0 ? canvas.width : _g, _h = options.dstH, dstH = _h === void 0 ? canvas.height : _h, _j = options.bias, bias = _j === void 0 ? [0, 0, 0] : _j, _k = options.scale, scale = _k === void 0 ? [1, 1, 1] : _k;
+    var bias_n = normalizeBiasTuple(bias);
+    var scale_n = normalizeBiasTuple(scale);
     var srcW = imageW, srcH = imageH;
     array = flatten$1(array);
     var data = new Uint8ClampedArray(srcW * srcH * 4);
@@ -3356,8 +3402,8 @@ function setImageArrayToCanvas(array, imageW, imageH, canvas, options) {
     var scaleR, scaleG, scaleB;
     switch (color) {
         case Color.RGB:
-            biasR = bias[0], biasG = bias[1], biasB = bias[2];
-            scaleR = scale[0], scaleG = scale[1], scaleB = scale[2];
+            biasR = bias_n[0], biasG = bias_n[1], biasB = bias_n[2];
+            scaleR = scale_n[0], scaleG = scale_n[1], scaleB = scale_n[2];
             switch (order) {
                 case Order.HWC:
                     for (var h = srcY; h < srcY + srcH; h++) {
@@ -3382,8 +3428,8 @@ function setImageArrayToCanvas(array, imageW, imageH, canvas, options) {
             }
             break;
         case Color.BGR:
-            biasB = bias[0], biasG = bias[1], biasR = bias[2];
-            scaleB = scale[0], scaleG = scale[1], scaleR = scale[2];
+            biasB = bias_n[0], biasG = bias_n[1], biasR = bias_n[2];
+            scaleB = scale_n[0], scaleG = scale_n[1], scaleR = scale_n[2];
             switch (order) {
                 case Order.HWC:
                     for (var h = srcY; h < srcY + srcH; h++) {
@@ -3573,20 +3619,20 @@ var math = Object.freeze({
  * DEBUG flag for developing WebDNN
  * @private
  */
-var DEBUG = false;
+var configurations = {};
 /**
- * get DEBUG flag for developing WebDNN
+ * get configuration
  * @private
  */
-function isDebugMode() {
-    return DEBUG;
+function getConfiguration(key, defaultValue) {
+    return key in configurations ? configurations[key] : defaultValue;
 }
 /**
- * set DEBUG flag for developing WebDNN
+ * set configuration
  * @private
  */
-function setDebugMode(flag) {
-    DEBUG = flag;
+function setConfiguration(key, value) {
+    configurations[key] = value;
 }
 /**
  * Backend constructor map
@@ -3733,8 +3779,8 @@ function load(directory, initOption) {
     });
 }
 
-exports.isDebugMode = isDebugMode;
-exports.setDebugMode = setDebugMode;
+exports.getConfiguration = getConfiguration;
+exports.setConfiguration = setConfiguration;
 exports.getBackendAvailability = getBackendAvailability;
 exports.load = load;
 exports.Math = math;

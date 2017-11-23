@@ -37,6 +37,7 @@ const zh_CN = {
     Note: "提示：请{here}查看使用条款。",
     Here: "点击这里",
     Amaryllis:"Amaryllis 128x128 Ver.170716",
+    Bouvardia128: "Bouvardia 128x128 Ver.171123",
     Test:"Test Model 256x256 Ver.171107",
 
 
