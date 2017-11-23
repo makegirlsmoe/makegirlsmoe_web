@@ -9,16 +9,20 @@ class SliderWithInput extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.min = props.min || -1;
-        this.max = props.max || -1;
-        this.step = props.step || -1;
+        this.updateProps(props);
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({text: null});
-        this.min = nextProps.min || -1;
-        this.max = nextProps.max || -1;
-        this.step = nextProps.step || -1;
+        this.updateProps(nextProps);
+    }
+
+    updateProps(props) {
+        this.min = props.min || -1;
+        this.max = props.max || 1;
+        this.step = props.step || 0.1;
+        this.inputMin = props.inputMin || props.min || -100;
+        this.inputMax = props.inputMax || props.max || 100;
     }
 
     render() {
@@ -32,22 +36,30 @@ class SliderWithInput extends Component {
                     <input type="text" value={this.state.text != null ? this.state.text : this.props.value} onChange={(event) => {
                         var input = event.target.value;
                         var value = +input;
-                        if (!isNaN(value) && input.length > 0 && input.indexOf('.') !== input.length - 1) {
-                            if (parseInt(value, 10) !== value) {
-                                value = value.toFixed(1);
-                            }
-                            if (value > 100) {
-                                value = 100;
-                            }
-                            else if (value < -100) {
-                                value = -100;
-                            }
+                        if (!isNaN(value) && input.length > 0 && input.indexOf('.') !== input.length - 1 && value >= this.inputMin && value <= this.inputMax) {
                             this.props.onChange(value);
                         }
                         else {
                             this.setState({text: event.target.value});
                         }
-                    }} />
+                    }} onBlur={(event) => {
+                        var input = event.target.value;
+                        var value = +input;
+                        if (!isNaN(value)) {
+                            if (value > this.inputMax) {
+                                this.props.onChange(this.inputMax);
+                            }
+                            else if (value < this.inputMin) {
+                                this.props.onChange(this.inputMin);
+                            }
+                            else {
+                                this.props.onChange(value);
+                            }
+                        }
+                        else {
+                            this.setState({text: this.props.value});
+                        }
+                    }}/>
                 </div>
             </div>
         );
