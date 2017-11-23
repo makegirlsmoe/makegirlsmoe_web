@@ -96,12 +96,6 @@ export function generator(state = initialGeneratorState, action) {
             };
 
         case generatorConstants.CHANGE_MODEL_OPTION:
-            //console.log(action.key, action.random, action.value);
-            ///if (action.key === 'noise' && !action.random && !action.value)
-               /// return{
-                  ///  ...state,
-                //};
-
             if (action.random) {
                 return{
                     ...state,
