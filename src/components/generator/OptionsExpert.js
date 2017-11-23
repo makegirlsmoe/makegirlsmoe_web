@@ -6,6 +6,8 @@ import RandomButtons from '../generator-widgets/RandomButtons';
 import SliderWithInput from '../generator-widgets/SliderWithInput';
 import ButtonGroup from '../generator-widgets/ButtonGroup';
 import './Options.css';
+import {generatorAction } from '../../_actions';
+
 
 class OptionsExpert extends OptionsClass {
 
@@ -67,14 +69,14 @@ class OptionsExpert extends OptionsClass {
             </div>
         );
     }
-
+//thisthis.props.onOperationClick('reset')
     renderOperations() {
         return (
             <div className={this.getClassLongOption()}>
                 <h5><FormattedMessage id="OperationsExpertMode"/></h5>
                 {new ButtonGroup().renderButtonGroup([
-                    {name: 'Reset', onClick: () => this.props.onOperationClick('reset')},
-                    {name: 'Fix All', onClick: () => this.props.onOperationClick('fix_all')},
+                    {name: 'Reset', onClick: () => this.props.dispatch(generatorAction.resetGeneratorOptions()) },
+                    {name: 'Fix All', onClick: () => this.props.dispatch(generatorAction.fixGeneratorOptions()) },
                     {name: 'Options Import', onClick: () => this.props.onOperationClick('json_import')},
                     {name: 'Options Export', onClick: () => this.props.onOperationClick('json_export')}
                 ])}
@@ -87,7 +89,8 @@ function mapStateToProps(state) {
         webglAvailable: state.generatorConfig.webglAvailable,
         webglDisabled: state.generatorConfig.webglDisabled,
         currentModel: state.generator.currentModel,
-        locale: state.selectLocale.locale
+        locale: state.selectLocale.locale,
+        inputs: state.generator.options,
     };
 }
 

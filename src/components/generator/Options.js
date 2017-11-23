@@ -196,7 +196,7 @@ class Options extends Component {
             <div className={this.getClassShortOption()}>
                 <h5><FormattedMessage id="Operations"/></h5>
                 {new ButtonGroup().renderButtonGroup([
-                    {name: 'Reset', onClick: () => this.props.onOperationClick('reset')}
+                    {name: 'Reset', onClick: () => this.props.dispatch(generatorAction.resetGeneratorOptions())}
                 ])}
             </div>
         );
@@ -287,7 +287,8 @@ function mapStateToProps(state) {
         webglAvailable: state.generatorConfig.webglAvailable,
         webglDisabled: state.generatorConfig.webglDisabled,
         currentModel: state.generator.currentModel,
-        locale: state.selectLocale.locale
+        locale: state.selectLocale.locale,
+        inputs: state.generator.options,
     };
 }
 

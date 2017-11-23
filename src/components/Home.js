@@ -18,7 +18,8 @@ import Stat from '../utils/Stat';
 import ImageEncoder from '../utils/ImageEncoder';
 import Twitter from '../utils/Twitter';
 import './Home.css';
-import { twitterAction, generatorConfigAction } from '../_actions';
+import {twitterAction, generatorAction, generatorConfigAction } from '../_actions';
+
 
 
 class Home extends Component {
@@ -34,11 +35,11 @@ class Home extends Component {
                 isError: false
             },
             options: {},
-            results: [],
+            //results: [],
             rating: 0,
             mode: 'normal',
         };
-        this.initOptions(this.state.options, Config.defaultModel);
+        //this.initOptions(this.state.options, Config.defaultModel);
         this.ganDict = {};
     }
 
@@ -46,31 +47,16 @@ class Home extends Component {
         return Config.modelConfig[this.props.currentModel];
     }
 
-    initOptions(options, modelName) {
-        options.amount = 1;
-        //options.currentModel = modelName;
-        Config.modelConfig[modelName].options.forEach(option => {
-            options[option.key] = {
-                random: true,
-                value: option.type === 'multiple' ? Array.apply(null, {length: option.options.length}).fill(-1) : -1
-            }
-        });
-        options.noise = {
-            random: true
-        };
-        return options;
-    }
-
     setModel(modelName=this.props.currentModel, disableWebgl=this.props.disableWebgl) {
         return new Promise((resolve, reject) => {
             var keyName = modelName + (disableWebgl ? '_nowebgl' : '');
 
-            var options = this.state.options;
+           // var options = this.state.options;
 
-            if (!this.state.options || this.props.currentModel !== modelName) {
-                options = this.initOptions({}, modelName);
-                this.setState({results: []});
-            }
+            //if (!this.state.options || this.props.currentModel !== modelName) {
+            //    options = this.initOptions({}, modelName);
+            //    this.setState({results: []});
+            //}
 
             //this.setState({options: Object.assign(options, {disableWebgl: disableWebgl})});
 
@@ -252,15 +238,20 @@ class Home extends Component {
             await Utils.promiseTimeout(100, true); // XXX: wait for components to refresh
         }
 
-        for (var i = 0; i < this.state.options.amount; i++) {
-            var optionInputs = this.getRandomOptionValues(this.state.options);
+        for (var i = 0; i < 1; i++) {
+            var optionInputs = this.getRandomOptionValues(this.props.options);
             var label = this.getLabel(optionInputs);
             var noise = this.getNoise(optionInputs);
             var result = await this.gan.run(label, noise);
-            var results = i === 0 ? [result] : this.state.results.concat([result]);
-            this.setState({
-                options: optionInputs,
-                results: results,
+
+            this.props.dispatch(
+                generatorAction.setGeneratorOptions(optionInputs)
+            );
+            this.props.dispatch(
+                generatorAction.appendResult(result, i!==0)
+            );
+
+            setState({
                 rating: 0,
                 gan: Object.assign({}, this.state.gan, {noise: noise, noiseOrigin: optionInputs.noise.value, input: noise.concat(label)})
             });
@@ -304,10 +295,6 @@ class Home extends Component {
 
     onOptionOperationClick(operation) {
         switch (operation) {
-            case 'reset':
-                return this.onResetClick();
-            case 'fix_all':
-                return this.onFixAllClick();
             case 'json_import':
                 return this.onJSONImport();
             case 'json_export':
@@ -318,11 +305,11 @@ class Home extends Component {
     }
 
     getOptions() {
-        return this.state.options;
+        return this.props.options;
     }
 
     setOptions(options) {
-        return this.setState({options: options});
+        return this.props.dispatch(generatorAction.setGeneratorOptions(options));
     }
 
     onJSONImport() {
@@ -348,25 +335,6 @@ class Home extends Component {
         this.setState({optionURI: URL.createObjectURL(new Blob([JSON.stringify(this.getOptions())]))}, () => {
             this.refs.jsonDownloader.click();
         });
-    }
-
-    onResetClick() {
-        this.setState({options: this.initOptions({}, this.props.currentModel)});
-    }
-
-    onFixAllClick() {
-        let opt = Object.assign({}, this.state.options);
-
-        Object.keys(opt).map((key, index)=>
-        {
-
-            if(opt[key] && opt[key].hasOwnProperty('random')){
-                opt[key] = Object.assign({},opt[key], {random:false})
-            }
-            return true;
-        });
-
-        this.setState({options: opt});
     }
 
     shareOnTwitter() {
@@ -404,6 +372,7 @@ class Home extends Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <div className="home">
 
@@ -444,8 +413,8 @@ class Home extends Component {
                                         this.state.mode === 'expert' ?
                                             <OptionsExpert
                                                 modelConfig={this.getModelConfig()}
-                                                inputs={this.state.options}
-                                                onModelOptionChange={(key, random, value) => this.onModelOptionChange(key, random, value)}
+                                                //inputs={this.state.options}
+                                                //onModelOptionChange={(key, random, value) => this.onModelOptionChange(key, random, value)}
                                                 onOptionChange={(key, value) => this.onOptionChange(key, value)}
                                                 onOperationClick={operation => this.onOptionOperationClick(operation)}
                                                 mode={this.state.mode}
@@ -453,8 +422,8 @@ class Home extends Component {
                                                 backendName={this.state.gan.backendName} /> :
                                             <Options
                                                 modelConfig={this.getModelConfig()}
-                                                inputs={this.state.options}
-                                                onModelOptionChange={(key, random, value) => this.onModelOptionChange(key, random, value)}
+                                                //inputs={this.state.options}
+                                                //onModelOptionChange={(key, random, value) => this.onModelOptionChange(key, random, value)}
                                                 onOptionChange={(key, value) => this.onOptionChange(key, value)}
                                                 onOperationClick={operation => this.onOptionOperationClick(operation)}
                                                 mode={this.state.mode}
@@ -499,6 +468,8 @@ function mapStateToProps(state) {
         twitterVisible: state.twitter.visible,
         disableWebgl: state.generatorConfig.webglDisabled,
         currentModel: state.generator.currentModel,
+        options: state.generator.options,
+        results: state.generator.results,
     };
 }
 
