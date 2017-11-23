@@ -39,7 +39,7 @@ const assignOptionKeyRandom = (options, key)=>{
 };
 
 const assignOptionKeyFixedValue = (options, key, value)=>{
-    if (value != null){
+    if (value == null){
         return Object.assign({}, options, {
             [key]: Object.assign({}, options[key], {random: false})
         });
