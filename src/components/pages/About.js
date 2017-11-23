@@ -24,9 +24,6 @@ class About extends Component {
                 <p>Eiichi Matsumoto, Taizan Yonetsuji, Saito Masaki, Kosuke Nakago, Tatsuya Takamura (Preferred Networks)</p>
                 <p>Thanks to <a href="https://www.preferred-networks.jp/" target="_blank" rel="noopener noreferrer" style={{color:'#0060de', fontSize: '18'}}><img src={pfnLogo} width="24" alt="PFN Logo" /> Preferred Networks</a> for their kind support!</p>
                 <p>Thanks to Kikura Yuichiro and Masatoshi Hidaka for the awesome browser-based nn inference library <a href="https://mil-tokyo.github.io/webdnn/" target="_blank"  rel="noopener noreferrer">WebDNN.</a></p>
-                <h3 style={{color: Config.colors.theme}}>License</h3>
-                <p> The web interface is under the GPLv3 license. </p>
-                <p> Model training scripts are under the MIT license. (Available Soon) </p>
 
                 <h3 style={{color: Config.colors.theme}}>Links</h3>
                 <h5><a href="https://chainer.org" target="_blank"  rel="noopener noreferrer">Chainer</a></h5>

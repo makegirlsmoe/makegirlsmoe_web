@@ -1,5 +1,6 @@
 const ja_JP = {
     CurrentLanguage:"日本語",
+    License: "ライセンス",
     About: "サイトについて",
     Home: "ホーム",
     News: "ニュース",
@@ -32,6 +33,8 @@ const ja_JP = {
     Canceled: 'キャンセル済',
     NetworkError:'ネットワークエラー',
     LoadingModel: 'モデル読み込み中...',
+    Note: "Note: Please see License {here} for term of use.",
+    Here: "here",
     Amaryllis:"Amaryllis 128x128 Ver.170716",
     Test:"Test Model 256x256 Ver.171107",
 

@@ -1,5 +1,6 @@
 const ru_RU = {
     CurrentLanguage:"Русский",
+    License: "License",
     About: "Информация",
     Home: "Домой",
     News: "Новости",
@@ -32,8 +33,10 @@ const ru_RU = {
     Canceled: 'Отменено',
     NetworkError:'Ошибка сети',
     LoadingModel: 'Загрузка модели...',
-    Amaryllis:"Амариллис 128x128, версия 170716",
-    Test:"Тестовая модель 256x256, версия 171107",
+    Note: "Note: Please see License {here} for term of use.",
+    Here: "here",
+    Amaryllis:"Amaryllis 128x128 Ver.170716",
+    Test:"Test Model 256x256 Ver.171107",
 
 
     HairColor:"Цвет волос",

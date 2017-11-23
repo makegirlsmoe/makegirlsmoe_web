@@ -36,7 +36,7 @@ class App extends Component {
                     <Navbar location={this.props.location} />
                     <div className="main-content">
                         <Switch>
-                            <Route path="/(|about|news|tips|test)" render={() =>
+                            <Route path="/(|license|about|news|tips|test)" render={() =>
                                 <Home onTimelineLoad={() => this.onTimelineLoad()} />
                             }/>
                             <Route path="/twitter" component={Twitter}/>

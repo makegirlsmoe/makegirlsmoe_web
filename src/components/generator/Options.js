@@ -3,6 +3,7 @@ import { ReactHintFactory } from 'react-hint';
 import { connect } from 'react-redux';
 import { FormattedMessage } from "react-intl";
 import 'react-hint/css/index.css';
+import { Link } from 'react-router-dom';
 import Config from '../../Config';
 import Utils from '../../utils/Utils';
 import BinarySelector from '../generator-widgets/BinarySelector';
@@ -295,6 +296,14 @@ class Options extends Component {
                     {this.renderOperations()}
                     {this.renderWebglOption()}
                     {this.renderBackendName()}
+                </div>
+                <div className="row">
+                    <div className="col-xs-12 license-hint">
+                        <FormattedMessage
+                            id="Note"
+                            values={{here: <Link to="/license"><FormattedMessage id="Here" /></Link>}}
+                        />
+                    </div>
                 </div>
 
                 <PromptDialog type="alert" ref={dialog => this.alertDialog = dialog} />

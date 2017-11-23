@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from "react-intl";
 import { CSSTransitionGroup } from 'react-transition-group';
 import Config from '../Config';
+import License from './pages/License';
 import About from './pages/About';
 import News from './pages/News';
 import Tips from './pages/Tips';
@@ -463,6 +464,7 @@ class Home extends Component {
                                                 //webglAvailable={this.state.webglAvailable}
                                                 backendName={this.state.gan.backendName} />
                                     } />
+                                    <Route path="/license" component={License}/>
                                     <Route path="/about" component={About}/>
                                     <Route path="/news" component={News}/>
                                     <Route path="/tips" component={Tips}/>
