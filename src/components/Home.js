@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from "react-intl";
 import { CSSTransitionGroup } from 'react-transition-group';
 import Config from '../Config';
+import License from './pages/License';
 import About from './pages/About';
 import News from './pages/News';
 import Tips from './pages/Tips';
@@ -191,6 +192,9 @@ class Home extends Component {
                     }
                     optionInput.value = value;
                 }
+                else if (option.type === 'continuous') {
+                    optionInput.value = Math.floor(Math.random() * ((option.max - option.min) / option.step + 1)) + option.min;
+                }
                 else {
                     optionInput.value = Math.random() < option.prob ? 1 : -1;
                 }
@@ -215,7 +219,6 @@ class Home extends Component {
                 optionInput.value.forEach((value, index) => {
                     label[option.offset + index] = value;
                 });
-
             }
             else {
                 label[option.offset] = optionInput.value;
@@ -430,6 +433,7 @@ class Home extends Component {
                                                 //webglAvailable={this.state.webglAvailable}
                                                 backendName={this.state.gan.backendName} />
                                     } />
+                                    <Route path="/license" component={License}/>
                                     <Route path="/about" component={About}/>
                                     <Route path="/news" component={News}/>
                                     <Route path="/tips" component={Tips}/>

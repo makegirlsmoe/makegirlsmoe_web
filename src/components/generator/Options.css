@@ -44,6 +44,10 @@
     top: 2px;
 }
 
+.license-hint {
+    margin-top: 10px;
+}
+
 @media screen and (min-width: 768px) {
     .option .btn-group button {
         padding-left: 9px;

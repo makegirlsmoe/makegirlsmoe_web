@@ -3,6 +3,7 @@ import { ReactHintFactory } from 'react-hint';
 import { connect } from 'react-redux';
 import { FormattedMessage } from "react-intl";
 import 'react-hint/css/index.css';
+import { Link } from 'react-router-dom';
 import Config from '../../Config';
 import Utils from '../../utils/Utils';
 import BinarySelector from '../generator-widgets/BinarySelector';
@@ -10,6 +11,9 @@ import MultipleSelector from '../generator-widgets/MultipleSelector';
 import NoiseSelector from '../generator-widgets/NoiseSelector';
 import NoiseVisualizer from '../generator-widgets/NoiseVisualizer';
 import ButtonGroup from '../generator-widgets/ButtonGroup';
+import RandomButtonSimple from '../generator-widgets/RandomButtonSimple';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 import ImageDecoder from '../../utils/ImageDecoder';
 import PromptDialog from '../general/PromptDialog';
 import Dropdown from '../generator-widgets/Dropdown';
@@ -151,6 +155,28 @@ class Options extends Component {
         );
     }
 
+
+    renderContinuousSelector(key, min, max, step, title) {
+        var input = this.props.inputs[key];
+        return (
+            <div key={key} className={this.getClassShortOption()}>
+                {this.renderLabel(key, title)}
+                <div className="row">
+                    <div className="col-xs-5 vcenter">
+                        <RandomButtonSimple
+                            value={input.random ? 1 : 0}
+                            onChange={(value) => this.props.dispatch(generatorAction.modelOptionChange(key, value === 1))}/>
+                    </div>
+                    <div className="col-xs-7 vcenter">
+                        <Slider min={min} max={max} step={step} value={Utils.clamp(input.value, min, max)}
+                              onBeforeChange={() => this.props.dispatch(generatorAction.modelOptionChange(key, false))}
+                              onChange={value => this.props.dispatch(generatorAction.modelOptionChange(key, false, value))}/>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     renderNoiseSelector() {
         return (
             <div className={this.getClassShortOption()}>
@@ -166,6 +192,8 @@ class Options extends Component {
         var option = this.options[key];
         if (option.type === 'multiple') {
             return this.renderMultipleSelector(key, option.options);
+        } else if (option.type === 'continuous') {
+            return this.renderContinuousSelector(key, option.min, option.max, option.step)
         } else {
             return this.renderBinarySelector(key);
         }
@@ -275,6 +303,14 @@ class Options extends Component {
                     {this.renderOperations()}
                     {this.renderWebglOption()}
                     {this.renderBackendName()}
+                </div>
+                <div className="row">
+                    <div className="col-xs-12 license-hint">
+                        <FormattedMessage
+                            id="Note"
+                            values={{here: <Link to="/license"><FormattedMessage id="Here" /></Link>}}
+                        />
+                    </div>
                 </div>
 
                 <PromptDialog type="alert" ref={dialog => this.alertDialog = dialog} />

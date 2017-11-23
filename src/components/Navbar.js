@@ -55,6 +55,7 @@ class Navbar extends Component {
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
                             {this.renderLink('Home', '/')}
+                            {this.renderLink('License', '/license')}
                             {this.renderLink('About', '/about')}
                             {this.renderLink('News', '/news')}
                             {this.renderLink('Tips', '/tips')}
