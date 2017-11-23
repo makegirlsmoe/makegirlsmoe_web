@@ -7,6 +7,7 @@ const zh_CN = {
     Options: "选项",
     ExpertMode: "专家模式",
 
+    OK:"OK",
     On: '开',
     Off: '关',
     Random: '随机',

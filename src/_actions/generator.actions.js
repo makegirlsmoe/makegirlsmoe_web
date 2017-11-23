@@ -7,6 +7,7 @@ export const generatorAction = {
     resetGeneratorOptions,
     fixGeneratorOptions,
     appendResult,
+    modelOptionChange,
 };
 
 export const generatorConfigAction = {
@@ -43,8 +44,10 @@ function fixGeneratorOptions(){
     return { type: generatorConstants.FIX_OPTIONS}
 }
 
-function  appendResult(result, appendResult=false) {
+function appendResult(result, appendResult=false) {
     return { type: generatorConstants.APPEND_RESULT, result, appendResult}
 }
 
-function modelOptionCH
+function modelOptionChange(key, random, value){
+    return { type: generatorConstants.CHANGE_MODEL_OPTION, key, random, value}
+}

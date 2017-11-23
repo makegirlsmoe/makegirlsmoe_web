@@ -7,6 +7,7 @@ const ru_RU = {
     Options: "Опции",
     ExpertMode: "Режим эксперта",
 
+    OK:"OK",
     On: 'Вкл.',
     Off: 'Выкл.',
     Random: 'Случайно',

@@ -7,6 +7,7 @@ const ja_JP = {
     Options: "設定",
     ExpertMode: "エキスパートモード",
 
+    OK:"OK",
     On: 'オン',
     Off: 'オフ',
     Random: 'ランダム',
@@ -34,6 +35,7 @@ const ja_JP = {
     LoadingModel: 'モデル読み込み中...',
     Amaryllis:"Amaryllis 128x128 Ver.170716",
     Test:"Test Model 256x256 Ver.171107",
+
 
 
     HairColor:"髪の色",

@@ -34,7 +34,7 @@ class Home extends Component {
                 isCanceled: false,
                 isError: false
             },
-            options: {},
+            //options: {},
             //results: [],
             rating: 0,
             mode: 'normal',
@@ -251,7 +251,7 @@ class Home extends Component {
                 generatorAction.appendResult(result, i!==0)
             );
 
-            setState({
+            this.setState({
                 rating: 0,
                 gan: Object.assign({}, this.state.gan, {noise: noise, noiseOrigin: optionInputs.noise.value, input: noise.concat(label)})
             });
@@ -262,7 +262,7 @@ class Home extends Component {
             gan: Object.assign({}, this.state.gan, {isRunning: false}),
         });
     }
-
+    /*
     onModelOptionChange(key, random, value = this.state.options[key].value) {
         if (key === 'noise' && !random && !value) {
             return;
@@ -281,7 +281,7 @@ class Home extends Component {
                 })
             });
         }
-    }
+    }*/
 
     onOptionChange(key, value) {
         switch (key) {
@@ -372,7 +372,7 @@ class Home extends Component {
     }
 
     render() {
-        console.log(this.props);
+        //console.log(this.props);
         return (
             <div className="home">
 
@@ -400,7 +400,7 @@ class Home extends Component {
                             <div className={this.getClassGeneratorContainer()}>
                                 <Generator gan={this.state.gan}
                                            modelConfig={this.getModelConfig()}
-                                           results={this.state.results}
+                                           //results={this.state.results}
                                            onGenerateClick={() => this.generate()}
                                            onTwitterClick={() => this.shareOnTwitter()}
                                            onRatingClick={(value) => this.submitRating(value)}

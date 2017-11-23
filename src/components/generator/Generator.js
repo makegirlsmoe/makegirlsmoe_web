@@ -77,7 +77,8 @@ class Generator extends Component {
 
 function mapStateToProps(state) {
     return {
-        locale: state.selectLocale.locale
+        locale: state.selectLocale.locale,
+        results: state.generator.results,
     };
 }
 

@@ -69,7 +69,7 @@ class Options extends Component {
         reader.onload = () => {
             var dataURL = reader.result;
             new ImageDecoder(this.props.modelConfig).DecodeNoiseOrigin(dataURL).then(noise => {
-                this.props.onModelOptionChange('noise', false, noise);
+                this.props.dispatch(generatorAction.modelOptionChange('noise', false, noise));
                 this.alertDialog.show('Noise Import', 'Import Successful.');
             }).catch(err => {
                 this.alertDialog.show('Import Error', err.error);
@@ -120,7 +120,7 @@ class Options extends Component {
                 {(this.isBinaryOptionSimple(input) &&
                     <BinarySelector
                         value={input.random ? 0 : input.value}
-                        onChange={(value) => this.props.onModelOptionChange(key, value === 0, value)} />) ||
+                        onChange={(value) => this.props.dispatch(generatorAction.modelOptionChange(key, value === 0, value))} />) ||
                     <span><i>(User-defined)</i></span>}
             </div>
         );
@@ -141,21 +141,23 @@ class Options extends Component {
                     <MultipleSelector
                         options={options}
                         value={input.random ? 0 : input.value.indexOf(1) + 1}
-                        onChange={(value) => this.props.onModelOptionChange(key, value === 0, Array.apply(null, {length: options.length}).map((item, index) => index === value - 1 ? 1 : -1))} />) ||
+                        onChange={(value) => this.props.dispatch(
+                            generatorAction.modelOptionChange(
+                                key, value === 0, Array.apply(null, {length: options.length}).map((item, index) => index === value - 1 ? 1 : -1)
+                            )
+                        )} />) ||
                     <span><i>(User-defined)</i></span>}
             </div>
         );
-    }
-
-    renderContinousSelector(key, options, titls) {
-
     }
 
     renderNoiseSelector() {
         return (
             <div className={this.getClassShortOption()}>
                 {this.renderLabel('noise')}
-                <NoiseSelector value={this.props.inputs.noise.random ? 0 : 1} onChange={(value) => this.props.onModelOptionChange('noise', value === 0)} />
+                <NoiseSelector value={this.props.inputs.noise.random ? 0 : 1}
+                               onChange={(value) => this.props.dispatch(generatorAction.modelOptionChange('noise', value === 0))}
+                />
             </div>
         );
     }

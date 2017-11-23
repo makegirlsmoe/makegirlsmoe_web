@@ -27,6 +27,25 @@ const fixOptions = (options)=>{
         }
         return true;
     });
+    return opt;
+};
+
+const assignOptionKeyRandom = (options, key)=>{
+    return Object.assign({}, options, {
+        [key]: Object.assign({}, options[key], {random: true})
+    });
+};
+
+const assignOptionKeyFixedValue = (options, key, value)=>{
+    if (!value){
+        return Object.assign({}, options, {
+            [key]: Object.assign({}, options[key], {random: false})
+        });
+    }else{
+        return Object.assign({}, options, {
+            [key]: Object.assign({}, options[key], {random: false, value: value})
+        });
+    }
 };
 
 const initialGeneratorState =
@@ -49,26 +68,52 @@ export function generator(state = initialGeneratorState, action) {
                 results: [],
                 options: initOptions(action.model)
             };
+
         case generatorConstants.RESET_OPTIONS:
             return {
                 ...state,
                 options: initOptions(state.currentModel)
             };
+
         case generatorConstants.FIX_OPTIONS:
             return {
                 ...state,
                 options: fixOptions(state.options)
             };
+
         case generatorConstants.SET_OPTIONS:
             return {
                 ...state,
                 options: action.options
             };
+
         case generatorConstants.APPEND_RESULT:
             return {
                 ...state,
                 results: action.appendResult ? state.results.concat([action.result]) : [action.result]
             };
+
+        case generatorConstants.CHANGE_MODEL_OPTION:
+           // console.log(action.key, action.random, action.value);
+
+            if (action.key === 'noise' && !action.random && !action.value)
+                return{
+                    ...state,
+                };
+
+            if (action.random) {
+                return{
+                    ...state,
+                    options: assignOptionKeyRandom(state.options, action.key)
+                };
+            }
+            else {
+                return{
+                    ...state,
+                    options: assignOptionKeyFixedValue(state.options, action.key, action.value)
+                };
+            }
+
         default:
             return state
     }

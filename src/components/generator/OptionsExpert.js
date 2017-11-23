@@ -23,8 +23,11 @@ class OptionsExpert extends OptionsClass {
                 {this.renderLabel(key, title)}
                 <RandomButtons
                     value={input.random ? 1 : 0}
-                    onChange={(value) => this.props.onModelOptionChange(key, value === 1)}/>
-                <SliderWithInput value={input.value} onChange={value => this.props.onModelOptionChange(key, false, value)}/>
+                    onChange={(value) => this.props.dispatch(
+                        generatorAction.modelOptionChange(key, value === 1))}/>
+                <SliderWithInput value={input.value}
+                                 onChange={value => this.props.dispatch(generatorAction.modelOptionChange(key, false, value))}
+                />
             </div>
         );
     }
@@ -42,7 +45,8 @@ class OptionsExpert extends OptionsClass {
                     <div className="col-xs-6">
                         <RandomButtons
                             value={input.random ? 1 : 0}
-                            onChange={(value) => this.props.onModelOptionChange(key, value === 1)}/>
+                            onChange={(value) => this.props.dispatch(
+                                generatorAction.modelOptionChange(key, value === 1))}/>
                     </div>
                     <div className="col-xs-1 pull-right">
                         {this.state.expended[key] ?
@@ -59,7 +63,9 @@ class OptionsExpert extends OptionsClass {
                                 <SliderWithInput value={input.value[index]} onChange={value => {
                                     var newInput = input.value.slice();
                                     newInput[index] = value;
-                                    this.props.onModelOptionChange(key, false, newInput)
+                                    this.props.dispatch(
+                                        generatorAction.modelOptionChange(key, false, newInput)
+                                    );
                                 }}/>
                             </div>
                         )}
@@ -69,7 +75,7 @@ class OptionsExpert extends OptionsClass {
             </div>
         );
     }
-//thisthis.props.onOperationClick('reset')
+
     renderOperations() {
         return (
             <div className={this.getClassLongOption()}>

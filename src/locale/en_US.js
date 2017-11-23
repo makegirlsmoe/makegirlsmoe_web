@@ -7,6 +7,7 @@ const en_US = {
     Options: "Options",
     ExpertMode: "Expert Mode",
 
+    OK:"OK",
     On: 'On',
     Off: 'Off',
     Random: 'Random',
