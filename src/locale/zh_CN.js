@@ -1,6 +1,6 @@
 const zh_CN = {
     CurrentLanguage:"中文",
-    License: "使用许可",
+    License: "使用条款",
     About: "关于",
     Home: "主页",
     News: "新闻",
@@ -33,7 +33,7 @@ const zh_CN = {
     Canceled: '已取消',
     NetworkError:'网络错误',
     LoadingModel: '模型载入中...',
-    Note: "提示：请{here}查看使用许可。",
+    Note: "提示：请{here}查看使用条款。",
     Here: "点击这里",
     Amaryllis:"Amaryllis 128x128 Ver.170716",
     Test:"Test Model 256x256 Ver.171107",

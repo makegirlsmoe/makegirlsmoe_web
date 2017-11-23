@@ -1,6 +1,6 @@
 const ja_JP = {
     CurrentLanguage:"日本語",
-    License: "ライセンス",
+    License: "利用規約",
     About: "サイトについて",
     Home: "ホーム",
     News: "ニュース",

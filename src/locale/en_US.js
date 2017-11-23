@@ -1,6 +1,6 @@
 const en_US = {
     CurrentLanguage:"English",
-    License: "License",
+    License: "Terms of Use",
     About: "About",
     Home: "Home",
     News: "News",
@@ -33,7 +33,7 @@ const en_US = {
     Canceled: 'Canceled',
     NetworkError:'Network Error',
     LoadingModel: 'Loading Model...',
-    Note: "Note: Please see License {here} for term of use.",
+    Note: "Note: Please see {here} for terms of use.",
     Here: "here",
     Amaryllis:"Amaryllis 128x128 Ver.170716",
     Test:"Test Model 256x256 Ver.171107",

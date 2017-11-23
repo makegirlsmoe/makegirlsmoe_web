@@ -1,6 +1,6 @@
 const ru_RU = {
     CurrentLanguage:"Русский",
-    License: "License",
+    License: "Условия",
     About: "Информация",
     Home: "Домой",
     News: "Новости",
