@@ -5,6 +5,8 @@ const en_US = {
     Home: "Home",
     News: "News",
     Tips: "Tips",
+    Blog: 'Official Blog',
+	GitHub: 'GitHub',
     Options: "Options",
     ExpertMode: "Advanced Mode",
 
