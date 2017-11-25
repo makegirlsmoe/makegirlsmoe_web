@@ -163,6 +163,8 @@ var Config = {
                     min: -1.5,
                     max: 1.5,
                     step: 0.1,
+                    samplingMin: -1,
+                    samplingMax: 1,
                     offset: 35,
                     prob: 0.8
                 }
@@ -254,6 +256,8 @@ var Config = {
                     min: -1.5,
                     max: 1.5,
                     step: 0.1,
+                    samplingMin: -1,
+                    samplingMax: 1,
                     offset: 35,
                     prob: 0.8
                 }
