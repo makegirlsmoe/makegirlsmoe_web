@@ -5,6 +5,8 @@ const zh_CN = {
     Home: "主页",
     News: "新闻",
     Tips: "小贴士",
+    Blog: '官方博客',
+    GitHub: 'GitHub',
     Options: "选项",
     ExpertMode: "高级模式",
 
