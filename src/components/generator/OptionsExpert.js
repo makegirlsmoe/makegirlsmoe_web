@@ -76,7 +76,7 @@ class OptionsExpert extends OptionsClass {
         );
     }
 
-    renderContinuousSelector(key, min, max, step, title) {
+    renderContinuousSelector(key, config, title) {
         var input = this.props.inputs[key];
         return (
             <div key={key} className={this.getClassShortOption()}>
@@ -84,7 +84,9 @@ class OptionsExpert extends OptionsClass {
                 <RandomButtons
                     value={input.random ? 1 : 0}
                     onChange={(value) => this.props.dispatch(generatorAction.modelOptionChange(key, value === 1))}/>
-                <SliderWithInput  value={input.value} onChange={value => this.props.dispatch(generatorAction.modelOptionChange(key, false, value))}/>
+                <SliderWithInput min={config.min} max={config.max} step={config.step}
+                    inputMin={config.inputMin} inputMax={config.inputMax} value={input.value}
+                    onChange={value => this.props.dispatch(generatorAction.modelOptionChange(key, false, value))}/>
             </div>
         );
     }

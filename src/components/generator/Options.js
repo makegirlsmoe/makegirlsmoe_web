@@ -156,7 +156,7 @@ class Options extends Component {
     }
 
 
-    renderContinuousSelector(key, min, max, step, title) {
+    renderContinuousSelector(key, config, title) {
         var input = this.props.inputs[key];
         return (
             <div key={key} className={this.getClassShortOption()}>
@@ -168,7 +168,7 @@ class Options extends Component {
                             onChange={(value) => this.props.dispatch(generatorAction.modelOptionChange(key, value === 1))}/>
                     </div>
                     <div className="col-xs-7 vcenter">
-                        <Slider min={min} max={max} step={step} value={Utils.clamp(input.value, min, max)}
+                        <Slider min={config.min} max={config.max} step={config.step} value={Utils.clamp(input.value, config.min, config.max)}
                               onBeforeChange={() => this.props.dispatch(generatorAction.modelOptionChange(key, false))}
                               onChange={value => this.props.dispatch(generatorAction.modelOptionChange(key, false, value))}/>
                     </div>
@@ -193,7 +193,7 @@ class Options extends Component {
         if (option.type === 'multiple') {
             return this.renderMultipleSelector(key, option.options);
         } else if (option.type === 'continuous') {
-            return this.renderContinuousSelector(key, option.min, option.max, option.step)
+            return this.renderContinuousSelector(key, option)
         } else {
             return this.renderBinarySelector(key);
         }

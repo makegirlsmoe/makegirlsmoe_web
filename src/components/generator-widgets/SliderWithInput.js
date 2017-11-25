@@ -21,8 +21,8 @@ class SliderWithInput extends Component {
         this.min = props.min || -1;
         this.max = props.max || 1;
         this.step = props.step || 0.1;
-        this.inputMin = props.inputMin || props.min || -100;
-        this.inputMax = props.inputMax || props.max || 100;
+        this.inputMin = props.inputMin || -100;
+        this.inputMax = props.inputMax || 100;
     }
 
     render() {
