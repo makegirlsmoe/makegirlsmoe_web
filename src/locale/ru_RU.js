@@ -5,6 +5,8 @@ const ru_RU = {
 	Home: 'Главная',
 	News: 'Новости',
 	Tips: 'Советы',
+	Blog: 'Оффициальный блог',
+	GitHub: 'GitHub',
 	Options: 'Параметры',
 	ExpertMode: 'Расширенный режим',
 
