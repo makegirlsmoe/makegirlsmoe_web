@@ -1,7 +1,7 @@
-var debug = true;
+var debug = false;
 var backendUrlPrefix = (debug ? 'http://localhost:6253' : '');
 var frontendUrlPrefix = (debug ? 'http://localhost:3000' : '');
-var hostServer = 'maketest.girls.moe';
+var hostServer = 'make.girls.moe';
 var Config = {
     colors: {
         theme: '#bd1c1b',
@@ -82,7 +82,7 @@ var Config = {
                 imageWidth: 128,
                 imageHeight: 128,
                 model: '/models/Amaryllis',
-                modelServers: debug ? ['localhost:3000'] : [
+                modelServers: debug ? [window.location.host] : [
                     hostServer
                 ]
             },
