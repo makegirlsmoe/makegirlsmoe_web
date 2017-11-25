@@ -1,4 +1,4 @@
-var debug = false;
+var debug = true;
 var backendUrlPrefix = (debug ? 'http://localhost:6253' : '');
 var frontendUrlPrefix = (debug ? 'http://localhost:3000' : '');
 var hostServer = 'maketest.girls.moe';
@@ -251,8 +251,8 @@ var Config = {
                 {
                     key: 'year',
                     type: 'continuous',
-                    min: -1.5,
-                    max: 1.5,
+                    min: -1,
+                    max: 1,
                     step: 0.1,
                     offset: 35,
                     prob: 0.8

@@ -38,7 +38,7 @@ const ja_JP = {
     Here: "こちら",
     Amaryllis:"Amaryllis 128x128 Ver.170716 (3.8MB)",
     Bouvardia128: "Bouvardia 128x128 Ver.171123 (9.8MB)",
-    Bouvardia256: "Bouvardia 256x256 Ver.171123 (9.9MB)",
+    Bouvardia256: "Bouvardia 256x256 Ver.171125 (9.9MB)",
 
 
     HairColor:"髪の色",
