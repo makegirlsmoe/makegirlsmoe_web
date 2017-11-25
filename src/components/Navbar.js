@@ -9,11 +9,11 @@ import { localeAction } from '../_actions';
 
 class Navbar extends Component {
 
-    renderLink(title, path) {
+    renderLink(title, path, newTab=false) {
         var currentLocation = this.props.location.pathname;
         return (
             <li className={currentLocation === path ? 'active': ''}>
-                <Link to={path}><FormattedMessage id={title} /></Link>
+                <Link to={path} {newTab ? 'target="_blank" rel="noopener noreferrer"':''}><FormattedMessage id={title} /></Link>
             </li>
         );
     }
@@ -59,8 +59,8 @@ class Navbar extends Component {
                             {this.renderLink('About', '/about')}
                             {this.renderLink('News', '/news')}
                             {this.renderLink('Tips', '/tips')}
-                            <li><a href="https://makegirlsmoe.github.io/" target="_blank" rel="noopener noreferrer">Official Blog</a></li>
-                            <li><a href="https://github.com/makegirlsmoe" target="_blank" rel="noopener noreferrer">Github</a></li>
+                            {this.renderLink('Blog', 'https://makegirlsmoe.github.io/', true)}
+                            {this.renderLink('GitHub', 'https://github.com/makegirlsmoe', true)}
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             <li>
