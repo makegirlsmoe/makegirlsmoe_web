@@ -5,6 +5,8 @@ const ja_JP = {
     Home: "ホーム",
     News: "ニュース",
     Tips: "豆知識",
+    Blog: '公式ブログ',
+    GitHub: 'GitHub',
     Options: "設定",
     ExpertMode: "上級モード",
 

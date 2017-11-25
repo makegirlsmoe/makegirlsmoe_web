@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: ScalaSans, sans-serif;
+    font-family: ScalaSans, "Roboto Condensed", sans-serif;
 }
 
 input[type="text"], textarea {
