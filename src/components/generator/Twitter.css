@@ -12,6 +12,7 @@
 
 .twitter .share-text {
     height: 134px;
+    overflow-x: hidden;
 }
 
 .twitter .share-noise-option-container input[type="checkbox"] {

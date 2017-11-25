@@ -10,6 +10,7 @@ class Twitter extends Component {
         super();
         this.state = {
             image: localStorage['twitter_image'],
+            imageWidth: 0,
             noise: localStorage['twitter_noise'],
             text: Config.twitter.defaultText,
             includeNoise: false,
@@ -43,6 +44,24 @@ class Twitter extends Component {
         window.close();
     }
 
+    getClassShareImageContainer() {
+        if (this.state.imageWidth < 150) {
+            return "col-xs-12 col-sm-2 share-image-container";
+        }
+        else {
+            return "col-xs-12 col-sm-4 share-image-container";
+        }
+    }
+
+    getClassShareTextContainer() {
+        if (this.state.imageWidth < 150) {
+            return "col-xs-12 col-sm-10 share-text-container";
+        }
+        else {
+            return "col-xs-12 col-sm-8 share-text-container";
+        }
+    }
+
     render() {
         return (
             <div className="twitter">
@@ -52,10 +71,10 @@ class Twitter extends Component {
                 {this.state.state === 'normal' &&
                     <div>
                         <div className="row">
-                            <div className="col-xs-12 col-sm-2 share-image-container">
-                                <img className="share-image" src={this.state.image} alt="share_image" />
+                            <div className={this.getClassShareImageContainer()}>
+                                <img className="share-image" src={this.state.image} alt="share_image" onLoad={event => this.setState({ imageWidth: event.target.offsetWidth })} />
                             </div>
-                            <div className="col-xs-12 col-sm-10 share-text-container">
+                            <div className={this.getClassShareTextContainer()}>
                                 <textarea className="form-control share-text" value={this.state.text} onChange={event => this.setState({text: event.target.value})} />
                             </div>
                         </div>
