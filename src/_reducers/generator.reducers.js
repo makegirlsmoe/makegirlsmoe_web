@@ -39,15 +39,9 @@ const assignOptionKeyRandom = (options, key)=>{
 };
 
 const assignOptionKeyFixedValue = (options, key, value)=>{
-    if (value == null){
-        return Object.assign({}, options, {
-            [key]: Object.assign({}, options[key], {random: false})
-        });
-    }else{
-        return Object.assign({}, options, {
-            [key]: Object.assign({}, options[key], {random: false, value: value})
-        });
-    }
+    return Object.assign({}, options, {
+        [key]: Object.assign({}, options[key], {random: false, value: value})
+    });
 };
 
 const initialGeneratorState =
@@ -96,6 +90,10 @@ export function generator(state = initialGeneratorState, action) {
             };
 
         case generatorConstants.CHANGE_MODEL_OPTION:
+            var value = action.value || state.options[action.key].value;
+            if (action.key === 'noise' && !action.random && !value) {
+                return state;
+            }
             if (action.random) {
                 return{
                     ...state,
@@ -105,12 +103,12 @@ export function generator(state = initialGeneratorState, action) {
             else {
                 return{
                     ...state,
-                    options: assignOptionKeyFixedValue(state.options, action.key, action.value)
+                    options: assignOptionKeyFixedValue(state.options, action.key, value)
                 };
             }
 
         default:
-            return state
+            return state;
     }
 }
 
