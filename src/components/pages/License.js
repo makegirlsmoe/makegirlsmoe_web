@@ -19,7 +19,12 @@ class License extends Component {
                 <p>使用MakeGirlsMoe前请注意以下条款</p>
                 <p>MakeGirlsMoe可以免费用于任何非商业用途，请在这里查看具体<a href="https://github.com/makegirlsmoe/makegirlsmoe_web/blob/master/LICENSE.txt">使用许可</a>。对于任何商业请求与咨询，请联系<a href="mailto:yanghuajin94@gmail.com" target="_blank" rel="noopener noreferrer">Yanghua Jin</a>。</p>
                 <p>网站前端源代码部分使用GPL v3.0许可，可以在遵守相关许可的情况下重新发放。</p>
-                <p>所有的预训练模型相关的文件，都由Yanghua Jin所私有，请勿在未经过许可的情况下进行任何商业使用。</p>
+                <p>所有的预训练模型相关的文件，都由Yanghua Jin所私有，请勿在未经过许可的情况下用于任何商业用途。</p>
+				<p>&nbsp;</p>
+                <p>使用MakeGirlsMoe前請注意以下條款</p>
+                <p>MakeGirlsMoe可以免費用於任何非商業用途，請在這裡查看詳細資料<a href="https://github.com/makegirlsmoe/makegirlsmoe_web/blob/master/LICENSE.txt">使用许可</a>。对于任何商业请求与咨询，请联系<a href="mailto:yanghuajin94@gmail.com" target="_blank" rel="noopener noreferrer">Yanghua Jin</a>。</p>
+                <p>網站前端源代碼部分使用GPL v3.0許可，可以在遵守相關許可的情况下重新發放。</p>
+                <p>所有的預訓練模型相關的文件，都由Yanghua Jin所私有，請勿在未經許可的情况下用於任何商業用途。</p>
 
             </div>
         );
