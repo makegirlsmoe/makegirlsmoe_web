@@ -73,7 +73,16 @@ const ru_RU = {
 	ShortHair: 'Короткие волосы',
 	TwinTail: 'Двойной хвостик',
 	DrillHair: '2 косы с завитушками',
-	Ponytail: 'Конский хвост'
+	Ponytail: 'Конский хвост',
 
+	LicensePageTitle: 'Лицензия',
+	LicenseLine1: 'Для продолжения использования MakeGirlsMoe вы должны принять следующие соглашения.',
+	LicenseLine2Start: 'MakeGirlsMoe бесплатно доступен для некоммерческого использования. Пожалуйста посмотрите ',
+	LicenseLine2Link: 'лицензию',
+	LicenseLine2Middle: ' для подробностей. Для коммерческого использования связывайтесь с ',
+	LicenseLine2EmailLink: 'Yanghua Jin',
+	LicenseLine2End: '.',
+	LicenseLine3: 'Код веб-интерфейса находится под лицензией GPL v3.0 и может быть переделан.',
+	LicenseLine4: 'Все компилированные модели частная собственность Yanghua Jin и не разрешаются к несогласованному коммерческому использованию.'
 };
 export default ru_RU;
