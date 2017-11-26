@@ -13,7 +13,7 @@ class Navbar extends Component {
         var currentLocation = this.props.location.pathname;
         return (
             <li className={currentLocation === path ? 'active': ''}>
-                <Link to={path} target={newTab ? '_blank': ''} rel={newTab ? 'noopener noreferrer': ''}><FormattedMessage id={title} /></Link>
+                {!newTab ? <Link to={path}><FormattedMessage id={title} /></Link>: <a href={path} target="_blank" rel="noopener noreferrer"><FormattedMessage id={title} /></a>}
             </li>
         );
     }
