@@ -76,4 +76,4 @@ const ru_RU = {
 	Ponytail: 'Конский хвост'
 
 };
-export default en_US;
+export default ru_RU;
