@@ -36,6 +36,8 @@ const zh_CN = {
     LoadingModel: '模型载入中...',
     Note: "提示：请{here}查看使用条款。",
     Here: "点击这里",
+    OptionsMenu: "选项菜单",
+    FailedGenerating:"提示：似乎浏览器生成图片失败了，请在{optionmenu}中禁用{webgl}后重新尝试。",
     Amaryllis:"Amaryllis 128x128 Ver.170716 (3.8MB)",
     Bouvardia128: "Bouvardia 128x128 Ver.171123 (9.8MB)",
     Bouvardia256: "Bouvardia 256x256 Ver.171125 (9.9MB)",

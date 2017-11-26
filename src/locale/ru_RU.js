@@ -36,6 +36,8 @@ const ru_RU = {
     LoadingModel: 'Загрузка модели...',
     Note: "Note: Please see License {here} for term of use.",
     Here: "here",
+    OptionsMenu: "Options menu",
+    FailedGenerating:"Oops, it seems that the browser failed to execute. Please disable the {webgl} in the {optionmenu} and retry.",
     Amaryllis:"Amaryllis 128x128 Ver.170716 (3.8MB)",
     Bouvardia128: "Bouvardia 128x128 Ver.171123 (9.8MB)",
     Bouvardia256: "Bouvardia 256x256 Ver.171125 (9.9MB)",
