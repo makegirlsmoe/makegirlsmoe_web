@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from "react-intl";
 import { CSSTransitionGroup } from 'react-transition-group';
 import ButtonPrimary from '../generator-widgets/ButtonPrimary';
 import ResultCanvas from '../generator-widgets/ResultCanvas';
@@ -27,8 +28,8 @@ class Generator extends Component {
             height: this.props.modelConfig.gan.imageHeight,
             width: this.props.modelConfig.gan.imageWidth
         };
-
         return (
+
             <div className="generator">
                 <div className="result-wrapper" style={resultWrapperStyle}>
                     {this.props.results ? this.props.results.map((result, index) => this.renderResultCanvas(result, index)) : null}
@@ -44,6 +45,13 @@ class Generator extends Component {
                     transitionName="rating-transition"
                     transitionEnterTimeout={600}
                     transitionLeaveTimeout={600}>
+
+                    <div style={{display: this.props.failed ? 'block' : 'none'}}>
+                        <FormattedMessage id="FailedGenerating"
+                                          values={{webgl: <FormattedMessage id="WebGLAcceleration" />,
+                                              optionmenu: <FormattedMessage id="OptionsMenu"/>}}
+                        />
+                    </div>
 
                     {this.props.results.length > 0 &&
                     <div className="rating btn-rating">
@@ -79,6 +87,7 @@ function mapStateToProps(state) {
     return {
         locale: state.selectLocale.locale,
         results: state.generator.results,
+        failed: state.generator.failedGenerating,
     };
 }
 

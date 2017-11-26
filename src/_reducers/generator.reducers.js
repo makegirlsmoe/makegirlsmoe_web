@@ -39,15 +39,9 @@ const assignOptionKeyRandom = (options, key)=>{
 };
 
 const assignOptionKeyFixedValue = (options, key, value)=>{
-    if (value == null){
-        return Object.assign({}, options, {
-            [key]: Object.assign({}, options[key], {random: false})
-        });
-    }else{
-        return Object.assign({}, options, {
-            [key]: Object.assign({}, options[key], {random: false, value: value})
-        });
-    }
+    return Object.assign({}, options, {
+        [key]: Object.assign({}, options[key], {random: false, value: value})
+    });
 };
 
 const initialGeneratorState =
@@ -55,8 +49,22 @@ const initialGeneratorState =
         currentModel: Config.defaultModel,
         options: initOptions(Config.defaultModel),
         results: [],
-
+        failedGenerating: false,
     };
+
+const checkFailed = (result)=> {
+    if (result.length !== 0){
+        let valCnt={};
+        let lim=result.length/3;
+        for (let i=0; i<result.length;i++) {
+            valCnt[result[i]] = valCnt[result[i]] ? valCnt[result[i]] + 1 : 1;
+            if (valCnt[result[i]] > lim){
+                return true;
+            }
+        }
+    }
+    return false;
+};
 
 export function generator(state = initialGeneratorState, action) {
     switch (action.type) {
@@ -90,12 +98,18 @@ export function generator(state = initialGeneratorState, action) {
             };
 
         case generatorConstants.APPEND_RESULT:
+            let failed = checkFailed(action.result);
             return {
                 ...state,
-                results: action.appendResult ? state.results.concat([action.result]) : [action.result]
+                results: action.appendResult ? state.results.concat([action.result]) : [action.result],
+                failedGenerating: failed
             };
 
         case generatorConstants.CHANGE_MODEL_OPTION:
+            var value = action.value || state.options[action.key].value;
+            if (action.key === 'noise' && !action.random && !value) {
+                return state;
+            }
             if (action.random) {
                 return{
                     ...state,
@@ -105,12 +119,12 @@ export function generator(state = initialGeneratorState, action) {
             else {
                 return{
                     ...state,
-                    options: assignOptionKeyFixedValue(state.options, action.key, action.value)
+                    options: assignOptionKeyFixedValue(state.options, action.key, value)
                 };
             }
 
         default:
-            return state
+            return state;
     }
 }
 
