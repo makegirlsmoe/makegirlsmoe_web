@@ -37,7 +37,7 @@ const ja_JP = {
     Note: "ご利用規約については{here}をご覧ください。",
     Here: "こちら",
     OptionsMenu: "Optionsメニュー",
-    FailedGenerating:"ブラウザが生成できなかったようです、{optionmenu}から{webgl}を無効にして再実行お願いします。",
+    FailedGenerating:"画像が生成できなかったようです、{optionmenu}から{webgl}を無効にして再実行お願いします。",
     Amaryllis:"Amaryllis 128x128 Ver.170716 (3.8MB)",
     Bouvardia128: "Bouvardia 128x128 Ver.171123 (9.8MB)",
     Bouvardia256: "Bouvardia 256x256 Ver.171125 (9.9MB)",

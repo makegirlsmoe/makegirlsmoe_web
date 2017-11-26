@@ -46,7 +46,7 @@ class Generator extends Component {
                     transitionEnterTimeout={600}
                     transitionLeaveTimeout={600}>
 
-                    <div style={{display: this.props.failed ? 'block' : 'none'}}>
+                    <div style={{display: this.props.failed ? 'block' : 'none', color:'red'}}>
                         <FormattedMessage id="FailedGenerating"
                                           values={{webgl: <FormattedMessage id="WebGLAcceleration" />,
                                               optionmenu: <FormattedMessage id="OptionsMenu"/>}}
