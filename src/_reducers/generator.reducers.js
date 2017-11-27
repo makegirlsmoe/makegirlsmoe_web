@@ -49,8 +49,22 @@ const initialGeneratorState =
         currentModel: Config.defaultModel,
         options: initOptions(Config.defaultModel),
         results: [],
-
+        failedGenerating: false,
     };
+
+const checkFailed = (result)=> {
+    if (result.length !== 0){
+        let valCnt={};
+        let lim=result.length/3;
+        for (let i=0; i<result.length;i++) {
+            valCnt[result[i]] = valCnt[result[i]] ? valCnt[result[i]] + 1 : 1;
+            if (valCnt[result[i]] > lim){
+                return true;
+            }
+        }
+    }
+    return false;
+};
 
 export function generator(state = initialGeneratorState, action) {
     switch (action.type) {
@@ -84,9 +98,11 @@ export function generator(state = initialGeneratorState, action) {
             };
 
         case generatorConstants.APPEND_RESULT:
+            let failed = checkFailed(action.result);
             return {
                 ...state,
-                results: action.appendResult ? state.results.concat([action.result]) : [action.result]
+                results: action.appendResult ? state.results.concat([action.result]) : [action.result],
+                failedGenerating: failed
             };
 
         case generatorConstants.CHANGE_MODEL_OPTION:

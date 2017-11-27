@@ -74,6 +74,16 @@ const ja_JP = {
     ShortHair: 'ショートヘア',
     TwinTail: 'ツインテール',
     DrillHair: 'ドリルヘアー',
-    Ponytail: 'ポニーテール'
+    Ponytail: 'ポニーテール',
+
+    LicensePageTitle: 'ライセンス',
+    LicenseLine1: '使MakeGirlsMoeを使うためには、以下のライセンスへの同意が必要です。',
+    LicenseLine2Start: 'MakeGirlsMoeは非営利目的にのみ無料で使用可能です。詳細については',
+    LicenseLine2Link: 'ライセンス',
+    LicenseLine2Middle: 'をご覧になってください。商用利用の場合については、作成者である',
+    LicenseLine2EmailLink: 'Yanghua Jin',
+    LicenseLine2End: 'までご連絡ください。',
+    LicenseLine3: 'WebインターフェースのプログラムコードはGPL v3.0ライセンスへ準拠しており、再配布可能です。',
+    LicenseLine4: '全ての機械学習モデルファイルは、作成者であるYanghua Jinによって個人的に所有されており、許可なく商用利用することは認められません。'
 };
 export default ja_JP;

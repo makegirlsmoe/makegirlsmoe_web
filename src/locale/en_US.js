@@ -73,7 +73,16 @@ const en_US = {
     ShortHair: 'Short Hair',
     TwinTail: 'Twin Tail',
     DrillHair: 'Drill Hair',
-    Ponytail: 'Ponytail'
+    Ponytail: 'Ponytail',
 
+    LicensePageTitle: 'License',
+    LicenseLine1: 'To use MakeGirlsMoe, you must agree with the following licenses.',
+    LicenseLine2Start: 'MakeGirlsMoe is freely available only for non-commercial use. Please, see the ',
+    LicenseLine2Link: 'license',
+    LicenseLine2Middle: ' for further details. For commercial queries, contact ',
+    LicenseLine2EmailLink: 'Yanghua Jin',
+    LicenseLine2End: '.',
+    LicenseLine3: 'The code of web interface is under the GPL v3.0 license and can be redistributed.',
+    LicenseLine4: 'All the compiled model files are privately owned by Yanghua Jin and are not allowed for unauthorized commercial use.'
 };
 export default en_US;

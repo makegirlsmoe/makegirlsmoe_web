@@ -73,6 +73,16 @@ const zh_CN = {
     ShortHair: '短发',
     TwinTail: '双马尾',
     DrillHair: '双螺旋',
-    Ponytail: '马尾'
+    Ponytail: '马尾',
+
+    LicensePageTitle: '执照',
+    LicenseLine1: '使用MakeGirlsMoe前请注意以下条款',
+    LicenseLine2Start: 'MakeGirlsMoe可以免费用于任何非商业用途，请在这里查看具体',
+    LicenseLine2Link: '使用许可',
+    LicenseLine2Middle: '。对于任何商业请求与咨询，请联系',
+    LicenseLine2EmailLink: 'Yanghua Jin',
+    LicenseLine2End: '。',
+    LicenseLine3: '网站前端源代码部分使用GPL v3.0许可，可以在遵守相关许可的情况下重新发放。',
+    LicenseLine4: '所有的预训练模型相关的文件，都由Yanghua Jin所私有，请勿在未经过许可的情况下进行任何商业使用。'
 };
 export default zh_CN;
