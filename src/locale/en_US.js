@@ -5,6 +5,8 @@ const en_US = {
     Home: "Home",
     News: "News",
     Tips: "Tips",
+    Blog: 'Official Blog',
+    GitHub: 'GitHub',
     Options: "Options",
     ExpertMode: "Advanced Mode",
 
@@ -37,7 +39,7 @@ const en_US = {
     Note: "Note: Please see {here} for terms of use.",
     Here: "here",
     OptionsMenu: "Options menu",
-    FailedGenerating:"Oops, it seems that the browser failed to generate. Please disable the {webgl} in the {optionmenu} and retry.",
+    FailedGenerating:"Oops, it seems that the browser failed to generate images. Please disable the {webgl} in the {optionmenu} and retry.",
     Amaryllis:"Amaryllis 128x128 Ver.170716 (3.8MB)",
     Bouvardia128: "Bouvardia 128x128 Ver.171123 (9.8MB)",
     Bouvardia256: "Bouvardia 256x256 Ver.171125 (9.9MB)",
@@ -73,7 +75,16 @@ const en_US = {
     ShortHair: 'Short Hair',
     TwinTail: 'Twin Tail',
     DrillHair: 'Drill Hair',
-    Ponytail: 'Ponytail'
+    Ponytail: 'Ponytail',
 
+    LicensePageTitle: 'License',
+    LicenseLine1: 'To use MakeGirlsMoe, you must agree with the following licenses.',
+    LicenseLine2Start: 'MakeGirlsMoe is freely available only for non-commercial use. Please, see the ',
+    LicenseLine2Link: 'license',
+    LicenseLine2Middle: ' for further details. For commercial queries, contact ',
+    LicenseLine2EmailLink: 'Yanghua Jin',
+    LicenseLine2End: '.',
+    LicenseLine3: 'The code of web interface is under the GPL v3.0 license and can be redistributed.',
+    LicenseLine4: 'All the compiled model files are privately owned by Yanghua Jin and are not allowed for unauthorized commercial use.'
 };
 export default en_US;

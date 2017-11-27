@@ -2,3 +2,7 @@
     font-family: "ScalaSans";
     src: url("./scala-sans-regular.otf");
 }
+@font-face {
+    font-family: "Roboto Condensed";
+    src: url("./RobotoCondensed-Regular.ttf");
+}
