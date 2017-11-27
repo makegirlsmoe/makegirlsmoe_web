@@ -75,8 +75,8 @@ const zh_CN = {
     DrillHair: '双螺旋',
     Ponytail: '马尾',
 
-    LicensePageTitle: '执照',
-    LicenseLine1: '使用MakeGirlsMoe前请注意以下条款',
+    LicensePageTitle: '使用许可',
+    LicenseLine1: '使用MakeGirlsMoe前请注意以下条款。',
     LicenseLine2Start: 'MakeGirlsMoe可以免费用于任何非商业用途，请在这里查看具体',
     LicenseLine2Link: '使用许可',
     LicenseLine2Middle: '。对于任何商业请求与咨询，请联系',
