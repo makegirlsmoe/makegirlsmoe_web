@@ -63,9 +63,9 @@ class Navbar extends Component {
                             <li><a href="https://github.com/makegirlsmoe" target="_blank" rel="noopener noreferrer">Github</a></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                            <li>
-                                {this.renderLanguageDropdown()}
-                            </li>
+                            <li>{this.renderLanguageDropdown()}</li>
+                            <li><Link to='/signup'>Sign Up</Link></li>
+                            <li><Link to='/login'>Log In</Link></li>
                             <li>
                                 <a className="twitter-share-button"
                                    style={{display: this.props.twitterVisible ? 'block' : 'none'}}

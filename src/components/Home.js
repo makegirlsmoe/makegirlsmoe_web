@@ -8,6 +8,8 @@ import License from './pages/License';
 import About from './pages/About';
 import News from './pages/News';
 import Tips from './pages/Tips';
+import LogIn from './pages/LogIn';
+import SignUp from './pages/SignUp';
 import ProgressBar from './generator-widgets/ProgressBar';
 import Generator from './generator/Generator';
 import Options from './generator/Options';
@@ -438,6 +440,8 @@ class Home extends Component {
                                     <Route path="/about" component={About}/>
                                     <Route path="/news" component={News}/>
                                     <Route path="/tips" component={Tips}/>
+                                    <Route path="/signup" component={SignUp}/>
+                                    <Route path="/login" component={LogIn}/>
                                 </Switch>
 
                             </div>

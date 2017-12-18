@@ -86,3 +86,11 @@
 .language-dropdown__link {
     margin: 5px 0;
 }
+
+guest-login {
+    vertical-align: middle;
+}
+
+navbar-right {
+    vertical-align: middle;
+}

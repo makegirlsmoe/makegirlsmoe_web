@@ -9,6 +9,11 @@ input[type="text"], textarea {
     font-family: sans-serif;
 }
 
+input[type="password"], textarea {
+    font-size: 16px !important;
+    font-family: sans-serif;
+}
+
 .vcenter {
     display: inline-block;
     vertical-align: middle;
