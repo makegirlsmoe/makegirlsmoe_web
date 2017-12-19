@@ -40,9 +40,10 @@ const ru_RU = {
     Here: 'условия использования',
     OptionsMenu: "Options menu",
     FailedGenerating:"Oops, it seems that the browser failed to generate images. Please disable the {webgl} in the {optionmenu} and retry.",
-    Amaryllis: 'Amaryllis 128x128 Ver.170716 (3.8MB)',
-    Bouvardia128: 'Bouvardia 128x128 Ver.171123 (9.8MB)',
-    Bouvardia256: 'Bouvardia 256x256 Ver.171125 (9.9MB)',
+    Amaryllis:"Amaryllis 128x128 Ver.170716 (3.8MB)",
+    Bouvardia128: "Bouvardia 128x128 Ver.171123 (9.8MB)",
+    Bouvardia256: "Bouvardia 256x256 Ver.171125 (9.9MB)",
+    Camellia: "Camellia 256x256 Ver.171219 (9.9MB)",
 
     HairColor: 'Цвет волос',
     HairStyle: 'Причёска',
