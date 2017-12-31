@@ -57,7 +57,7 @@ const ja_JP = {
     Glasses:"メガネ",
     Noise:"ノイズ",
     DarkSkin:"褐色肌",
-    Year:"スタイル",
+    Year:"絵柄",
 
     Blonde: '金',
     Brown: '茶',
