@@ -82,8 +82,8 @@ class Navbar extends Component {
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             <li>{this.renderLanguageDropdown()}</li>
-                            <li><Link to='/signup'>Sign Up</Link></li>
-                            <li><Link to='/login'>Log In</Link></li>
+                            {this.renderLink('Sign Up', '/signup')}
+                            {this.renderLink('Log In', '/login')}
                             <li>
                                 <a className="twitter-share-button"
                                    style={{display: this.props.twitterVisible ? 'block' : 'none'}}
