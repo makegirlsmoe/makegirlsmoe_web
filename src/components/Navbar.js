@@ -18,20 +18,42 @@ class Navbar extends Component {
         );
     }
 
+    renderHelpDropdown() {
+        return (
+            <Dropdown className="navbar-dropdown help-dropdown">
+                <DropdownTrigger role="button">
+                    <span className="dropdown__name">
+                        <FormattedMessage id="Help"/>
+                    </span>
+                </DropdownTrigger>
+                <DropdownContent>
+                    <ul className="dropdown__segment dropdown__quick-links">
+                        {this.renderLink('License', '/license')}
+                        {this.renderLink('About', '/about')}
+                        {this.renderLink('News', '/news')}
+                        {this.renderLink('Tips', '/tips')}
+                        <li><a href="https://makegirlsmoe.github.io/" target="_blank" rel="noopener noreferrer">Official Blog</a></li>
+                        <li><a href="https://github.com/makegirlsmoe" target="_blank" rel="noopener noreferrer">Github</a></li>
+                    </ul>
+                </DropdownContent>
+            </Dropdown>
+        );
+    }
+
     renderLanguageDropdown() {
         return (
-            <Dropdown className="language-dropdown">
+            <Dropdown className="navbar-dropdown language-dropdown">
                 <DropdownTrigger role="button">
-                    <span className="language-dropdown__name">
+                    <span className="dropdown__name">
                         <FormattedMessage id="CurrentLanguage"/>
                     </span>
                 </DropdownTrigger>
                 <DropdownContent>
-                    <ul className="language-dropdown__segment language-dropdown__quick-links">
-                        <li className="language-dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('en'))}>English</a></li>
-                        <li className="language-dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('ja'))}>日本語</a></li>
-                        <li className="language-dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('zh'))}>中文</a></li>
-                        <li className="language-dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('ru'))}>Русский</a></li>
+                    <ul className="dropdown__segment dropdown__quick-links">
+                        <li className="dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('en'))}>English</a></li>
+                        <li className="dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('ja'))}>日本語</a></li>
+                        <li className="dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('zh'))}>中文</a></li>
+                        <li className="dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('ru'))}>Русский</a></li>
                     </ul>
                 </DropdownContent>
             </Dropdown>
@@ -55,12 +77,8 @@ class Navbar extends Component {
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
                             {this.renderLink('Home', '/')}
-                            {this.renderLink('License', '/license')}
-                            {this.renderLink('About', '/about')}
-                            {this.renderLink('News', '/news')}
-                            {this.renderLink('Tips', '/tips')}
-                            <li><a href="https://makegirlsmoe.github.io/" target="_blank" rel="noopener noreferrer">Official Blog</a></li>
-                            <li><a href="https://github.com/makegirlsmoe" target="_blank" rel="noopener noreferrer">Github</a></li>
+                            {this.renderLink('Transition', '/transition')}
+                            <li>{this.renderHelpDropdown()}</li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             <li>{this.renderLanguageDropdown()}</li>

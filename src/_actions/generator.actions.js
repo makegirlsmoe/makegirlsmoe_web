@@ -6,8 +6,12 @@ export const generatorAction = {
     setGeneratorOptions,
     resetGeneratorOptions,
     fixGeneratorOptions,
+    setGeneratorInput,
     appendResult,
     modelOptionChange,
+    setTransitionStart,
+    setTransitionEnd,
+    appendTransitionMiddle
 };
 
 export const generatorConfigAction = {
@@ -44,10 +48,26 @@ function fixGeneratorOptions(){
     return { type: generatorConstants.FIX_OPTIONS}
 }
 
+function setGeneratorInput(input) {
+    return { type: generatorConstants.SET_INPUT, input}
+}
+
 function appendResult(result, appendResult=false) {
     return { type: generatorConstants.APPEND_RESULT, result, appendResult}
 }
 
 function modelOptionChange(key, random, value){
     return { type: generatorConstants.CHANGE_MODEL_OPTION, key, random, value}
+}
+
+function setTransitionStart(result, input) {
+    return { type: generatorConstants.SET_TRANSITION_START, result, input}
+}
+
+function setTransitionEnd(result, input) {
+    return { type: generatorConstants.SET_TRANSITION_END, result, input}
+}
+
+function appendTransitionMiddle(result, input) {
+    return { type: generatorConstants.APPEND_TRANSITION_MIDDLE, result, input}
 }

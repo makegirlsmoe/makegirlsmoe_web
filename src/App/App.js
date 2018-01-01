@@ -17,9 +17,6 @@ import ru from "react-intl/locale-data/ru";
 addLocaleData([...en,...zh,...ja,...ru]);
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     onTimelineLoad() {
         window.$('.main-content').css('max-width', 1200);
@@ -36,7 +33,7 @@ class App extends Component {
                     <Navbar location={this.props.location} />
                     <div className="main-content">
                         <Switch>
-                            <Route path="/(|license|about|news|tips|test|signup|login)" render={() =>
+                            <Route path="/(|transition|license|about|news|tips|test|signup|login)" render={() =>
                                 <Home onTimelineLoad={() => this.onTimelineLoad()} />
                             }/>
                             <Route path="/twitter" component={Twitter}/>

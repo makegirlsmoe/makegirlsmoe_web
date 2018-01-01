@@ -1,0 +1,20 @@
+.transition-item {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.transition-buttons {
+    margin: 15px -10px;
+}
+
+.transition-buttons .btn-primary {
+    margin: 5px 10px;
+}
+
+.transition-item .result-wrapper {
+    margin-bottom: 0;
+}
+
+.btn-transition-generate {
+    width: 140px;
+}

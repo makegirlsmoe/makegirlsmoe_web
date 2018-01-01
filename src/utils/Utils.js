@@ -85,6 +85,9 @@ class Utils {
         return Math.min(Math.max(value, min), max);
     };
 
+    static range(n) {
+        return [...new Array(n).keys()];
+    }
 }
 
 export default Utils

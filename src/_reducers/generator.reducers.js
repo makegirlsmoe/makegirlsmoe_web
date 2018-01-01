@@ -68,7 +68,16 @@ export function generator(state = initialGeneratorState, action) {
                 ...state,
                 currentModel: action.model,
                 results: [],
-                options: initOptions(action.model)
+                options: initOptions(action.model),
+                input: {
+                    noise: null,
+                    label: null
+                },
+                transition: {
+                    start: null,
+                    end: null,
+                    middle: []
+                }
             };
 
         case generatorConstants.RESET_OPTIONS:
@@ -87,6 +96,12 @@ export function generator(state = initialGeneratorState, action) {
             return {
                 ...state,
                 options: action.options
+            };
+
+        case generatorConstants.SET_INPUT:
+            return {
+                ...state,
+                input: action.input
             };
 
         case generatorConstants.APPEND_RESULT:
@@ -108,6 +123,40 @@ export function generator(state = initialGeneratorState, action) {
                     options: assignOptionKeyFixedValue(state.options, action.key, action.value)
                 };
             }
+
+        case generatorConstants.SET_TRANSITION_START:
+            return{
+                ...state,
+                transition: {
+                    ...state.transition,
+                    start: { result: action.result, input: action.input },
+                    middle: []
+                }
+            };
+
+        case generatorConstants.SET_TRANSITION_END:
+            return{
+                ...state,
+                transition: {
+                    ...state.transition,
+                    end: { result: action.result, input: action.input },
+                    middle: []
+                }
+            };
+
+        case generatorConstants.APPEND_TRANSITION_MIDDLE:
+            var item = {
+                result: action.result,
+                input: action.input
+            };
+
+            return {
+                ...state,
+                transition: {
+                    ...state.transition,
+                    middle: state.transition.middle ? state.transition.middle.concat([item]) : [item]
+                }
+            };
 
         default:
             return state

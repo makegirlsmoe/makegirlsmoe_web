@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from "react-intl";
 import { CSSTransitionGroup } from 'react-transition-group';
 import Config from '../Config';
+import Transition from './pages/Transition';
 import License from './pages/License';
 import About from './pages/About';
 import News from './pages/News';
@@ -22,8 +23,6 @@ import ImageEncoder from '../utils/ImageEncoder';
 import Twitter from '../utils/Twitter';
 import './Home.css';
 import {twitterAction, generatorAction, generatorConfigAction } from '../_actions';
-
-
 
 class Home extends Component {
 
@@ -234,10 +233,14 @@ class Home extends Component {
         return noise;
     }
 
-    async generate() {
+    setGanState(state) {
         this.setState({
-            gan: Object.assign({}, this.state.gan, {isRunning: true})
+            gan: { ...this.state.gan, ...state }
         });
+    }
+
+    async generate() {
+        this.setGanState({isRunning: true});
 
         if (this.gan.getBackendName() === 'webgl') {
             await Utils.promiseTimeout(100, true); // XXX: wait for components to refresh
@@ -253,19 +256,21 @@ class Home extends Component {
                 generatorAction.setGeneratorOptions(optionInputs)
             );
             this.props.dispatch(
+                generatorAction.setGeneratorInput({ noise: noise, label: label, noiseOrigin: optionInputs.noise.value })
+            );
+            this.props.dispatch(
                 generatorAction.appendResult(result, i!==0)
             );
 
             this.setState({
-                rating: 0,
-                gan: Object.assign({}, this.state.gan, {noise: noise, noiseOrigin: optionInputs.noise.value, input: noise.concat(label)})
+                rating: 0
             });
+
+            this.setGanState({noise: noise, noiseOrigin: optionInputs.noise.value, input: noise.concat(label)});
         }
 
         //Stat.generate(this.state.options);
-        this.setState({
-            gan: Object.assign({}, this.state.gan, {isRunning: false}),
-        });
+        this.setGanState({isRunning: false});
     }
     /*
     onModelOptionChange(key, random, value = this.state.options[key].value) {
@@ -436,6 +441,9 @@ class Home extends Component {
                                                 //webglAvailable={this.state.webglAvailable}
                                                 backendName={this.state.gan.backendName} />
                                     } />
+                                    <Route path="/transition" render={() =>
+                                        <Transition getGan={() => this.gan} ganState={this.state.gan} setGanState={(state) => this.setGanState(state)} />
+                                    }/>
                                     <Route path="/license" component={License}/>
                                     <Route path="/about" component={About}/>
                                     <Route path="/news" component={News}/>
