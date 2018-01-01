@@ -6,6 +6,7 @@ import Utils from '../../utils/Utils';
 import Config from '../../Config';
 import ButtonPrimary from '../generator-widgets/ButtonPrimary';
 import ResultCanvas from '../generator-widgets/ResultCanvas';
+import PromptDialog from '../general/PromptDialog';
 import './Transition.css';
 
 class Transition extends Component {
@@ -44,25 +45,25 @@ class Transition extends Component {
         return this.renderItem(this.props.transition && this.props.transition.middle && this.props.transition.middle[index] ? this.props.transition.middle[index].result : null);
     }
 
-    onSetStartImageClick() {
+    async onSetStartImageClick() {
         if (this.props.results.length > 0) {
             this.props.dispatch(
                 generatorAction.setTransitionStart(this.props.results[this.props.results.length - 1], this.props.input)
             );
         }
         else {
-
+            await this.refs.dialog.show("Error", <span>Please <span style={{color: Config.colors.theme, fontWeight: 'bold'}}>generate</span> an image first</span>);
         }
     }
 
-    onSetEndImageClick() {
+    async onSetEndImageClick() {
         if (this.props.results.length > 0) {
             this.props.dispatch(
                 generatorAction.setTransitionEnd(this.props.results[this.props.results.length - 1], this.props.input)
             );
         }
         else {
-
+            await this.refs.dialog.show("Error", <span>Please <span style={{color: Config.colors.theme, fontWeight: 'bold'}}>generate</span> an image first</span>);
         }
     }
 
@@ -129,6 +130,8 @@ class Transition extends Component {
                         disabled={notSet || isRunning || finished}
                         onClick={() => this.onGenerateClick()} />
                 </div>
+
+                <PromptDialog ref="dialog" type="alert" />
 
             </div>
         );
