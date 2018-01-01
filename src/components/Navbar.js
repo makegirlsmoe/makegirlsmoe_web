@@ -9,11 +9,11 @@ import { localeAction } from '../_actions';
 
 class Navbar extends Component {
 
-    renderLink(title, path) {
+    renderLink(title, path, newTab=false) {
         var currentLocation = this.props.location.pathname;
         return (
             <li className={currentLocation === path ? 'active': ''}>
-                <Link to={path}><FormattedMessage id={title} /></Link>
+                {!newTab ? <Link to={path}><FormattedMessage id={title} /></Link>: <a href={path} target="_blank" rel="noopener noreferrer"><FormattedMessage id={title} /></a>}
             </li>
         );
     }

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from "react-intl";
 import { CSSTransitionGroup } from 'react-transition-group';
 import ButtonPrimary from '../generator-widgets/ButtonPrimary';
 import ResultCanvas from '../generator-widgets/ResultCanvas';
 import RatingButtons from '../generator-widgets/RatingButtons';
 import twitterLogo from '../../img/Twitter_bird_logo_2012.svg';
 import './Generator.css';
-import { getlanguageLength } from '../../_reducers/locale.reducers';
 
 class Generator extends Component {
 
@@ -27,14 +27,13 @@ class Generator extends Component {
             height: this.props.modelConfig.gan.imageHeight,
             width: this.props.modelConfig.gan.imageWidth
         };
-
         return (
+
             <div className="generator">
                 <div className="result-wrapper" style={resultWrapperStyle}>
                     {this.props.results ? this.props.results.map((result, index) => this.renderResultCanvas(result, index)) : null}
                 </div>
                 <ButtonPrimary
-                    className={"btn-primary-" + getlanguageLength(this.props.locale)}
                     text={this.props.gan.isRunning ? 'Generating': 'Generate' }
                     disabled={this.props.gan.isRunning || !this.props.gan.isReady}
                     onClick={this.props.onGenerateClick} />
@@ -44,6 +43,13 @@ class Generator extends Component {
                     transitionName="rating-transition"
                     transitionEnterTimeout={600}
                     transitionLeaveTimeout={600}>
+
+                    <div style={{display: this.props.failed ? 'block' : 'none', color:'red'}}>
+                        <FormattedMessage id="FailedGenerating"
+                                          values={{webgl: <FormattedMessage id="WebGLAcceleration" />,
+                                              optionmenu: <FormattedMessage id="OptionsMenu"/>}}
+                        />
+                    </div>
 
                     {this.props.results.length > 0 &&
                     <div className="rating btn-rating">
@@ -79,6 +85,7 @@ function mapStateToProps(state) {
     return {
         locale: state.selectLocale.locale,
         results: state.generator.results,
+        failed: state.generator.failedGenerating,
     };
 }
 
