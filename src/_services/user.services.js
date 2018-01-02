@@ -31,11 +31,17 @@ function userLogin(username, password) {
 
 function userLogout() {
     const requestOptions = {
-        method: 'POST',
+        method: 'GET',
         headers: { 'Content-Type': 'application/json' },
-        body: '{}'
+        credentials: "include"
     };
-    return fetch('http://127.0.0.1:5000/user/logout', requestOptions)
+    return fetch('http://127.0.0.1:5000/user/logout', requestOptions).then(response => {
+        console.log(response);
+        if (!response.ok) {
+            return Promise.reject(response.message);
+        }
+        return response.json();
+    })
 }
 
 function userRegister(user) {

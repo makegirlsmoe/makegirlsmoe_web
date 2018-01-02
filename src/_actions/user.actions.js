@@ -40,7 +40,7 @@ function userLogout() {
                 status => dispatch(success())
             );
     };
-    function success() { return { type: userConstants.LOGOUT} }
+    function success() { console.log('success');return { type: userConstants.LOGOUT} }
 }
 
 function userRegister(user) {
