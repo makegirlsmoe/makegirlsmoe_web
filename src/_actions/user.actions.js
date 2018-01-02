@@ -1,5 +1,7 @@
 import { userConstants } from '../_constants';
 import { userService } from '../_services';
+import history from '../_helpers/history';
+//import { browserHistory } from 'react-router'
 
 export const userAction = {
     userLogin,
@@ -14,10 +16,16 @@ function userLogin(username, password) {
         userService.userLogin(username, password)
             .then(
                 user => {
+                    console.log('success');
+                    console.log(user);
                     dispatch(success(user));
-                    //history.push('/');
+                    //this.props.history.push('/');
+                    //browserHistory.push('/');
+                    history.push('/');
                 },
                 error => {
+                    console.log('failed');
+                    console.log(error);
                     dispatch(failure(error));
                     //dispatch(alertActions.error(error));
                 }

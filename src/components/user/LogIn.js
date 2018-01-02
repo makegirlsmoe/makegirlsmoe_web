@@ -27,6 +27,7 @@ class LogIn extends Component {
 
         this.setState({ submitted: true });
         const { username, password } = this.state;
+        console.log(username, password);
         if (username && password) {
             this.props.dispatch(userAction.userLogin(username, password));
         }
