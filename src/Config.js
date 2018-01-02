@@ -1,4 +1,4 @@
-var debug = false;
+var debug = true;
 var backendUrlPrefix = (debug ? 'http://localhost:6253' : '');
 var frontendUrlPrefix = (debug ? 'http://localhost:3000' : '');
 var hostServer = 'make.girls.moe';
