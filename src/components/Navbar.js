@@ -5,12 +5,12 @@ import { FormattedMessage } from "react-intl";
 import Config from '../Config';
 import './Navbar.css';
 import Dropdown, {DropdownContent, DropdownTrigger} from 'react-simple-dropdown';
-import { localeAction } from '../_actions';
+import { localeAction, userAction } from '../_actions';
 
 class Navbar extends Component {
 
     renderLink(title, path, newTab=false) {
-        var currentLocation = this.props.location.pathname;
+        let currentLocation = this.props.location.pathname;
         return (
             <li className={currentLocation === path ? 'active': ''}>
                 {!newTab ? <Link to={path}><FormattedMessage id={title} /></Link>: <a href={path} target="_blank" rel="noopener noreferrer"><FormattedMessage id={title} /></a>}
@@ -18,24 +18,35 @@ class Navbar extends Component {
         );
     }
 
-    renderUserLink(title, path, show, newTab=false) {
-        var currentLocation = this.props.location.pathname;
+    renderUserLink(title, path, show, canSelect=true, newTab=false) {
+        let currentLocation = this.props.location.pathname;
         return (
-            <li style={show ? {}: {display:'none'}} className={currentLocation === path ? 'active': ''}>
+            <li style={show ? {}: {display:'none'}} className={canSelect? (currentLocation === path ? 'active': ''):''}>
                 {!newTab ? <Link to={path}><FormattedMessage id={title} /></Link>: <a href={path} target="_blank" rel="noopener noreferrer"><FormattedMessage id={title} /></a>}
             </li>
         );
     }
 
-    renderUserName(show) {
+
+    renderUserDropdown(show) {
         return (
-            <li style={show ? {}: {display:'none'}} className="active">
-                <span>
-                    {this.props.user}
-                </span>
+            <li style={show ? {}: {display:'none'}}>
+                <Dropdown className="navbar-dropdown help-dropdown" >
+                    <DropdownTrigger role="button">
+                        <span className="dropdown__name">
+                            {this.props.user }
+                        </span>
+                    </DropdownTrigger>
+                    <DropdownContent>
+                        <ul className="dropdown__segment dropdown__quick-links">
+                            <li className="dropdown__link"><a role="button" onClick={() => this.props.dispatch(userAction.userLogout())}>Logout</a></li>
+                        </ul>
+                    </DropdownContent>
+                </Dropdown>
             </li>
         );
     }
+
 
     renderHelpDropdown() {
         return (
@@ -101,10 +112,10 @@ class Navbar extends Component {
                             <li>{this.renderHelpDropdown()}</li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                            <li>{this.renderLanguageDropdown()}</li>
                             {this.renderUserLink('Log In', '/login', !this.props.user)}
                             {this.renderUserLink('Sign Up', '/signup', !this.props.user)}
-                            {this.renderUserName(this.props.user)}
+                            {this.renderUserDropdown(this.props.user)}
+                            <li>{this.renderLanguageDropdown()}</li>
                             <li>
                                 <a className="twitter-share-button"
                                    style={{display: this.props.twitterVisible ? 'block' : 'none'}}

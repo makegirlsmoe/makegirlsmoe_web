@@ -30,8 +30,12 @@ function userLogin(username, password) {
 }
 
 function userLogout() {
-    // remove user from local storage to log user out
-    // localStorage.removeItem('user');
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}'
+    };
+    return fetch('http://127.0.0.1:5000/user/logout', requestOptions)
 }
 
 function userRegister(user) {

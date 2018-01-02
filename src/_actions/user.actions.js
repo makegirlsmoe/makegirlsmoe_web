@@ -34,8 +34,13 @@ function userLogin(username, password) {
 }
 
 function userLogout() {
-    userService.userLogout();
-    return { type: userConstants.LOGOUT };
+    return dispatch => {
+        userService.userLogout()
+            .then(
+                status => dispatch(success())
+            );
+    };
+    function success() { return { type: userConstants.LOGOUT} }
 }
 
 function userRegister(user) {
