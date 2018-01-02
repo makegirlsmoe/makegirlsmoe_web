@@ -9,7 +9,7 @@ class SignUp extends Component {
                 <h3 style={{color: Config.colors.theme}}>User Register</h3>
                 <div class="form-group">
                     <p>
-                        <input type="text" name="username" className="form-control"  placeholder="Email Address"/>
+                        <input type="text" name="username" className="form-control"  placeholder="Username"/>
                     </p>
                     <p>
                         <input type="password" name="password" className="form-control"  placeholder="Password"/>

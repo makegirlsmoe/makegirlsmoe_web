@@ -27,7 +27,7 @@ class LogIn extends Component {
 
         this.setState({ submitted: true });
         const { username, password } = this.state;
-        console.log(username, password);
+        //console.log(username, password);
         if (username && password) {
             this.props.dispatch(userAction.userLogin(username, password));
         }
@@ -43,7 +43,7 @@ class LogIn extends Component {
                         <input type="text" name="username"
                                className={"form-control form-group"+ (submitted && !username ? ' has-error' : '')}
                                value={username}  onChange={this.handleChange}
-                               placeholder="Email Address"/>
+                               placeholder="Username"/>
                     </div>
                     {submitted && !username &&
                         <div className="help-block warning-text">Username cannot be empty!</div>

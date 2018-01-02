@@ -18,6 +18,15 @@ class Navbar extends Component {
         );
     }
 
+    renderUserLink(title, path, show, newTab=false) {
+        var currentLocation = this.props.location.pathname;
+        return (
+            <li style={show ? {}: {display:'none'}} className={currentLocation === path ? 'active': ''}>
+                {!newTab ? <Link to={path}><FormattedMessage id={title} /></Link>: <a href={path} target="_blank" rel="noopener noreferrer"><FormattedMessage id={title} /></a>}
+            </li>
+        );
+    }
+
     renderHelpDropdown() {
         return (
             <Dropdown className="navbar-dropdown help-dropdown">
@@ -61,6 +70,7 @@ class Navbar extends Component {
     }
 
     render() {
+        //console.log(this.props.user);
         return (
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
@@ -82,8 +92,8 @@ class Navbar extends Component {
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             <li>{this.renderLanguageDropdown()}</li>
-                            {this.renderLink('Sign Up', '/signup')}
-                            {this.renderLink('Log In', '/login')}
+                            {this.renderUserLink('Log In', '/login', !this.props.user)}
+                            {this.renderUserLink('Sign Up', '/signup', !this.props.user)}
                             <li>
                                 <a className="twitter-share-button"
                                    style={{display: this.props.twitterVisible ? 'block' : 'none'}}
@@ -104,7 +114,8 @@ class Navbar extends Component {
 function mapStateToProps(state) {
     return {
         twitterVisible: state.twitter.visible,
-        locale: state.selectLocale.locale
+        locale: state.selectLocale.locale,
+        user: state.authentication.user.user
     };
 }
 
