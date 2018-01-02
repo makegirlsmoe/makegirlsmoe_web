@@ -27,6 +27,16 @@ class Navbar extends Component {
         );
     }
 
+    renderUserName(show) {
+        return (
+            <li style={show ? {}: {display:'none'}} className="active">
+                <span>
+                    {this.props.user}
+                </span>
+            </li>
+        );
+    }
+
     renderHelpDropdown() {
         return (
             <Dropdown className="navbar-dropdown help-dropdown">
@@ -94,6 +104,7 @@ class Navbar extends Component {
                             <li>{this.renderLanguageDropdown()}</li>
                             {this.renderUserLink('Log In', '/login', !this.props.user)}
                             {this.renderUserLink('Sign Up', '/signup', !this.props.user)}
+                            {this.renderUserName(this.props.user)}
                             <li>
                                 <a className="twitter-share-button"
                                    style={{display: this.props.twitterVisible ? 'block' : 'none'}}
