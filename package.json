@@ -12,6 +12,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-fa": "^4.2.0",
+    "react-grid-gallery": "^0.4.7",
     "react-hint": "^2.0.2",
     "react-intl": "^2.4.0",
     "react-mathjax": "^0.1.1",

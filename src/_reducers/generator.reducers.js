@@ -122,7 +122,7 @@ export function generator(state = initialGeneratorState, action) {
                 ...state,
                 results: action.appendResult ? state.results.concat([action.result]) : [action.result],
                 resultsOptions: action.appendResult ? state.resultsOptions.concat([action.options]) : [action.options],
-                currentIndex: action.appendResult ? state.currentIndex + 1 : 0,
+                currentIndex: action.appendResult ? state.results.length : 0,
                 failedGenerating: failed
             };
 
@@ -177,6 +177,12 @@ export function generator(state = initialGeneratorState, action) {
                     middle: state.transition.middle ? state.transition.middle.concat([item]) : [item]
                 }
             };
+
+        case generatorConstants.CHANGE_CURRENT_INDEX:
+            return {
+                ...state,
+                currentIndex: action.index
+            }
 
         default:
             return state;

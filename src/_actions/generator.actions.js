@@ -11,7 +11,8 @@ export const generatorAction = {
     modelOptionChange,
     setTransitionStart,
     setTransitionEnd,
-    appendTransitionMiddle
+    appendTransitionMiddle,
+    changeCurrentIndex,
 };
 
 export const generatorConfigAction = {
@@ -75,4 +76,8 @@ function setTransitionEnd(result, input) {
 
 function appendTransitionMiddle(result, input) {
     return { type: generatorConstants.APPEND_TRANSITION_MIDDLE, result, input}
+}
+
+function changeCurrentIndex(index) {
+    return { type: generatorConstants.CHANGE_CURRENT_INDEX, index}
 }
