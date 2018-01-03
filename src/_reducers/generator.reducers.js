@@ -181,6 +181,7 @@ const initialGeneratorConfigState =
     {
         webglAvailable: false,
         webglDisabled: false,
+        remoteComputing: false,
     };
 
 export function generatorConfig(state = initialGeneratorConfigState, action) {
@@ -194,6 +195,11 @@ export function generatorConfig(state = initialGeneratorConfigState, action) {
             return {
                 ...state,
                 webglDisabled: !action.value,
+            };
+        case generatorConstants.REMOTE_COMPUTING:
+            return {
+                ...state,
+                remoteComputing: action.value
             };
         default:
             return state

@@ -266,6 +266,23 @@ class Options extends Component {
         );
     }
 
+    renderRemoteComputing() {
+        return (
+            <div className={this.getClassShortOption()}>
+                <h5>Remote Computing</h5>
+                {new ButtonGroup().renderButtonGroup([
+                    {name: 'Disabled', isActive: !this.props.remoteComputing,
+                        onClick: () => this.props.dispatch(generatorConfigAction.setRemoteComputing(false))
+
+                    },
+                    {name: 'Enabled', isActive: this.props.remoteComputing,
+                        onClick: () => this.props.dispatch(generatorConfigAction.setRemoteComputing(true))
+                    }
+                ])}
+            </div>
+        );
+    }
+
     renderBackendName() {
         var backendNameDict = {'webgpu': 'WebGPU', 'webgl': 'WebGL', 'webassembly': 'WebAssembly'};
         return (
@@ -305,6 +322,10 @@ class Options extends Component {
                 <div className="row">
                     {this.renderOperations()}
                     {this.renderWebglOption()}
+                    {this.renderRemoteComputing()}
+
+                </div>
+                <div className="row">
                     {this.renderBackendName()}
                 </div>
                 <div className="row">
@@ -327,6 +348,7 @@ function mapStateToProps(state) {
     return {
         webglAvailable: state.generatorConfig.webglAvailable,
         webglDisabled: state.generatorConfig.webglDisabled,
+        remoteComputing: state.generatorConfig.remoteComputing,
         currentModel: state.generator.currentModel,
         locale: state.selectLocale.locale,
         inputs: state.generator.options,

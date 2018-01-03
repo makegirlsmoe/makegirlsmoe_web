@@ -14,13 +14,11 @@ function userLogin(username, password) {
         userService.userLogin(username, password)
             .then(
                 status => {
-                    console.log('success');
                     console.log(status);
                     dispatch(success({'user': username}));
                     window.location = '#/';
                 },
                 error => {
-                    console.log('failed');
                     console.log(error);
                     dispatch(failure(error));
                     //dispatch(alertActions.error(error));
@@ -43,14 +41,15 @@ function userLogout() {
     function success() { console.log('success');return { type: userConstants.LOGOUT} }
 }
 
-function userRegister(user) {
+function userRegister(username, password) {
     return dispatch => {
-        dispatch(request(user));
+        dispatch(request(username));
 
-        userService.register(user)
+        userService.userRegister(username, password)
             .then(
-                user => {
-                    dispatch(success());
+                status => {
+                    dispatch(success(username));
+                    window.location = '#/login';
                     //history.push('/login');
                     //dispatch(alertActions.success('Registration successful'));
                 },

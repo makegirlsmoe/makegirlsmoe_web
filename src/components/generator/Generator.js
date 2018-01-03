@@ -7,11 +7,16 @@ import ResultCanvas from '../generator-widgets/ResultCanvas';
 import RatingButtons from '../generator-widgets/RatingButtons';
 import twitterLogo from '../../img/Twitter_bird_logo_2012.svg';
 import './Generator.css';
+import ButtonGeneral from "../generator-widgets/ButtonGeneral";
 
 class Generator extends Component {
 
     onRatingClick(value) {
         this.props.onRatingClick(value);
+    }
+
+    onAddToFavoriteClick(value) {
+
     }
 
     renderResultCanvas(result, index) {
@@ -38,6 +43,14 @@ class Generator extends Component {
                     disabled={this.props.gan.isRunning || !this.props.gan.isReady}
                     onClick={this.props.onGenerateClick} />
 
+                <div style={{display: this.props.user ? 'block' : 'none'}}>
+                    <p></p>
+                    <ButtonGeneral
+                        text={'Add to favorite'}
+                        onClick={this.onAddToFavoriteClick}
+                    />
+                </div>
+
 
                 <CSSTransitionGroup
                     transitionName="rating-transition"
@@ -59,6 +72,7 @@ class Generator extends Component {
                     }
 
                 </CSSTransitionGroup>
+
 
                 <CSSTransitionGroup
                     transitionName="twitter-transition"
@@ -86,6 +100,7 @@ function mapStateToProps(state) {
         locale: state.selectLocale.locale,
         results: state.generator.results,
         failed: state.generator.failedGenerating,
+        user: state.authentication.user.user
     };
 }
 

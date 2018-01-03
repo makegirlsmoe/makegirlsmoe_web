@@ -241,8 +241,26 @@ class Home extends Component {
         });
     }
 
+    async remoteGenerate(input){
+        let url = 'http://127.0.0.1:5555/generate/' + this.props.currentModel;
+        console.log(url);
+        let opt = JSON.stringify(input);
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: opt
+        };
+
+        let response = await fetch(url, requestOptions);
+        let json_text = await response.json();
+        //console.log(json_text);
+        return json_text.data;
+    }
+
     async generate() {
         this.setGanState({isRunning: true});
+
+
 
         if (this.gan.getBackendName() === 'webgl') {
             await Utils.promiseTimeout(100, true); // XXX: wait for components to refresh
@@ -252,7 +270,21 @@ class Home extends Component {
             var optionInputs = this.getRandomOptionValues(this.props.options);
             var label = this.getLabel(optionInputs);
             var noise = this.getNoise(optionInputs);
-            var result = await this.gan.run(label, noise);
+            if (!this.props.remoteComputing) {
+                var result = await this.gan.run(label, noise);
+
+            }
+            else{
+                try{
+                    var result = await this.remoteGenerate(optionInputs);
+                    result = new Float32Array(result);
+                }catch(e){
+                    console.log(e);
+                    this.setGanState({isRunning: false});
+                }
+
+            }
+            //console.log(result);
 
             this.props.dispatch(
                 generatorAction.setGeneratorOptions(optionInputs)
@@ -343,6 +375,8 @@ class Home extends Component {
         };
         reader.readAsText(file);
     }
+
+    //loadJSONContent
 
     onJSONExport() {
         this.setState({optionURI: URL.createObjectURL(new Blob([JSON.stringify(this.getOptions())]))}, () => {
@@ -487,6 +521,7 @@ function mapStateToProps(state) {
         twitterVisible: state.twitter.visible,
         disableWebgl: state.generatorConfig.webglDisabled,
         currentModel: state.generator.currentModel,
+        remoteComputing: state.generatorConfig.remoteComputing,
         options: state.generator.options,
         results: state.generator.results,
     };

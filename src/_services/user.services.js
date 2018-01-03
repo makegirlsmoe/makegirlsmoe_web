@@ -8,6 +8,7 @@ function userLogin(username, password) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: "include",
         body: JSON.stringify({ 'userid':username, 'passwd':password })
     };
 
@@ -44,14 +45,15 @@ function userLogout() {
     })
 }
 
-function userRegister(user) {
+function userRegister(username, password) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
+        credentials: "include",
+        body: JSON.stringify({ 'userid':username, 'passwd':password })
     };
 
-    return fetch('/user/signup', requestOptions).then(handleResponse);
+    return fetch('http://127.0.0.1:5000/user/signup', requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

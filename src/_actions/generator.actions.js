@@ -17,7 +17,8 @@ export const generatorAction = {
 export const generatorConfigAction = {
     setWebGLAvailability,
     enableWebGL,
-    disableWebGL
+    disableWebGL,
+    setRemoteComputing
 };
 
 function setWebGLAvailability(value){
@@ -30,6 +31,10 @@ function enableWebGL(){
 
 function disableWebGL(){
     return { type: webglConstants.CHANGE_VISIBILITY, value:false}
+}
+
+function setRemoteComputing(value){
+    return { type: generatorConstants.REMOTE_COMPUTING, value}
 }
 
 function changeGeneratorModel(model){
