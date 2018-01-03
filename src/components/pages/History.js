@@ -30,18 +30,11 @@ class History extends Component {
         )
     }
 
-    getClassShortOption() {
-        if (getlanguageLength(this.props.locale) === 'long') {
-            return "col-xs-12 col-md-6 option";
-        }
-        else {
-            return "col-xs-6 col-md-4 option";
-        }
-    };
+
 
     renderLoadingSettingButton() {
         return (
-            <div className={this.getClassShortOption()}>
+            <div >
                 <h5>Load input when clicked</h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Disabled', isActive: !this.state.loadSetting,
