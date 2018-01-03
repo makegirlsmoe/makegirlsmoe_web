@@ -5,6 +5,7 @@ import { FormattedMessage } from "react-intl";
 import { CSSTransitionGroup } from 'react-transition-group';
 import Config from '../Config';
 import Transition from './pages/Transition';
+import History from './pages/History';
 import License from './pages/License';
 import About from './pages/About';
 import News from './pages/News';
@@ -272,7 +273,6 @@ class Home extends Component {
             var noise = this.getNoise(optionInputs);
             if (!this.props.remoteComputing) {
                 var result = await this.gan.run(label, noise);
-
             }
             else{
                 try{
@@ -284,6 +284,7 @@ class Home extends Component {
                 }
 
             }
+            optionInputs.modelName=this.props.currentModel;
             //console.log(result);
 
             this.props.dispatch(
@@ -293,7 +294,7 @@ class Home extends Component {
                 generatorAction.setGeneratorInput({ noise: noise, label: label, noiseOrigin: optionInputs.noise.value })
             );
             this.props.dispatch(
-                generatorAction.appendResult(result, i!==0)
+                generatorAction.appendResult(result, optionInputs, true)//, i!==0)
             );
 
             this.setState({
@@ -484,6 +485,7 @@ class Home extends Component {
                                     <Route path="/about" component={About}/>
                                     <Route path="/news" component={News}/>
                                     <Route path="/tips" component={Tips}/>
+                                    <Route path="/history" component={History}/>
                                     <Route path="/signup" component={SignUp}/>
                                     <Route path="/login" component={LogIn}/>
                                 </Switch>

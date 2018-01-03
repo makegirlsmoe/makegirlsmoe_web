@@ -57,8 +57,8 @@ function setGeneratorInput(input) {
     return { type: generatorConstants.SET_INPUT, input}
 }
 
-function appendResult(result, appendResult=false) {
-    return { type: generatorConstants.APPEND_RESULT, result, appendResult}
+function appendResult(result, options, appendResult=false) {
+    return { type: generatorConstants.APPEND_RESULT, result, options, appendResult}
 }
 
 function modelOptionChange(key, random, value){

@@ -20,6 +20,10 @@ class Generator extends Component {
     }
 
     renderResultCanvas(result, index) {
+        //console.log(result, index, this.props.currentIndex);
+        if(index !== this.props.currentIndex){
+            return ;
+        }
         return (
             <div key={index} className="result-container" style={{zIndex: 1000 + index}}>
                 <ResultCanvas modelConfig={this.props.modelConfig} result={result} />
@@ -98,9 +102,10 @@ class Generator extends Component {
 function mapStateToProps(state) {
     return {
         locale: state.selectLocale.locale,
+        currentIndex:  state.generator.currentIndex,
         results: state.generator.results,
         failed: state.generator.failedGenerating,
-        user: state.authentication.user.user
+        user: state.authentication.user.user,
     };
 }
 

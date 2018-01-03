@@ -47,8 +47,10 @@ const assignOptionKeyFixedValue = (options, key, value)=>{
 const initialGeneratorState =
     {
         currentModel: Config.defaultModel,
+        currentIndex: -1,
         options: initOptions(Config.defaultModel),
         results: [],
+        resultsOptions: [],
         failedGenerating: false,
     };
 
@@ -75,7 +77,9 @@ export function generator(state = initialGeneratorState, action) {
             return {
                 ...state,
                 currentModel: action.model,
+                currentIndex: -1,
                 results: [],
+                resultsOptions: [],
                 options: initOptions(action.model),
                 input: {
                     noise: null,
@@ -117,6 +121,8 @@ export function generator(state = initialGeneratorState, action) {
             return {
                 ...state,
                 results: action.appendResult ? state.results.concat([action.result]) : [action.result],
+                resultsOptions: action.appendResult ? state.resultsOptions.concat([action.options]) : [action.options],
+                currentIndex: action.appendResult ? state.currentIndex + 1 : 0,
                 failedGenerating: failed
             };
 
