@@ -39,6 +39,7 @@ class Navbar extends Component {
                     </DropdownTrigger>
                     <DropdownContent>
                         <ul className="dropdown__segment dropdown__quick-links">
+                            {this.renderLink('Library', '/library')}
                             <li className="dropdown__link"><a role="button" onClick={() => this.props.dispatch(userAction.userLogout())}><FormattedMessage id='Log Out'/></a></li>
                         </ul>
                     </DropdownContent>

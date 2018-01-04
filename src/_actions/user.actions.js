@@ -5,7 +5,8 @@ export const userAction = {
     userLogin,
     userLogout,
     userRegister,
-    addResultToFavorite
+    addResultToFavorite,
+    queryLibrary
 };
 
 function userLogin(username, password) {
@@ -87,4 +88,25 @@ function addResultToFavorite(data) {
     function request() { return { type: userConstants.ADD_FAVORITE_REQUEST } }
     function success() { return { type: userConstants.ADD_FAVORITE_SUCCESS } }
     function failure(error) { return { type: userConstants.ADD_FAVORITE_FAILURE, error } }
+}
+
+function queryLibrary() {
+    return dispatch => {
+        dispatch(request());
+        userService.queryLibrary()
+            .then(
+                body => {
+                    console.log(body);
+                    dispatch(success(body));
+                },
+                error => {
+                    console.log(error);
+                    dispatch(failure(error));
+                    //dispatch(alertActions.error(error));
+                }
+            );
+    };
+    function request() { return { type: userConstants.QUERY_LIBRARY_REQUEST } }
+    function success(data) { return { type: userConstants.QUERY_LIBRARY_SUCCESS, data } }
+    function failure(error) { return { type: userConstants.QUERY_LIBRARY_FAILURE, error } }
 }

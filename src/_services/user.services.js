@@ -2,7 +2,8 @@ export const userService = {
     userLogin,
     userLogout,
     userRegister,
-    addResultToFavorite
+    addResultToFavorite,
+    queryLibrary,
 };
 
 function userLogin(username, password) {
@@ -54,16 +55,29 @@ function addResultToFavorite(data) {
         .then(handleStatue);
 }
 
+function queryLibrary() {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: "include",
+        body: JSON.stringify({ 'from':0, 'to':1000 })
+    };
+    return fetch('http://127.0.0.1:5000/library/query', requestOptions)
+        .then(handleResponse)
+}
+
+
 function handleResponse(response) {
     if (!response.ok) {
         return Promise.reject(response.statusText);
     }
-
+    console.log(response);
+    //console.log(response.body.json());
     return response.json();
 }
 
 function handleStatue(status) {
-    if (!status.ok){
+    if (!status.ok) {
         return Promise.reject(status.message);
     }
     return status;

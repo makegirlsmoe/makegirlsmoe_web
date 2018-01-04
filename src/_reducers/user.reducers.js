@@ -94,3 +94,38 @@ export function userAddToFavorite(state = {}, action) {
             return state;
     }
 }
+
+const initialLibraryState = {
+    querying: false,
+    results: [],
+    resultsOptions: [],
+};
+
+
+export function userLibrary(state = initialLibraryState, action) {
+    switch (action.type) {
+        case userConstants.QUERY_LIBRARY_REQUEST:
+            return {
+                ...state,
+                querying: true,
+            };
+
+        case userConstants.QUERY_LIBRARY_SUCCESS:
+            console.log(action.data);
+            return {
+                ...state,
+                querying: false,
+                results: action.data.results.map(a => new Float32Array(a)),
+                resultsOptions: action.data.resultsOptions
+            };
+
+        case userConstants.QUERY_LIBRARY_FAILURE:
+            return {
+                ...state,
+                querying: false,
+            };
+
+        default:
+            return state;
+    }
+}

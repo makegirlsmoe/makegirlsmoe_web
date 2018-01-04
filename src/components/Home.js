@@ -12,6 +12,7 @@ import News from './pages/News';
 import Tips from './pages/Tips';
 import LogIn from './user/LogIn';
 import SignUp from './user/SignUp';
+import SavedImages from './user/Library';
 import ProgressBar from './generator-widgets/ProgressBar';
 import Generator from './generator/Generator';
 import Options from './generator/Options';
@@ -484,6 +485,7 @@ class Home extends Component {
                                     <Route path="/history" component={History}/>
                                     <Route path="/signup" component={SignUp}/>
                                     <Route path="/login" component={LogIn}/>
+                                    <Route path="/library" component={SavedImages}/>
                                 </Switch>
 
                             </div>
