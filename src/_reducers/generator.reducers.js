@@ -105,6 +105,31 @@ export function generator(state = initialGeneratorState, action) {
                 options: fixOptions(state.options)
             };
 
+        case generatorConstants.FIX_NOISE_OPTION:
+            return {
+                ...state,
+                options: {
+                    ...state.options,
+                    noise:{
+                        random:false,
+                        value:state.options.noise.value
+                    }
+                }
+            };
+
+        case generatorConstants.SET_NOISE_VALUE:
+            console.log(action.value);
+            return {
+                ...state,
+                options: {
+                    ...state.options,
+                    noise:{
+                        random:false,
+                        value:action.value
+                    }
+                }
+            }
+
         case generatorConstants.SET_OPTIONS:
             return {
                 ...state,

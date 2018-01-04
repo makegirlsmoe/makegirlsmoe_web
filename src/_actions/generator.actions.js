@@ -6,6 +6,9 @@ export const generatorAction = {
     setGeneratorOptions,
     resetGeneratorOptions,
     fixGeneratorOptions,
+    fixNoiseOption,
+    setNoiseValue,
+    perturbNoise,
     setGeneratorInput,
     appendResult,
     modelOptionChange,
@@ -55,8 +58,28 @@ function fixGeneratorOptions(){
     return { type: generatorConstants.FIX_OPTIONS}
 }
 
+function fixNoiseOption(){
+    return { type: generatorConstants.FIX_NOISE_OPTION}
+}
+
 function setGeneratorInput(input) {
     return { type: generatorConstants.SET_INPUT, input}
+}
+
+function setNoiseValue(value){
+    return { type: generatorConstants.SET_NOISE_VALUE, value}
+}
+
+function perturbNoise(value, scale) {
+    let newValue = value.map((v)=>{
+        let vv = v.slice();
+        vv[1] = vv[1] + Math.random() * scale;
+        vv[1] = vv[1] - Math.floor(vv[1]);
+        return vv
+    });
+    //console.log(value);
+    //console.log(newValue);
+    return { type: generatorConstants.SET_NOISE_VALUE, value:newValue}
 }
 
 function appendResult(result, options, appendResult=false) {

@@ -104,6 +104,54 @@ class OptionsExpert extends OptionsClass {
             </div>
         );
     }
+
+    renderPerturbNoise() {
+        return (
+            <div className={this.getClassLongOption()}>
+                <h5><FormattedMessage id="Perturb Current Noise"/></h5>
+                <div className="flex">
+                    <div>
+                        {new ButtonGroup().renderButtonGroup([{
+                            key: 'Purturb',
+                            name: <span>Purturb</span>,
+                            isDisabled: !this.props.inputs.noise.value,
+                            onClick : () => {
+                                this.setState({
+                                    isPerturbing: true,
+                                    previousNoise: this.props.inputs.noise.value
+                                });
+                                this.props.dispatch(generatorAction.perturbNoise(this.props.inputs.noise.value, this.state.perturbRange));
+                                //this.props.dispatch(generatorAction.fixNoiseOption());
+                            }
+                        },{
+                            key: 'Apply',
+                            name: <span>Apply</span>,
+                            isDisabled: !this.state.isPerturbing,
+                            onClick : () => {
+                                this.setState({isPerturbing: false});
+                            }
+                        },{
+                            key: 'Revert',
+                            name: <span>Revert</span>,
+                            isDisabled: !this.state.isPerturbing,
+                            onClick : () => {
+                                this.props.dispatch(generatorAction.setNoiseValue(this.state.previousNoise));
+                                this.setState({
+                                    isPerturbing: false
+                                });
+                            }
+                        }])}
+                    </div>
+                    <div className="flex-grow option-count-slider" >
+                        <SliderWithInput min={0.01} max={0.5} step={0.01}
+                                         value={this.state.perturbRange}
+                                         onChange={value => this.setState({perturbRange: value})}/>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
 }
 function mapStateToProps(state) {
     return {

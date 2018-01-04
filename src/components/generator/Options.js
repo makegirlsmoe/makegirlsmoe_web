@@ -30,7 +30,11 @@ class Options extends Component {
     constructor(props) {
         super();
         this.options = Utils.arrayToObject(props.modelConfig.options, item => item.key);
-        this.state = {};
+        this.state = {
+            perturbRange: 0.01,
+            isPerturbing: false,
+            previousNoise: [],
+        };
     }
 
     componentWillReceiveProps(newProps) {
@@ -317,6 +321,11 @@ class Options extends Component {
         );
     }
 
+    renderPerturbNoise() {
+        //Only show this in expert mode.
+    }
+
+
     renderAllOptions(){
         return Object.keys(this.options).map(item => this.renderSelector(item));
     }
@@ -343,6 +352,9 @@ class Options extends Component {
                     {this.renderNoiseImportExport()}
                 </div>
                 <div className="row">
+                    {this.renderPerturbNoise()}
+                </div>
+                <div className="row">
                     {this.renderOperations()}
                     {this.renderWebglOption()}
                     {this.renderRemoteComputing()}
@@ -353,6 +365,7 @@ class Options extends Component {
                 <div className="row">
                     {this.renderCountOption()}
                 </div>
+
                 <div className="row">
                     <div className="col-xs-12 license-hint">
                         <FormattedMessage
