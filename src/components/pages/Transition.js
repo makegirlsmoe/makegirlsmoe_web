@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FormattedMessage } from "react-intl";
 import { connect } from 'react-redux';
 import { generatorAction } from '../../_actions';
 import { getlanguageLength } from '../../_reducers/locale.reducers';
@@ -109,7 +110,7 @@ class Transition extends Component {
         return (
             <div className="transition">
 
-                <h3 style={{color: Config.colors.theme}}>Transition</h3>
+                <h3 style={{color: Config.colors.theme}}><FormattedMessage id="Transition"/></h3>
                 <div className="transition-wrapper">
                     {this.renderStart()}
                     {Utils.range(Config.transition.count).map(index => this.renderMiddle(index))}

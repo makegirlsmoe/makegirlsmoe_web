@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FormattedMessage } from "react-intl";
 import { connect } from 'react-redux';
 import Utils from '../../utils/Utils';
 import Config from '../../Config';
@@ -35,7 +36,7 @@ class History extends Component {
     renderLoadingSettingButton() {
         return (
             <div >
-                <h5>Load input when clicked</h5>
+                <h5><FormattedMessage id="Load input when clicked"/></h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Disabled', isActive: !this.state.loadSetting,
                         onClick: () => this.setState({
@@ -57,8 +58,8 @@ class History extends Component {
             <div>
 
                 <div>
-                    <h3 style={{color: Config.colors.theme}}>Generated Images
-
+                    <h3 style={{color: Config.colors.theme}}>
+                        <FormattedMessage id="Generated Images"/>
                     </h3>
                 </div>
                 {this.renderLoadingSettingButton()}

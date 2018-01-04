@@ -56,7 +56,7 @@ class LogIn extends Component {
                                placeholder="Password"/>
                     </div>
                     {submitted && !password &&
-                        <div className="help-block warning-text" >Password cannot be empty!</div>
+                        <div className="help-block warning-text">Password cannot be empty!</div>
                     }
                     <p></p>
                     {/*<p>
@@ -66,6 +66,9 @@ class LogIn extends Component {
                             Remember me
                         </label>
                      </p>*/
+                    }
+                    {submitted && username && password && this.props.loginFailed &&
+                        <div className="help-block warning-text">The user name or password is incorrect.</div>
                     }
                     <div  className="form-group">
                         {this.props.loggingIn &&
@@ -82,9 +85,10 @@ class LogIn extends Component {
 }
 
 function mapStateToProps(state) {
-    const { loggingIn } = state.authentication;
+    const { loggingIn, loggedIn, loginFailed } = state.authentication;
     return {
-        loggingIn
+        loggingIn,
+        loginFailed
     };
 }
 

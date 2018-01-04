@@ -48,12 +48,14 @@ function userRegister(username, password) {
         userService.userRegister(username, password)
             .then(
                 status => {
+                    console.log(status);
                     dispatch(success(username));
                     window.location = '#/login';
                     //history.push('/login');
                     //dispatch(alertActions.success('Registration successful'));
                 },
                 error => {
+                    console.log(error);
                     dispatch(failure(error));
                     //dispatch(alertActions.error(error));
                 }

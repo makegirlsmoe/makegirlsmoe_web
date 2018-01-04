@@ -1,5 +1,7 @@
 const ru_RU = {
     CurrentLanguage: 'Русский (Russian)',
+    History: "History",
+    Transition: "Transition",
     License: 'Условия использования',
     About: 'О проекте',
     Home: 'Главная',
@@ -44,6 +46,19 @@ const ru_RU = {
     Bouvardia128: "Bouvardia 128x128 Ver.171123 (9.8MB)",
     Bouvardia256: "Bouvardia 256x256 Ver.171125 (9.9MB)",
     Camellia: "Camellia 256x256 Ver.171219 (9.9MB)",
+    'Remote Computing': "Remote Computing",
+
+    Help: "Help",
+    'Log In': "Log In",
+    'Sign Up': "Sign Up",
+    'Log Out': "Log Out",
+    'Add to favorite': "Add to favorite",
+
+    'Set Start Image': "Set Start Image",
+    'Set End Image': "Set End Image",
+    'Generate Transition': "Generate Transition",
+    'Generated Images': "Generated Images",
+    'Load input when clicked': "Load input when clicked",
 
     HairColor: 'Цвет волос',
     HairStyle: 'Причёска',

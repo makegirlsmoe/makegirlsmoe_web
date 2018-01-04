@@ -13,21 +13,8 @@ function userLogin(username, password) {
     };
 
     return fetch('http://127.0.0.1:5000/user/login', requestOptions)
-        .then(response => {
-            console.log(response);
-            if (!response.ok) {
-                return Promise.reject(response.message);
-            }
-            return response.json();
-        })
-        .then(
-
-            status => {
-                if (!status.ok){
-                    return Promise.reject(status.message);
-                }
-            return status;
-        });
+        .then(handleResponse)
+        .then(handleStatue);
 }
 
 function userLogout() {
@@ -36,13 +23,9 @@ function userLogout() {
         headers: { 'Content-Type': 'application/json' },
         credentials: "include"
     };
-    return fetch('http://127.0.0.1:5000/user/logout', requestOptions).then(response => {
-        console.log(response);
-        if (!response.ok) {
-            return Promise.reject(response.message);
-        }
-        return response.json();
-    })
+    return fetch('http://127.0.0.1:5000/user/logout', requestOptions)
+        .then(handleResponse)
+        .then(handleStatue);
 }
 
 function userRegister(username, password) {
@@ -53,7 +36,9 @@ function userRegister(username, password) {
         body: JSON.stringify({ 'userid':username, 'passwd':password })
     };
 
-    return fetch('http://127.0.0.1:5000/user/signup', requestOptions).then(handleResponse);
+    return fetch('http://127.0.0.1:5000/user/signup', requestOptions)
+        .then(handleResponse)
+        .then(handleStatue);
 }
 
 function handleResponse(response) {
@@ -62,4 +47,11 @@ function handleResponse(response) {
     }
 
     return response.json();
+}
+
+function handleStatue(status) {
+    if (!status.ok){
+        return Promise.reject(status.message);
+    }
+    return status;
 }
