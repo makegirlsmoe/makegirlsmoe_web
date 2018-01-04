@@ -12,6 +12,7 @@ var Config = {
     modelCompression: true,
     modelConfig: {
         Amaryllis: {
+            name: 'Amaryllis',
             options: [
                 {
                     key: 'hair_color',
@@ -88,6 +89,7 @@ var Config = {
             },
         },
         Bouvardia128: {
+            name: 'Bouvardia',
             options: [
                 {
                     key: 'hair_color',
@@ -181,6 +183,7 @@ var Config = {
             },
         },
         Bouvardia256: {
+            name: 'Bouvardia',
             options: [
                 {
                     key: 'hair_color',
@@ -274,6 +277,7 @@ var Config = {
             },
         },
         Camellia: {
+            name: 'Camellia',
             options: [
                 {
                     key: 'hair_color',

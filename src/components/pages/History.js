@@ -8,72 +8,67 @@ import ImageEncoder from '../../utils/ImageEncoder';
 import { generatorAction } from '../../_actions';
 import { getlanguageLength } from '../../_reducers/locale.reducers';
 import ButtonGroup from '../generator-widgets/ButtonGroup';
+import './History.css';
 
 class History extends Component {
     constructor() {
         super();
         this.state = {
             loadSetting:false
-        }
+        };
+        this.imageWidth = 128;
+        this.imageHeight = 128;
     }
+
     generatedResults(images){
-        let config = Config.modelConfig[this.props.currentModel];
-        let encoder = new ImageEncoder(config);
-        return images.map((currentValue, index)=>{
-               let encoded = encoder.encode(currentValue);
-               return {
-                   src: encoded,
-                   thumbnail: encoded,
-                   thumbnailWidth: 128,
-                   thumbnailHeight: 128,
-               }
+        return images.map((currentValue, index) => {
+            let modelName = this.props.resultsOptions[index].modelName;
+            let config = Config.modelConfig[modelName];
+            let encoder = new ImageEncoder(config);
+            let encoded = encoder.encode(currentValue);
+            return {
+                src: encoded,
+                thumbnail: encoded,
+                thumbnailWidth: this.imageWidth,
+                thumbnailHeight: this.imageHeight,
+                customOverlay:
+                    <div className="history-overlay" onClick={() => this.loadImage(index)}>
+                        <div className="overlay-info">
+                            <div className="overlay-info-item">Model: {config.name}</div>
+                            <div className="overlay-info-item">Size: {config.gan.imageWidth}x{config.gan.imageHeight}</div>
+                        </div>
+                        <div className="overlay-actions">
+                            <a className="overlay-action" onClick={() => this.loadOptions(index)}>Load Options</a>
+                        </div>
+                    </div>
             }
-        )
+        })
     }
 
+    loadImage(index) {
+        this.props.dispatch(generatorAction.changeCurrentIndex(index));
+    }
 
-
-    renderLoadingSettingButton() {
-        return (
-            <div >
-                <h5><FormattedMessage id="Load input when clicked"/></h5>
-                {new ButtonGroup().renderButtonGroup([
-                    {name: 'Disabled', isActive: !this.state.loadSetting,
-                        onClick: () => this.setState({
-                            loadSetting: false
-                        })
-                    },
-                    {name: 'Enabled', isActive: this.state.loadSetting,
-                        onClick: () => this.setState({
-                            loadSetting: true
-                        })
-                    }
-                ])}
-            </div>
-        );
+    loadOptions(index) {
+        this.props.dispatch(generatorAction.changeGeneratorModel(this.props.resultsOptions[index].modelName));
+        this.props.dispatch(generatorAction.setGeneratorOptions(this.props.resultsOptions[index]));
+        this.props.dispatch(generatorAction.fixGeneratorOptions());
+        this.loadImage(index);
+        window.location = '#/';
     }
 
     render() {
         return (
             <div>
-
                 <div>
                     <h3 style={{color: Config.colors.theme}}>
                         <FormattedMessage id="Generated Images"/>
                     </h3>
                 </div>
-                {this.renderLoadingSettingButton()}
-                <p/>
-                <Gallery images={this.generatedResults(this.props.results)}  enableImageSelection={false} enableLightbox={false}
-                     onClickThumbnail={(index)=>{
-                         console.log(index);
-                         this.props.dispatch(generatorAction.changeCurrentIndex(index));
-                         if(this.state.loadSetting){
-                             this.props.dispatch(generatorAction.setGeneratorOptions(this.props.resultsOptions[index]));
-                             this.props.dispatch(generatorAction.fixGeneratorOptions());
-                         }
-                     }}
-
+                <Gallery images={this.generatedResults(this.props.results)}
+                         enableImageSelection={true}
+                         enableLightbox={false}
+                         rowHeight={this.imageHeight}
                 />
             </div>
         );

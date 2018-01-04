@@ -261,8 +261,6 @@ class Home extends Component {
     async generate() {
         this.setGanState({isRunning: true});
 
-
-
         if (this.gan.getBackendName() === 'webgl') {
             await Utils.promiseTimeout(100, true); // XXX: wait for components to refresh
         }
@@ -397,10 +395,24 @@ class Home extends Component {
         this.setState({rating: value});
     }
 
-    getClassGeneratorContainer() {
-        var imageWidth = Config.modelConfig[this.props.currentModel].gan.imageWidth;
+    getSizeLevel() {
+        var modelConfig = this.props.currentIndex !== -1 ?
+            Config.modelConfig[this.props.resultsOptions[this.props.currentIndex].modelName] :
+            this.getModelConfig();
+        var imageWidth = modelConfig.gan.imageWidth;
 
         if (imageWidth <= 200) {
+            return 'small';
+        }
+        else {
+            return 'large';
+        }
+    }
+
+    getClassGeneratorContainer() {
+        var sizeLevel = this.getSizeLevel();
+
+        if (sizeLevel === 'small') {
             return 'col-sm-4 col-xs-12 generator-container';
         }
         else {
@@ -409,9 +421,9 @@ class Home extends Component {
     }
 
     getClassOptionsContainer() {
-        var imageWidth = Config.modelConfig[this.props.currentModel].gan.imageWidth;
+        var sizeLevel = this.getSizeLevel();
 
-        if (imageWidth <= 200) {
+        if (sizeLevel === 'small') {
             return 'col-sm-8 col-xs-12 options-container';
         }
         else {
@@ -526,6 +538,8 @@ function mapStateToProps(state) {
         remoteComputing: state.generatorConfig.remoteComputing,
         options: state.generator.options,
         results: state.generator.results,
+        currentIndex:  state.generator.currentIndex,
+        resultsOptions: state.generator.resultsOptions,
     };
 }
 

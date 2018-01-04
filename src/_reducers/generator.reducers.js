@@ -78,8 +78,8 @@ export function generator(state = initialGeneratorState, action) {
                 ...state,
                 currentModel: action.model,
                 currentIndex: -1,
-                results: [],
-                resultsOptions: [],
+                //results: [],
+                //resultsOptions: [],
                 options: initOptions(action.model),
                 input: {
                     noise: null,

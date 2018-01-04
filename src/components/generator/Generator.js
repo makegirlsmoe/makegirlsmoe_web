@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from "react-intl";
 import { CSSTransitionGroup } from 'react-transition-group';
+import Config from '../../Config';
 import ButtonPrimary from '../generator-widgets/ButtonPrimary';
 import ResultCanvas from '../generator-widgets/ResultCanvas';
 import RatingButtons from '../generator-widgets/RatingButtons';
@@ -19,6 +20,12 @@ class Generator extends Component {
 
     }
 
+    getModelConfig() {
+        return this.props.currentIndex !== -1 ?
+            Config.modelConfig[this.props.resultsOptions[this.props.currentIndex].modelName] :
+            this.props.modelConfig;
+    }
+
     renderResultCanvas(result, index) {
         //console.log(result, index, this.props.currentIndex);
         if(index !== this.props.currentIndex){
@@ -26,15 +33,16 @@ class Generator extends Component {
         }
         return (
             <div key={index} className="result-container" style={{zIndex: 1000 + index}}>
-                <ResultCanvas modelConfig={this.props.modelConfig} result={result} />
+                <ResultCanvas modelConfig={this.getModelConfig()} result={result} />
             </div>
         );
     }
 
     render() {
+        var modelConfig = this.getModelConfig();
         var resultWrapperStyle = {
-            height: this.props.modelConfig.gan.imageHeight,
-            width: this.props.modelConfig.gan.imageWidth
+            height: modelConfig.gan.imageHeight,
+            width: modelConfig.gan.imageWidth
         };
         return (
 
@@ -104,6 +112,7 @@ function mapStateToProps(state) {
         locale: state.selectLocale.locale,
         currentIndex:  state.generator.currentIndex,
         results: state.generator.results,
+        resultsOptions: state.generator.resultsOptions,
         failed: state.generator.failedGenerating,
         user: state.authentication.user.user,
     };
