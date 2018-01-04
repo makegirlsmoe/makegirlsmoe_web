@@ -48,6 +48,19 @@
     margin-top: 10px;
 }
 
+.option-checkbox {
+    font-size: 12px;
+    margin-right: 2px;
+}
+
+.continuous-selector-slider {
+    margin-left: 10px;
+}
+
+.option-count-slider {
+    margin: -10px 0;
+}
+
 @media screen and (min-width: 768px) {
     .option .btn-group button {
         padding-left: 9px;

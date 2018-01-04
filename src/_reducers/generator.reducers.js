@@ -89,7 +89,8 @@ export function generator(state = initialGeneratorState, action) {
                     start: null,
                     end: null,
                     middle: []
-                }
+                },
+                count: 1
             };
 
         case generatorConstants.RESET_OPTIONS:
@@ -182,7 +183,7 @@ export function generator(state = initialGeneratorState, action) {
             return {
                 ...state,
                 currentIndex: action.index
-            }
+            };
 
         default:
             return state;
@@ -212,6 +213,11 @@ export function generatorConfig(state = initialGeneratorConfigState, action) {
             return {
                 ...state,
                 remoteComputing: action.value
+            };
+        case generatorConstants.SET_COUNT:
+            return {
+                ...state,
+                count:action.value
             };
         default:
             return state

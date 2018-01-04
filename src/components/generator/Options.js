@@ -13,6 +13,7 @@ import NoiseVisualizer from '../generator-widgets/NoiseVisualizer';
 import ButtonGroup from '../generator-widgets/ButtonGroup';
 import RandomButtonSimple from '../generator-widgets/RandomButtonSimple';
 import Slider from 'rc-slider';
+import SliderWithInput from '../generator-widgets/SliderWithInput';
 import 'rc-slider/assets/index.css';
 import ImageDecoder from '../../utils/ImageDecoder';
 import PromptDialog from '../general/PromptDialog';
@@ -155,19 +156,18 @@ class Options extends Component {
         );
     }
 
-
     renderContinuousSelector(key, config, title) {
         var input = this.props.inputs[key];
         return (
             <div key={key} className={this.getClassShortOption()}>
                 {this.renderLabel(key, title)}
-                <div className="row">
-                    <div className="col-xs-5 vcenter">
+                <div className="flex">
+                    <div>
                         <RandomButtonSimple
                             value={input.random ? 1 : 0}
                             onChange={(value) => this.props.dispatch(generatorAction.modelOptionChange(key, value === 1))}/>
                     </div>
-                    <div className="col-xs-7 vcenter">
+                    <div className="flex-grow continuous-selector-slider">
                         <Slider min={config.min} max={config.max} step={config.step} value={Utils.clamp(input.value, config.min, config.max)}
                               onBeforeChange={() => this.props.dispatch(generatorAction.modelOptionChange(key, false))}
                               onChange={value => this.props.dispatch(generatorAction.modelOptionChange(key, false, value))}/>
@@ -294,6 +294,29 @@ class Options extends Component {
         );
     }
 
+    renderCountOption() {
+        var isMultiple = this.props.count !== 1;
+        return (
+            <div className={this.getClassLongOption()}>
+                <h5><FormattedMessage id="Generate Multiple Images"/></h5>
+                <div className="flex">
+                    <div>
+                        {new ButtonGroup().renderButtonGroup([{
+                            key: 'Enabled',
+                            name: <span><span className={"option-checkbox glyphicon " + (isMultiple ? " glyphicon-check" : " glyphicon-unchecked")}/>Enabled</span>,
+                            isActive: isMultiple,
+                            onClick: () => this.props.dispatch(generatorConfigAction.setCount(isMultiple ? 1 : 2))
+                        }])}
+                    </div>
+                    <div className="flex-grow option-count-slider" style={{display: isMultiple ? 'block' : 'none'}}>
+                        <SliderWithInput min={2} max={20} step={1} value={this.props.count || 1}
+                                         onChange={value => this.props.dispatch(generatorConfigAction.setCount(value))}/>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     renderAllOptions(){
         return Object.keys(this.options).map(item => this.renderSelector(item));
     }
@@ -323,10 +346,12 @@ class Options extends Component {
                     {this.renderOperations()}
                     {this.renderWebglOption()}
                     {this.renderRemoteComputing()}
-
                 </div>
                 <div className="row">
                     {this.renderBackendName()}
+                </div>
+                <div className="row">
+                    {this.renderCountOption()}
                 </div>
                 <div className="row">
                     <div className="col-xs-12 license-hint">
@@ -352,6 +377,7 @@ function mapStateToProps(state) {
         currentModel: state.generator.currentModel,
         locale: state.selectLocale.locale,
         inputs: state.generator.options,
+        count: state.generatorConfig.count,
     };
 }
 

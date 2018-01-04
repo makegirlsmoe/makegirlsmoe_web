@@ -19,7 +19,8 @@ export const generatorConfigAction = {
     setWebGLAvailability,
     enableWebGL,
     disableWebGL,
-    setRemoteComputing
+    setRemoteComputing,
+    setCount,
 };
 
 function setWebGLAvailability(value){
@@ -80,4 +81,8 @@ function appendTransitionMiddle(result, input) {
 
 function changeCurrentIndex(index) {
     return { type: generatorConstants.CHANGE_CURRENT_INDEX, index}
+}
+
+function setCount(value) {
+    return { type: generatorConstants.SET_COUNT, value}
 }

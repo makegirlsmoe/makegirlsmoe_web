@@ -19,3 +19,24 @@ input[type="password"], textarea {
     vertical-align: middle;
     float: none;
 }
+
+.flex {
+    -ms-box-orient: horizontal;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}

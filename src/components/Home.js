@@ -125,6 +125,8 @@ class Home extends Component {
                 );
             }
 
+            this.props.dispatch(generatorConfigAction.setCount(1));
+
             var startTime = new Date();
             await this.setModel();
             var endTime = new Date();
@@ -261,11 +263,11 @@ class Home extends Component {
     async generate() {
         this.setGanState({isRunning: true});
 
-        if (this.gan.getBackendName() === 'webgl') {
-            await Utils.promiseTimeout(100, true); // XXX: wait for components to refresh
-        }
+        for (var i = 0; i < this.props.count; i++) {
+            if (this.gan.getBackendName() === 'webgl') {
+                await Utils.promiseTimeout(100, true); // XXX: wait for components to refresh
+            }
 
-        for (var i = 0; i < 1; i++) {
             var optionInputs = this.getRandomOptionValues(this.props.options);
             var label = this.getLabel(optionInputs);
             var noise = this.getNoise(optionInputs);
@@ -280,8 +282,12 @@ class Home extends Component {
                     console.log(e);
                     this.setGanState({isRunning: false});
                 }
-
             }
+
+            if (this.props.count > 1 && i === 0) {
+                window.location = '#/history';
+            }
+
             optionInputs.modelName=this.props.currentModel;
             //console.log(result);
 
@@ -540,6 +546,7 @@ function mapStateToProps(state) {
         results: state.generator.results,
         currentIndex:  state.generator.currentIndex,
         resultsOptions: state.generator.resultsOptions,
+        count: state.generatorConfig.count,
     };
 }
 
