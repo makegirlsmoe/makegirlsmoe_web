@@ -62,7 +62,7 @@ class Navbar extends Component {
                         {this.renderLink('About', '/about')}
                         {this.renderLink('News', '/news')}
                         {this.renderLink('Tips', '/tips')}
-                        <li><a href="https://makegirlsmoe.github.io/" target="_blank" rel="noopener noreferrer">Official Blog</a></li>
+                        <li><a href="https://makegirlsmoe.github.io/" target="_blank" rel="noopener noreferrer"><FormattedMessage id='Blog'/></a></li>
                         <li><a href="https://github.com/makegirlsmoe" target="_blank" rel="noopener noreferrer">Github</a></li>
                     </ul>
                 </DropdownContent>

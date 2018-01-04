@@ -269,7 +269,7 @@ class Options extends Component {
     renderRemoteComputing() {
         return (
             <div className={this.getClassShortOption()}>
-                <h5>Remote Computing</h5>
+                <h5><FormattedMessage id="Remote Computing"/></h5>
                 {new ButtonGroup().renderButtonGroup([
                     {name: 'Disabled', isActive: !this.props.remoteComputing,
                         onClick: () => this.props.dispatch(generatorConfigAction.setRemoteComputing(false))
@@ -302,7 +302,7 @@ class Options extends Component {
         return (
             <div className="options">
                 <div className="row">
-                    <h3 className="col-xs-3 col-md-2" style={{color: Config.colors.theme}}>Options</h3>
+                    <h3 className="col-xs-3 col-md-2" style={{color: Config.colors.theme}}><FormattedMessage id="Options"/></h3>
                     <span className="col-xs-6 mode-selector">
                         <input type="checkbox" checked={this.props.mode === 'expert'} onChange={event => this.props.onOptionChange('mode', event.target.checked ? 'expert' : 'normal')} />
                         <span><FormattedMessage id="ExpertMode"/></span>
