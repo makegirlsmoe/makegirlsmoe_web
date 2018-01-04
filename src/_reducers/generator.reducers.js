@@ -118,7 +118,7 @@ export function generator(state = initialGeneratorState, action) {
             };
 
         case generatorConstants.SET_NOISE_VALUE:
-            console.log(action.value);
+            //console.log(action.value);
             return {
                 ...state,
                 options: {

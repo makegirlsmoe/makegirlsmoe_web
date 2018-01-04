@@ -416,7 +416,7 @@ class Home extends Component {
     }
 
     render() {
-        console.log(this.props.options);
+        //console.log(this.props.options);
         return (
             <div className="home">
 

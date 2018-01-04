@@ -9,6 +9,7 @@ import RatingButtons from '../generator-widgets/RatingButtons';
 import twitterLogo from '../../img/Twitter_bird_logo_2012.svg';
 import './Generator.css';
 import ButtonGeneral from "../generator-widgets/ButtonGeneral";
+import { userAction } from '../../_actions';
 
 class Generator extends Component {
 
@@ -16,8 +17,8 @@ class Generator extends Component {
         this.props.onRatingClick(value);
     }
 
-    onAddToFavoriteClick(value) {
-
+    onAddToFavoriteClick() {
+        this.props.dispatch(userAction.addResultToFavorite(this.props.resultsOptions[this.props.currentIndex]));
     }
 
     getModelConfig() {
@@ -56,11 +57,14 @@ class Generator extends Component {
                     onClick={this.props.onGenerateClick} />
 
                 <div style={{display: this.props.user ? 'block' : 'none'}}>
-                    <p></p>
+                    <p/>
                     <ButtonGeneral
                         text={'Add to favorite'}
-                        onClick={this.onAddToFavoriteClick}
+                        onClick={()=>this.onAddToFavoriteClick()}
                     />
+                    {this.props.adding &&
+                     <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                    }
                 </div>
 
 
@@ -115,6 +119,7 @@ function mapStateToProps(state) {
         resultsOptions: state.generator.resultsOptions,
         failed: state.generator.failedGenerating,
         user: state.authentication.user.user,
+        adding: state.userAddToFavorite.adding,
     };
 }
 

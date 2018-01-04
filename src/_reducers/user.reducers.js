@@ -14,6 +14,7 @@ const initialRegisterState = {
                                 registerFailed: false
                             };
 
+
 export function authentication(state = initialLoginState, action) {
     switch (action.type) {
         case userConstants.LOGIN_REQUEST:
@@ -69,6 +70,25 @@ export function userRegister(state = initialRegisterState, action) {
                 registering: false,
                 registered: false,
                 registerFailed: true
+            };
+        default:
+            return state;
+    }
+}
+
+export function userAddToFavorite(state = {}, action) {
+    switch (action.type) {
+        case userConstants.ADD_FAVORITE_REQUEST:
+            return {
+                adding: true,
+            };
+        case userConstants.ADD_FAVORITE_SUCCESS:
+            return {
+                adding: false,
+            };
+        case userConstants.ADD_FAVORITE_FAILURE:
+            return {
+                adding: false,
             };
         default:
             return state;

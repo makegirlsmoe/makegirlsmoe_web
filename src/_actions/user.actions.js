@@ -4,7 +4,8 @@ import { userService } from '../_services';
 export const userAction = {
     userLogin,
     userLogout,
-    userRegister
+    userRegister,
+    addResultToFavorite
 };
 
 function userLogin(username, password) {
@@ -67,3 +68,23 @@ function userRegister(username, password) {
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }
 
+function addResultToFavorite(data) {
+    return dispatch => {
+        dispatch(request());
+        userService.addResultToFavorite(data)
+            .then(
+                status => {
+                    console.log(status);
+                    dispatch(success());
+                },
+                error => {
+                    console.log(error);
+                    dispatch(failure(error));
+                    //dispatch(alertActions.error(error));
+                }
+            );
+    };
+    function request() { return { type: userConstants.ADD_FAVORITE_REQUEST } }
+    function success() { return { type: userConstants.ADD_FAVORITE_SUCCESS } }
+    function failure(error) { return { type: userConstants.ADD_FAVORITE_FAILURE, error } }
+}

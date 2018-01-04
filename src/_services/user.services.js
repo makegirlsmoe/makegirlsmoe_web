@@ -1,7 +1,8 @@
 export const userService = {
     userLogin,
     userLogout,
-    userRegister
+    userRegister,
+    addResultToFavorite
 };
 
 function userLogin(username, password) {
@@ -37,6 +38,18 @@ function userRegister(username, password) {
     };
 
     return fetch('http://127.0.0.1:5000/user/signup', requestOptions)
+        .then(handleResponse)
+        .then(handleStatue);
+}
+
+function addResultToFavorite(data) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: "include",
+        body: JSON.stringify({'data': data})
+    };
+    return fetch('http://127.0.0.1:5000/library/add', requestOptions)
         .then(handleResponse)
         .then(handleStatue);
 }
