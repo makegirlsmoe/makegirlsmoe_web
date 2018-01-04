@@ -50,6 +50,11 @@
     text-align: left;
 }
 
+.title-button {
+    position: relative;
+    top: 5px;
+}
+
 @media not screen and (min-width: 1200px) {
     .main-row {
         margin: 0;

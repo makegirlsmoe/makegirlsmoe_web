@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from "react-intl";
 import { connect } from 'react-redux';
-import Utils from '../../utils/Utils';
 import Config from '../../Config';
-import Gallery from 'react-grid-gallery';
-import ImageEncoder from '../../utils/ImageEncoder';
 import { generatorAction } from '../../_actions';
-import { getlanguageLength } from '../../_reducers/locale.reducers';
-import ButtonGroup from '../generator-widgets/ButtonGroup';
+import ButtonPrimary from '../generator-widgets/ButtonPrimary';
+import ResultGallery from '../generator-widgets/ResultGallery';
 import './History.css';
 
 class History extends Component {
     constructor() {
         super();
         this.lastImageCount = 0;
-        this.imageWidth = 128;
-        this.imageHeight = 128;
     }
 
     componentDidUpdate() {
@@ -25,31 +20,6 @@ class History extends Component {
             window.scrollTo(0, $elem.offset().top + $elem.height() - window.innerHeight);
             this.lastImageCount = imageCount;
         }
-    }
-
-    generatedResults(images){
-        return images.map((currentValue, index) => {
-            let modelName = this.props.resultsOptions[index].modelName;
-            let config = Config.modelConfig[modelName];
-            let encoder = new ImageEncoder(config);
-            let encoded = encoder.encode(currentValue);
-            return {
-                src: encoded,
-                thumbnail: encoded,
-                thumbnailWidth: this.imageWidth,
-                thumbnailHeight: this.imageHeight,
-                customOverlay:
-                    <div className="history-overlay" onClick={() => this.loadImage(index)}>
-                        <div className="overlay-info">
-                            <div className="overlay-info-item">Model: {config.name}</div>
-                            <div className="overlay-info-item">Size: {config.gan.imageWidth}x{config.gan.imageHeight}</div>
-                        </div>
-                        <div className="overlay-actions">
-                            <a className="overlay-action" onClick={() => this.loadOptions(index)}>Load Options</a>
-                        </div>
-                    </div>
-            }
-        })
     }
 
     loadImage(index) {
@@ -67,16 +37,17 @@ class History extends Component {
     render() {
         return (
             <div>
-                <div>
+                <div className="flex flex-space-between">
                     <h3 style={{color: Config.colors.theme}}>
                         <FormattedMessage id="Generated Images"/>
                     </h3>
+                    <ButtonPrimary className="title-button" text={<span><span className="glyphicon glyphicon glyphicon-menu-left btn-back-icon"/><span className="btn-back-text">Back</span></span>} onClick={() => window.location = '#/'}/>
                 </div>
-                <Gallery images={this.generatedResults(this.props.results)}
-                         enableImageSelection={true}
-                         enableLightbox={false}
-                         rowHeight={this.imageHeight}
-                />
+                <ResultGallery results={this.props.results} resultsOptions={this.props.resultsOptions}
+                    onClick={(result, options, index) => this.loadImage(index)}
+                    actions={[
+                        {name: "Load Options", onClick: (result, options, index) => this.loadOptions(index)}
+                    ]}/>
             </div>
         );
     }
@@ -86,9 +57,6 @@ function mapStateToProps(state) {
     return {
         results: state.generator.results,
         resultsOptions: state.generator.resultsOptions,
-        currentModel: state.generator.currentModel,
-        //currentIndex: state.generator.currentIndex,
-        //resultsOptions: state.generator.
     };
 }
 

@@ -37,6 +37,11 @@ input[type="password"], textarea {
     align-items: center;
 }
 
+.flex.flex-space-between {
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+
 .flex-grow {
     flex-grow: 1;
 }
