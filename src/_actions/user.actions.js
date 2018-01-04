@@ -66,3 +66,4 @@ function userRegister(username, password) {
     function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }
+

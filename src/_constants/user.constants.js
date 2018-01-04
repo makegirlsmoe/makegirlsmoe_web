@@ -8,4 +8,6 @@ export const userConstants = {
     LOGIN_FAILURE: 'USERS_LOGIN_FAILURE',
 
     LOGOUT: 'USERS_LOGOUT',
+
+    ADD_TO_FAVORITE: 'USER_ADD_RESULT_TO_FAVORITE'
 };
