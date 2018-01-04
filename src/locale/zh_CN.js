@@ -1,5 +1,12 @@
 const zh_CN = {
     CurrentLanguage:"中文",
+    History: "历史",
+    Transition: "渐变",
+    Help: "帮助",
+    'Log In': "登陆",
+    'Sign Up': "注册",
+    'Log Out': "登出",
+    'Add to favorite': "添加至收藏",
     License: "使用条款",
     About: "关于",
     Home: "主页",

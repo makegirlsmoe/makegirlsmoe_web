@@ -1,5 +1,12 @@
 const en_US = {
     CurrentLanguage:"English",
+    History: "History",
+    Transition: "Transition",
+    Help: "Help",
+    'Log In': "Log In",
+    'Sign Up': "Sign Up",
+    'Log Out': "Log Out",
+    'Add to favorite': "Add to favorite",
     License: "Terms of Use",
     About: "About",
     Home: "Home",

@@ -1,5 +1,12 @@
 const ru_RU = {
     CurrentLanguage: 'Русский (Russian)',
+    History: "History",
+    Transition: "Transition",
+    Help: "Help",
+    'Log In': "Log In",
+    'Sign Up': "Sign Up",
+    'Log Out': "Log Out",
+    'Add to favorite': "Add to favorite",
     License: 'Условия использования',
     About: 'О проекте',
     Home: 'Главная',

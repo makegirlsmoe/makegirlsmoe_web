@@ -1,5 +1,12 @@
 const ja_JP = {
     CurrentLanguage:"日本語",
+    History: "History",
+    Transition: "Transition",
+    Help: "Help",
+    'Log In': "Log In",
+    'Sign Up': "Sign Up",
+    'Log Out': "Log Out",
+    'Add to favorite': "Add to favorite",
     License: "利用規約",
     About: "サイトについて",
     Home: "ホーム",
