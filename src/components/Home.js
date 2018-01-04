@@ -16,7 +16,7 @@ import ProgressBar from './generator-widgets/ProgressBar';
 import Generator from './generator/Generator';
 import Options from './generator/Options';
 import OptionsExpert from './generator/OptionsExpert';
-import PromptDialog from './general/PromptDialog';
+import PromptDialog from './dialogs/PromptDialog';
 import GAN from '../utils/GAN';
 import Utils from '../utils/Utils';
 import Stat from '../utils/Stat';
@@ -216,28 +216,6 @@ class Home extends Component {
         return optionInputs;
     }
 
-    getLabel(optionInputs) {
-        var label = Array.apply(null, {length: this.getModelConfig().gan.labelLength});
-        this.getModelConfig().options.forEach(option => {
-            var optionInput = optionInputs[option.key];
-
-            if (option.type === 'multiple') {
-                optionInput.value.forEach((value, index) => {
-                    label[option.offset + index] = value;
-                });
-            }
-            else {
-                label[option.offset] = optionInput.value;
-            }
-        });
-        return label;
-    }
-
-    getNoise(optionInputs) {
-        var noise = optionInputs.noise.value.map(([u, v]) => Utils.uniformToNormal(u, v));
-        return noise;
-    }
-
     setGanState(state) {
         this.setState({
             gan: { ...this.state.gan, ...state }
@@ -269,8 +247,8 @@ class Home extends Component {
             }
 
             var optionInputs = this.getRandomOptionValues(this.props.options);
-            var label = this.getLabel(optionInputs);
-            var noise = this.getNoise(optionInputs);
+            var label = Utils.getLabel(optionInputs, this.getModelConfig());
+            var noise = Utils.getNoise(optionInputs);
             if (!this.props.remoteComputing) {
                 var result = await this.gan.run(label, noise);
             }

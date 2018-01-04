@@ -7,10 +7,23 @@ import Utils from '../../utils/Utils';
 import Config from '../../Config';
 import ButtonPrimary from '../generator-widgets/ButtonPrimary';
 import ResultCanvas from '../generator-widgets/ResultCanvas';
-import PromptDialog from '../general/PromptDialog';
+import PromptDialog from '../dialogs/PromptDialog';
+import ImagePicker from '../dialogs/ImagePicker';
+import Dropdown from '../generator-widgets/Dropdown';
 import './Transition.css';
 
 class Transition extends Component {
+
+    constructor(props) {
+        super(props);
+        this.componentWillReceiveProps(props);
+        this.lastTransitionResults = {};
+    }
+
+    componentWillReceiveProps(props) {
+        this.results = props.results.filter((item, index) => props.resultsOptions[index].modelName === props.currentModel);
+        this.resultsOptions = props.resultsOptions.filter(item => item.modelName === props.currentModel);
+    }
 
     getModelConfig() {
         return Config.modelConfig[this.props.currentModel];
@@ -24,9 +37,29 @@ class Transition extends Component {
         return this.getModelConfig().gan.imageHeight;
     }
 
-    renderItem(result) {
+    renderModelSelector() {
         return (
-            <div className="transition-item transition-start-end" style={{width: this.getImageWidth() + 3, height: this.getImageWidth() + 3}}>
+            <div style={{width: '100%'}}>
+                <h5><FormattedMessage id="Model"/></h5>
+                <Dropdown
+                    options={Config.modelList}
+                    value={this.props.currentModel}
+                    onChange={(value) => this.props.dispatch(generatorAction.changeGeneratorModel(value))}
+                />
+            </div>
+        );
+    }
+
+    renderItem(result, key) {
+        if (this.lastTransitionResults[key] !== result) {
+            if (result) {
+                var $elem = window.$(".transition-item-" + key);
+                window.scrollTo(0, $elem.offset().top + $elem.height() - window.innerHeight);
+            }
+            this.lastTransitionResults[key] = result;
+        }
+        return (
+            <div key={key} className={"transition-item transition-item-" + key} style={{width: this.getImageWidth() + 3, height: this.getImageWidth() + 3}}>
                 <div className="result-wrapper" style={{width: this.getImageWidth(), height: this.getImageHeight()}}>
                     {result && <ResultCanvas modelConfig={this.getModelConfig()} result={result} />}
                 </div>
@@ -35,22 +68,25 @@ class Transition extends Component {
     }
 
     renderStart() {
-        return this.renderItem(this.props.transition && this.props.transition.start ? this.props.transition.start.result : null);
+        return this.renderItem(this.props.transition && this.props.transition.start ? this.props.transition.start.result : null, 'start');
     }
 
     renderEnd() {
-        return this.renderItem(this.props.transition && this.props.transition.end ? this.props.transition.end.result : null);
+        return this.renderItem(this.props.transition && this.props.transition.end ? this.props.transition.end.result : null, 'end');
     }
 
     renderMiddle(index) {
-        return this.renderItem(this.props.transition && this.props.transition.middle && this.props.transition.middle[index] ? this.props.transition.middle[index].result : null);
+        return this.renderItem(this.props.transition && this.props.transition.middle && this.props.transition.middle[index] ? this.props.transition.middle[index].result : null, index);
     }
 
     async onSetStartImageClick() {
-        if (this.props.results.length > 0) {
-            this.props.dispatch(
-                generatorAction.setTransitionStart(this.props.results[this.props.results.length - 1], this.props.input)
-            );
+        if (this.results.length > 0) {
+            var [selected, options, index] = await this.refs.imagePicker.show('Select Start Image');
+            if (selected) {
+                this.props.dispatch(
+                    generatorAction.setTransitionStart(selected, {noise: Utils.getNoise(options), label: Utils.getLabel(options)})
+                );
+            }
         }
         else {
             await this.refs.dialog.show("Error", <span>Please <span style={{color: Config.colors.theme, fontWeight: 'bold'}}>generate</span> an image first</span>);
@@ -58,10 +94,13 @@ class Transition extends Component {
     }
 
     async onSetEndImageClick() {
-        if (this.props.results.length > 0) {
-            this.props.dispatch(
-                generatorAction.setTransitionEnd(this.props.results[this.props.results.length - 1], this.props.input)
-            );
+        if (this.results.length > 0) {
+            var [selected, options, index] = await this.refs.imagePicker.show('Select End Image');
+            if (selected) {
+                this.props.dispatch(
+                    generatorAction.setTransitionEnd(selected, {noise: Utils.getNoise(options), label: Utils.getLabel(options)})
+                );
+            }
         }
         else {
             await this.refs.dialog.show("Error", <span>Please <span style={{color: Config.colors.theme, fontWeight: 'bold'}}>generate</span> an image first</span>);
@@ -111,11 +150,7 @@ class Transition extends Component {
             <div className="transition">
 
                 <h3 style={{color: Config.colors.theme}}><FormattedMessage id="Transition"/></h3>
-                <div className="transition-wrapper">
-                    {this.renderStart()}
-                    {Utils.range(Config.transition.count).map(index => this.renderMiddle(index))}
-                    {this.renderEnd()}
-                </div>
+                {this.renderModelSelector()}
                 <div className="transition-buttons">
                     <ButtonPrimary
                         className={"btn-primary-" + getlanguageLength(this.props.locale)}
@@ -131,8 +166,14 @@ class Transition extends Component {
                         disabled={notSet || isRunning || finished}
                         onClick={() => this.onGenerateClick()} />
                 </div>
+                <div className="transition-wrapper">
+                    {this.renderStart()}
+                    {Utils.range(Config.transition.count).map(index => this.renderMiddle(index))}
+                    {this.renderEnd()}
+                </div>
 
                 <PromptDialog ref="dialog" type="alert" />
+                <ImagePicker ref="imagePicker" results={this.results} resultsOptions={this.resultsOptions} />
 
             </div>
         );
@@ -145,6 +186,7 @@ function mapStateToProps(state) {
         currentModel: state.generator.currentModel,
         options: state.generator.options,
         results: state.generator.results,
+        resultsOptions: state.generator.resultsOptions,
         input: state.generator.input,
         transition: state.generator.transition
     };

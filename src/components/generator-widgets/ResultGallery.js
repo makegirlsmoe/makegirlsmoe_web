@@ -23,7 +23,9 @@ class ResultGallery extends Component {
                 thumbnailWidth: this.imageWidth,
                 thumbnailHeight: this.imageHeight,
                 customOverlay:
-                    <div className="history-overlay" onClick={() => this.props.onClick ? this.props.onClick(currentValue, this.props.resultsOptions[index], index) : null}>
+                    <div className="history-overlay"
+                         style={{cursor: this.props.onClick ? 'pointer' : 'auto'}}
+                         onClick={() => this.props.onClick ? this.props.onClick(currentValue, this.props.resultsOptions[index], index) : null}>
                         <div className="overlay-info">
                             <div className="overlay-info-item">Model: {config.name}</div>
                             <div className="overlay-info-item">Size: {config.gan.imageWidth}x{config.gan.imageHeight}</div>
@@ -31,7 +33,7 @@ class ResultGallery extends Component {
                         {this.props.actions &&
                             <div className="overlay-actions">
                                 {this.props.actions.map(action => (
-                                    <a className="overlay-action" onClick={() => action.onClick(currentValue, this.props.resultsOptions[index], index)}>{action.name}</a>
+                                    <a key={action.key || action.name} className="overlay-action" onClick={() => action.onClick(currentValue, this.props.resultsOptions[index], index)}>{action.name}</a>
                                 ))}
                             </div>
                         }

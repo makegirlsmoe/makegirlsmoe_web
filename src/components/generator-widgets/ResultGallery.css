@@ -1,5 +1,4 @@
 .history-overlay {
-    cursor: pointer;
     height: 100%;
     width: 100%;
 }
@@ -23,6 +22,11 @@
 .history-overlay .overlay-action {
     color: #fff;
     text-decoration: underline;
+    cursor: pointer;
+}
+
+.ReactGridGallery {
+    overflow: hidden;
 }
 
 .ReactGridGallery .custom-overlay {

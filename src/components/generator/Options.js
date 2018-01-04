@@ -16,7 +16,7 @@ import Slider from 'rc-slider';
 import SliderWithInput from '../generator-widgets/SliderWithInput';
 import 'rc-slider/assets/index.css';
 import ImageDecoder from '../../utils/ImageDecoder';
-import PromptDialog from '../general/PromptDialog';
+import PromptDialog from '../dialogs/PromptDialog';
 import Dropdown from '../generator-widgets/Dropdown';
 import LabelHelper from '../generator-widgets/LabelHelper';
 import './Options.css';
