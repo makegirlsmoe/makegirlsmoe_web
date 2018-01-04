@@ -20,6 +20,11 @@ class History extends Component {
         this.imageHeight = 128;
     }
 
+    componentDidUpdate() {
+        var rect = window.$('.options-container')[0].getBoundingClientRect();
+        window.scrollTo(0, rect.top + rect.height - window.innerHeight);
+    }
+
     generatedResults(images){
         return images.map((currentValue, index) => {
             let modelName = this.props.resultsOptions[index].modelName;
