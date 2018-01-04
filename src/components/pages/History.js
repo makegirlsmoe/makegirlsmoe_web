@@ -13,16 +13,18 @@ import './History.css';
 class History extends Component {
     constructor() {
         super();
-        this.state = {
-            loadSetting:false
-        };
+        this.lastImageCount = 0;
         this.imageWidth = 128;
         this.imageHeight = 128;
     }
 
     componentDidUpdate() {
-        var rect = window.$('.options-container')[0].getBoundingClientRect();
-        window.scrollTo(0, rect.top + rect.height - window.innerHeight);
+        var imageCount = this.props.results.length;
+        if (imageCount !== this.lastImageCount) {
+            var $elem = window.$('.options-container');
+            window.scrollTo(0, $elem.offset().top + $elem.height() - window.innerHeight);
+            this.lastImageCount = imageCount;
+        }
     }
 
     generatedResults(images){
