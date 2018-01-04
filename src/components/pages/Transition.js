@@ -52,8 +52,8 @@ class Transition extends Component {
 
     renderItem(result, key) {
         if (this.lastTransitionResults[key] !== result) {
-            if (result) {
-                var $elem = window.$(".transition-item-" + key);
+            var $elem = window.$(".transition-item-" + key);
+            if (result && $elem.length > 0) {
                 window.scrollTo(0, $elem.offset().top + $elem.height() - window.innerHeight);
             }
             this.lastTransitionResults[key] = result;
