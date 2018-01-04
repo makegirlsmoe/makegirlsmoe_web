@@ -28,15 +28,18 @@ class Library extends Component {
     }
 
     render(){
-        console.log(this.props.results);
-        console.log(this.props.resultsOptions);
+        console.log(this.props.loading);
+        //console.log(this.props.resultsOptions);
         return (
             <div>
                 <div className="flex flex-space-between">
                     <h3 style={{color: Config.colors.theme}}>
-                        <FormattedMessage id="Generated Images"/>
+                        <FormattedMessage id="Library"/>
+                        {this.props.loading &&
+                            <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                        }
                     </h3>
-                    <ButtonPrimary className="title-button" text={<span><span className="glyphicon glyphicon glyphicon-menu-left btn-back-icon"/><span className="btn-back-text">Back</span></span>} onClick={() => window.location = '#/'}/>
+                    <ButtonPrimary className="title-button" text={<span><span className="glyphicon glyphicon glyphicon-refresh btn-back-icon"/><span className="btn-back-text">Refresh</span></span>} onClick={() => this.props.dispatch(userAction.queryLibrary())}/>
                 </div>
                 <ResultGallery results={this.props.results} resultsOptions={this.props.resultsOptions}
                                onClick={(result, options, index) => this.loadImage(index)}
