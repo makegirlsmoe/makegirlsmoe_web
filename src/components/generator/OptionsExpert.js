@@ -25,7 +25,7 @@ class OptionsExpert extends OptionsClass {
                     value={input.random ? 1 : 0}
                     onChange={(value) => this.props.dispatch(
                         generatorAction.modelOptionChange(key, value === 1))}/>
-                <SliderWithInput value={input.value}
+                <SliderWithInput value={input.value} inputMin={100} inputMax={100}
                                  onChange={value => this.props.dispatch(generatorAction.modelOptionChange(key, false, value))}
                 />
             </div>
@@ -60,7 +60,7 @@ class OptionsExpert extends OptionsClass {
                         {options.map((option, index) =>
                             <div key={option} className="col-xs-6 col-sm-4">
                                 {this.renderLabel(option)}
-                                <SliderWithInput value={input.value[index]} onChange={value => {
+                                <SliderWithInput value={input.value[index]} inputMin={100} inputMax={100} onChange={value => {
                                     var newInput = input.value.slice();
                                     newInput[index] = value;
                                     this.props.dispatch(
@@ -160,6 +160,7 @@ function mapStateToProps(state) {
         currentModel: state.generator.currentModel,
         locale: state.selectLocale.locale,
         inputs: state.generator.options,
+        count: state.generatorConfig.count,
     };
 }
 
