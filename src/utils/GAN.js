@@ -22,7 +22,7 @@ class GAN {
 
         var index = Math.floor(Math.random() * servers.length);
         var modelPath = Config.modelCompression ? this.modelConfig.gan.model + '_8bit' : this.modelConfig.gan.model;
-        return 'http://' + (servers[index].host || servers[index]) + modelPath;
+        return window.location.protocol + '//' + (servers[index].host || servers[index]) + modelPath;
     }
 
     getBackendOrder() {
