@@ -9,7 +9,7 @@ import 'bootstrap/dist/js/bootstrap.js'
 import './fonts/fonts.css'
 import './index.css';
 import {App} from './App/App';
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 import { store } from './_helpers/store';
 
 
@@ -21,4 +21,4 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
-registerServiceWorker();
+// registerServiceWorker();
