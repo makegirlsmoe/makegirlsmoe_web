@@ -18,6 +18,23 @@ const initOptions = (modelName)=>{
     return opts;
 };
 
+const initOptionsExceptNoise = (modelName, currentOpt)=>{
+
+    let opts = {};
+
+    Config.modelConfig[modelName].options.forEach(option => {
+        opts[option.key] = {
+            random: true,
+            value: option.type === 'multiple' ? Array.apply(null, {length: option.options.length}).fill(-1)
+                : option.type === 'continuous' ? option.min
+                    :  -1
+        }
+    });
+    opts.noise = {random: true, value:currentOpt.noise.value};
+
+    return opts;
+};
+
 const fixOptions = (options)=>{
     let opt = Object.assign({}, options);
 
@@ -69,6 +86,7 @@ const checkFailed = (result)=> {
 };
 
 export function generator(state = initialGeneratorState, action) {
+    //console.log(state);
     switch (action.type) {
         case generatorConstants.CHANGE_MODEL:
             if (state.currentModel === action.model){
@@ -96,7 +114,7 @@ export function generator(state = initialGeneratorState, action) {
         case generatorConstants.RESET_OPTIONS:
             return {
                 ...state,
-                options: initOptions(state.currentModel)
+                options: initOptionsExceptNoise(state.currentModel, state.options)
             };
 
         case generatorConstants.FIX_OPTIONS:
