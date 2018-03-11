@@ -483,8 +483,8 @@ class Home extends Component {
                                     <Route path="/news" component={News}/>
                                     <Route path="/tips" component={Tips}/>
                                     <Route path="/history" component={History}/>
-                                    <Route path="/signup" component={SignUp}/>
-                                    <Route path="/login" component={LogIn}/>
+                                    /*<Route path="/signup" component={SignUp}/>*/
+                                    /*<Route path="/login" component={LogIn}/>*/
                                     <Route path="/library" component={SavedImages}/>
                                 </Switch>
 

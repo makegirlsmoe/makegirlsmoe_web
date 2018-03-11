@@ -114,9 +114,9 @@ class Navbar extends Component {
                             <li>{this.renderHelpDropdown()}</li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                            {this.renderUserLink('Log In', '/login', !this.props.user)}
-                            {this.renderUserLink('Sign Up', '/signup', !this.props.user)}
-                            {this.renderUserDropdown(this.props.user)}
+                            {/*this.renderUserLink('Log In', '/login', !this.props.user)*/}
+                            {/*this.renderUserLink('Sign Up', '/signup', !this.props.user)*/}
+                            {/*this.renderUserDropdown(this.props.user)*/}
                             <li>{this.renderLanguageDropdown()}</li>
                             <li>
                                 <a className="twitter-share-button"

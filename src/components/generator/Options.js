@@ -307,7 +307,7 @@ class Options extends Component {
                     <div>
                         {new ButtonGroup().renderButtonGroup([{
                             key: 'Enabled',
-                            name: <span><span className={"option-checkbox glyphicon " + (isMultiple ? " glyphicon-check" : " glyphicon-unchecked")}/>Enabled</span>,
+                            name: <span><span className={"option-checkbox glyphicon " + (isMultiple ? " glyphicon-check" : " glyphicon-unchecked")}/><FormattedMessage id="Enabled"/></span>,
                             isActive: isMultiple,
                             onClick: () => this.props.dispatch(generatorConfigAction.setCount(isMultiple ? 1 : 2))
                         }])}
@@ -357,7 +357,7 @@ class Options extends Component {
                 <div className="row">
                     {this.renderOperations()}
                     {this.renderWebglOption()}
-                    {this.renderRemoteComputing()}
+                    {/*this.renderRemoteComputing()*/}
                 </div>
                 <div className="row">
                     {this.renderBackendName()}

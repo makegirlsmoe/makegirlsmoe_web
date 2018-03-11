@@ -41,12 +41,12 @@ class History extends Component {
                     <h3 style={{color: Config.colors.theme}}>
                         <FormattedMessage id="Generated Images"/>
                     </h3>
-                    <ButtonPrimary className="title-button" text={<span><span className="glyphicon glyphicon glyphicon-menu-left btn-back-icon"/><span className="btn-back-text">Back</span></span>} onClick={() => window.location = '#/'}/>
+                    <ButtonPrimary className="title-button" text={<span><span className="glyphicon glyphicon glyphicon-menu-left btn-back-icon"/><span className="btn-back-text"><FormattedMessage id="Back"/></span></span>} onClick={() => window.location = '#/'}/>
                 </div>
                 <ResultGallery results={this.props.results} resultsOptions={this.props.resultsOptions}
                     onClick={(result, options, index) => this.loadImage(index)}
                     actions={[
-                        {name: "Load Options", onClick: (result, options, index) => this.loadOptions(index)}
+                        {name: <FormattedMessage id="Load Options"/>, onClick: (result, options, index) => this.loadOptions(index)}
                     ]}/>
             </div>
         );

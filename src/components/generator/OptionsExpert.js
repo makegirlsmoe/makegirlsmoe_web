@@ -113,7 +113,7 @@ class OptionsExpert extends OptionsClass {
                     <div>
                         {new ButtonGroup().renderButtonGroup([{
                             key: 'Purturb',
-                            name: <span>Purturb</span>,
+                            name: <span><FormattedMessage id="Perturb"/></span>,
                             isDisabled: !this.props.inputs.noise.value,
                             onClick : () => {
                                 this.setState({
@@ -125,14 +125,14 @@ class OptionsExpert extends OptionsClass {
                             }
                         },{
                             key: 'Apply',
-                            name: <span>Apply</span>,
+                            name: <span><FormattedMessage id="Apply"/></span>,
                             isDisabled: !this.state.isPerturbing,
                             onClick : () => {
                                 this.setState({isPerturbing: false});
                             }
                         },{
                             key: 'Revert',
-                            name: <span>Revert</span>,
+                            name: <span><FormattedMessage id="Revert"/></span>,
                             isDisabled: !this.state.isPerturbing,
                             onClick : () => {
                                 this.props.dispatch(generatorAction.setNoiseValue(this.state.previousNoise));
