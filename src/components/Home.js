@@ -4,15 +4,20 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from "react-intl";
 import { CSSTransitionGroup } from 'react-transition-group';
 import Config from '../Config';
+import Transition from './pages/Transition';
+import History from './pages/History';
 import License from './pages/License';
 import About from './pages/About';
 import News from './pages/News';
 import Tips from './pages/Tips';
+import LogIn from './user/LogIn';
+import SignUp from './user/SignUp';
+import SavedImages from './user/Library';
 import ProgressBar from './generator-widgets/ProgressBar';
 import Generator from './generator/Generator';
 import Options from './generator/Options';
 import OptionsExpert from './generator/OptionsExpert';
-import PromptDialog from './general/PromptDialog';
+import PromptDialog from './dialogs/PromptDialog';
 import GAN from '../utils/GAN';
 import Utils from '../utils/Utils';
 import Stat from '../utils/Stat';
@@ -20,8 +25,6 @@ import ImageEncoder from '../utils/ImageEncoder';
 import Twitter from '../utils/Twitter';
 import './Home.css';
 import {twitterAction, generatorAction, generatorConfigAction } from '../_actions';
-
-
 
 class Home extends Component {
 
@@ -123,6 +126,8 @@ class Home extends Component {
                 );
             }
 
+            this.props.dispatch(generatorConfigAction.setCount(1));
+
             var startTime = new Date();
             await this.setModel();
             var endTime = new Date();
@@ -212,60 +217,78 @@ class Home extends Component {
         return optionInputs;
     }
 
-    getLabel(optionInputs) {
-        var label = Array.apply(null, {length: this.getModelConfig().gan.labelLength});
-        this.getModelConfig().options.forEach(option => {
-            var optionInput = optionInputs[option.key];
-
-            if (option.type === 'multiple') {
-                optionInput.value.forEach((value, index) => {
-                    label[option.offset + index] = value;
-                });
-            }
-            else {
-                label[option.offset] = optionInput.value;
-            }
+    setGanState(state) {
+        this.setState({
+            gan: { ...this.state.gan, ...state }
         });
-        return label;
     }
 
-    getNoise(optionInputs) {
-        var noise = optionInputs.noise.value.map(([u, v]) => Utils.uniformToNormal(u, v));
-        return noise;
+    async remoteGenerate(input){
+        let url = 'http://127.0.0.1:5555/generate/' + this.props.currentModel;
+        console.log(url);
+        let opt = JSON.stringify(input);
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: opt
+        };
+
+        let response = await fetch(url, requestOptions);
+        let json_text = await response.json();
+        //console.log(json_text);
+        return json_text.data;
     }
 
     async generate() {
-        this.setState({
-            gan: Object.assign({}, this.state.gan, {isRunning: true})
-        });
+        this.setGanState({isRunning: true});
 
-        if (this.gan.getBackendName() === 'webgl') {
-            await Utils.promiseTimeout(100, true); // XXX: wait for components to refresh
-        }
+        for (var i = 0; i < this.props.count; i++) {
+            if (this.gan.getBackendName() === 'webgl') {
+                await Utils.promiseTimeout(100, true); // XXX: wait for components to refresh
+            }
 
-        for (var i = 0; i < 1; i++) {
             var optionInputs = this.getRandomOptionValues(this.props.options);
-            var label = this.getLabel(optionInputs);
-            var noise = this.getNoise(optionInputs);
-            var result = await this.gan.run(label, noise);
+            var label = Utils.getLabel(optionInputs, this.getModelConfig());
+            var noise = Utils.getNoise(optionInputs);
+            if (!this.props.remoteComputing) {
+                var result = await this.gan.run(label, noise);
+            }
+            else{
+                try{
+                    var result = await this.remoteGenerate(optionInputs);
+                    result = new Float32Array(result);
+                }catch(e){
+                    console.log(e);
+                    this.setGanState({isRunning: false});
+                }
+            }
+
+            if (this.props.count > 1 && i === 0) {
+                window.location = '#/history';
+            }
+
+            optionInputs.modelName=this.props.currentModel;
+            //console.log(result);
 
             this.props.dispatch(
                 generatorAction.setGeneratorOptions(optionInputs)
             );
             this.props.dispatch(
-                generatorAction.appendResult(result, i!==0)
+                generatorAction.setGeneratorInput({ noise: noise, label: label, noiseOrigin: optionInputs.noise.value })
+            );
+            this.props.dispatch(
+                generatorAction.appendResult(result, optionInputs, true)//, i!==0)
             );
 
             this.setState({
-                rating: 0,
-                gan: Object.assign({}, this.state.gan, {noise: noise, noiseOrigin: optionInputs.noise.value, input: noise.concat(label)})
+                rating: 0
             });
+
+            this.setGanState({noise: noise, noiseOrigin: optionInputs.noise.value, input: noise.concat(label)});
         }
 
         //Stat.generate(this.state.options);
-        this.setState({
-            gan: Object.assign({}, this.state.gan, {isRunning: false}),
-        });
+        this.setGanState({isRunning: false});
     }
     /*
     onModelOptionChange(key, random, value = this.state.options[key].value) {
@@ -337,6 +360,8 @@ class Home extends Component {
         reader.readAsText(file);
     }
 
+    //loadJSONContent
+
     onJSONExport() {
         this.setState({optionURI: URL.createObjectURL(new Blob([JSON.stringify(this.getOptions())]))}, () => {
             this.refs.jsonDownloader.click();
@@ -355,10 +380,24 @@ class Home extends Component {
         this.setState({rating: value});
     }
 
-    getClassGeneratorContainer() {
-        var imageWidth = Config.modelConfig[this.props.currentModel].gan.imageWidth;
+    getSizeLevel() {
+        var modelConfig = this.props.currentIndex !== -1 ?
+            Config.modelConfig[this.props.resultsOptions[this.props.currentIndex].modelName] :
+            this.getModelConfig();
+        var imageWidth = modelConfig.gan.imageWidth;
 
         if (imageWidth <= 200) {
+            return 'small';
+        }
+        else {
+            return 'large';
+        }
+    }
+
+    getClassGeneratorContainer() {
+        var sizeLevel = this.getSizeLevel();
+
+        if (sizeLevel === 'small') {
             return 'col-sm-4 col-xs-12 generator-container';
         }
         else {
@@ -367,9 +406,9 @@ class Home extends Component {
     }
 
     getClassOptionsContainer() {
-        var imageWidth = Config.modelConfig[this.props.currentModel].gan.imageWidth;
+        var sizeLevel = this.getSizeLevel();
 
-        if (imageWidth <= 200) {
+        if (sizeLevel === 'small') {
             return 'col-sm-8 col-xs-12 options-container';
         }
         else {
@@ -378,7 +417,7 @@ class Home extends Component {
     }
 
     render() {
-        //console.log(this.props);
+        //console.log(this.props.options);
         return (
             <div className="home">
 
@@ -436,10 +475,17 @@ class Home extends Component {
                                                 //webglAvailable={this.state.webglAvailable}
                                                 backendName={this.state.gan.backendName} />
                                     } />
+                                    <Route path="/transition" render={() =>
+                                        <Transition getGan={() => this.gan} ganState={this.state.gan} setGanState={(state) => this.setGanState(state)} />
+                                    }/>
                                     <Route path="/license" component={License}/>
                                     <Route path="/about" component={About}/>
                                     <Route path="/news" component={News}/>
                                     <Route path="/tips" component={Tips}/>
+                                    <Route path="/history" component={History}/>
+                                    /*<Route path="/signup" component={SignUp}/>*/
+                                    /*<Route path="/login" component={LogIn}/>*/
+                                    <Route path="/library" component={SavedImages}/>
                                 </Switch>
 
                             </div>
@@ -475,8 +521,12 @@ function mapStateToProps(state) {
         twitterVisible: state.twitter.visible,
         disableWebgl: state.generatorConfig.webglDisabled,
         currentModel: state.generator.currentModel,
+        remoteComputing: state.generatorConfig.remoteComputing,
         options: state.generator.options,
         results: state.generator.results,
+        currentIndex:  state.generator.currentIndex,
+        resultsOptions: state.generator.resultsOptions,
+        count: state.generatorConfig.count,
     };
 }
 

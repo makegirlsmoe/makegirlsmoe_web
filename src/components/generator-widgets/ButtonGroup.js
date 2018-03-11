@@ -15,14 +15,17 @@ class ButtonGroup extends Component {
             }
         };
         return (
+
             <button type="button" className="btn btn-default"
                     key={props.key || props.name}
                     style={Object.assign({}, style, props.isActive && style.active)}
+                    disabled={props.isDisabled}
                     onClick={(event) => {
                         props.onClick();
                         event.stopPropagation();
                         event.nativeEvent.stopImmediatePropagation();
-                    }}>
+                    }}
+            >
 
                 {typeof props.name === 'string' ? <FormattedMessage id={props.name}/> : props.name}
 

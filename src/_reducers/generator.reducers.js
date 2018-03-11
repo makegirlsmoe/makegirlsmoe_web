@@ -47,8 +47,10 @@ const assignOptionKeyFixedValue = (options, key, value)=>{
 const initialGeneratorState =
     {
         currentModel: Config.defaultModel,
+        currentIndex: -1,
         options: initOptions(Config.defaultModel),
         results: [],
+        resultsOptions: [],
         failedGenerating: false,
     };
 
@@ -75,8 +77,20 @@ export function generator(state = initialGeneratorState, action) {
             return {
                 ...state,
                 currentModel: action.model,
-                results: [],
-                options: initOptions(action.model)
+                currentIndex: -1,
+                //results: [],
+                //resultsOptions: [],
+                options: initOptions(action.model),
+                input: {
+                    noise: null,
+                    label: null
+                },
+                transition: {
+                    start: null,
+                    end: null,
+                    middle: []
+                },
+                count: 1
             };
 
         case generatorConstants.RESET_OPTIONS:
@@ -91,10 +105,41 @@ export function generator(state = initialGeneratorState, action) {
                 options: fixOptions(state.options)
             };
 
+        case generatorConstants.FIX_NOISE_OPTION:
+            return {
+                ...state,
+                options: {
+                    ...state.options,
+                    noise:{
+                        random:false,
+                        value:state.options.noise.value
+                    }
+                }
+            };
+
+        case generatorConstants.SET_NOISE_VALUE:
+            //console.log(action.value);
+            return {
+                ...state,
+                options: {
+                    ...state.options,
+                    noise:{
+                        random:false,
+                        value:action.value
+                    }
+                }
+            }
+
         case generatorConstants.SET_OPTIONS:
             return {
                 ...state,
                 options: action.options
+            };
+
+        case generatorConstants.SET_INPUT:
+            return {
+                ...state,
+                input: action.input
             };
 
         case generatorConstants.APPEND_RESULT:
@@ -102,6 +147,8 @@ export function generator(state = initialGeneratorState, action) {
             return {
                 ...state,
                 results: action.appendResult ? state.results.concat([action.result]) : [action.result],
+                resultsOptions: action.appendResult ? state.resultsOptions.concat([action.options]) : [action.options],
+                currentIndex: action.appendResult ? state.results.length : 0,
                 failedGenerating: failed
             };
 
@@ -123,6 +170,46 @@ export function generator(state = initialGeneratorState, action) {
                 };
             }
 
+        case generatorConstants.SET_TRANSITION_START:
+            return{
+                ...state,
+                transition: {
+                    ...state.transition,
+                    start: { result: action.result, input: action.input },
+                    middle: []
+                }
+            };
+
+        case generatorConstants.SET_TRANSITION_END:
+            return{
+                ...state,
+                transition: {
+                    ...state.transition,
+                    end: { result: action.result, input: action.input },
+                    middle: []
+                }
+            };
+
+        case generatorConstants.APPEND_TRANSITION_MIDDLE:
+            var item = {
+                result: action.result,
+                input: action.input
+            };
+
+            return {
+                ...state,
+                transition: {
+                    ...state.transition,
+                    middle: state.transition.middle ? state.transition.middle.concat([item]) : [item]
+                }
+            };
+
+        case generatorConstants.CHANGE_CURRENT_INDEX:
+            return {
+                ...state,
+                currentIndex: action.index
+            };
+
         default:
             return state;
     }
@@ -132,6 +219,7 @@ const initialGeneratorConfigState =
     {
         webglAvailable: false,
         webglDisabled: false,
+        remoteComputing: false,
     };
 
 export function generatorConfig(state = initialGeneratorConfigState, action) {
@@ -145,6 +233,16 @@ export function generatorConfig(state = initialGeneratorConfigState, action) {
             return {
                 ...state,
                 webglDisabled: !action.value,
+            };
+        case generatorConstants.REMOTE_COMPUTING:
+            return {
+                ...state,
+                remoteComputing: action.value
+            };
+        case generatorConstants.SET_COUNT:
+            return {
+                ...state,
+                count:action.value
             };
         default:
             return state

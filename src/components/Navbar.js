@@ -5,12 +5,12 @@ import { FormattedMessage } from "react-intl";
 import Config from '../Config';
 import './Navbar.css';
 import Dropdown, {DropdownContent, DropdownTrigger} from 'react-simple-dropdown';
-import { localeAction } from '../_actions';
+import { localeAction, userAction } from '../_actions';
 
 class Navbar extends Component {
 
     renderLink(title, path, newTab=false) {
-        var currentLocation = this.props.location.pathname;
+        let currentLocation = this.props.location.pathname;
         return (
             <li className={currentLocation === path ? 'active': ''}>
                 {!newTab ? <Link to={path}><FormattedMessage id={title} /></Link>: <a href={path} target="_blank" rel="noopener noreferrer"><FormattedMessage id={title} /></a>}
@@ -18,20 +18,73 @@ class Navbar extends Component {
         );
     }
 
+    renderUserLink(title, path, show, canSelect=true, newTab=false) {
+        let currentLocation = this.props.location.pathname;
+        return (
+            <li style={show ? {}: {display:'none'}} className={canSelect? (currentLocation === path ? 'active': ''):''}>
+                {!newTab ? <Link to={path}><FormattedMessage id={title} /></Link>: <a href={path} target="_blank" rel="noopener noreferrer"><FormattedMessage id={title} /></a>}
+            </li>
+        );
+    }
+
+
+    renderUserDropdown(show) {
+        return (
+            <li style={show ? {}: {display:'none'}}>
+                <Dropdown className="navbar-dropdown help-dropdown" >
+                    <DropdownTrigger role="button">
+                        <span className="dropdown__name">
+                            {this.props.user }
+                        </span>
+                    </DropdownTrigger>
+                    <DropdownContent>
+                        <ul className="dropdown__segment dropdown__quick-links">
+                            {this.renderLink('Library', '/library')}
+                            <li className="dropdown__link"><a role="button" onClick={() => this.props.dispatch(userAction.userLogout())}><FormattedMessage id='Log Out'/></a></li>
+                        </ul>
+                    </DropdownContent>
+                </Dropdown>
+            </li>
+        );
+    }
+
+
+    renderHelpDropdown() {
+        return (
+            <Dropdown className="navbar-dropdown help-dropdown">
+                <DropdownTrigger role="button">
+                    <span className="dropdown__name">
+                        <FormattedMessage id="Help"/>
+                    </span>
+                </DropdownTrigger>
+                <DropdownContent>
+                    <ul className="dropdown__segment dropdown__quick-links">
+                        {this.renderLink('License', '/license')}
+                        {this.renderLink('About', '/about')}
+                        {this.renderLink('News', '/news')}
+                        {this.renderLink('Tips', '/tips')}
+                        <li><a href="https://makegirlsmoe.github.io/" target="_blank" rel="noopener noreferrer"><FormattedMessage id='Blog'/></a></li>
+                        <li><a href="https://github.com/makegirlsmoe" target="_blank" rel="noopener noreferrer">Github</a></li>
+                    </ul>
+                </DropdownContent>
+            </Dropdown>
+        );
+    }
+
     renderLanguageDropdown() {
         return (
-            <Dropdown className="language-dropdown">
+            <Dropdown className="navbar-dropdown language-dropdown">
                 <DropdownTrigger role="button">
-                    <span className="language-dropdown__name">
+                    <span className="dropdown__name">
                         <FormattedMessage id="CurrentLanguage"/>
                     </span>
                 </DropdownTrigger>
                 <DropdownContent>
-                    <ul className="language-dropdown__segment language-dropdown__quick-links">
-                        <li className="language-dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('en'))}>English</a></li>
-                        <li className="language-dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('ja'))}>日本語</a></li>
-                        <li className="language-dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('zh'))}>中文</a></li>
-                        <li className="language-dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('ru'))}>Русский</a></li>
+                    <ul className="dropdown__segment dropdown__quick-links">
+                        <li className="dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('en'))}>English</a></li>
+                        <li className="dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('ja'))}>日本語</a></li>
+                        <li className="dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('zh'))}>中文</a></li>
+                        <li className="dropdown__link"><a role="button" onClick={() => this.props.dispatch(localeAction.changeLocale('ru'))}>Русский</a></li>
                     </ul>
                 </DropdownContent>
             </Dropdown>
@@ -39,6 +92,7 @@ class Navbar extends Component {
     }
 
     render() {
+        //console.log(this.props.user);
         return (
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
@@ -55,17 +109,15 @@ class Navbar extends Component {
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
                             {this.renderLink('Home', '/')}
-                            {this.renderLink('License', '/license')}
-                            {this.renderLink('About', '/about')}
-                            {this.renderLink('News', '/news')}
-                            {this.renderLink('Tips', '/tips')}
-                            {this.renderLink('Blog', 'https://makegirlsmoe.github.io/', true)}
-                            {this.renderLink('GitHub', 'https://github.com/makegirlsmoe', true)}
+                            {this.renderLink('History', '/history')}
+                            {this.renderLink('Transition', '/transition')}
+                            <li>{this.renderHelpDropdown()}</li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                            <li>
-                                {this.renderLanguageDropdown()}
-                            </li>
+                            {/*this.renderUserLink('Log In', '/login', !this.props.user)*/}
+                            {/*this.renderUserLink('Sign Up', '/signup', !this.props.user)*/}
+                            {/*this.renderUserDropdown(this.props.user)*/}
+                            <li>{this.renderLanguageDropdown()}</li>
                             <li>
                                 <a className="twitter-share-button"
                                    style={{display: this.props.twitterVisible ? 'block' : 'none'}}
@@ -86,7 +138,8 @@ class Navbar extends Component {
 function mapStateToProps(state) {
     return {
         twitterVisible: state.twitter.visible,
-        locale: state.selectLocale.locale
+        locale: state.selectLocale.locale,
+        user: state.authentication.user.user
     };
 }
 

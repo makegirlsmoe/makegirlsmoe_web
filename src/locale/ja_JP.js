@@ -1,5 +1,8 @@
 const ja_JP = {
     CurrentLanguage:"日本語",
+    History: "履歴",
+    Transition: "モーフィング",
+    Help: "ヘルプ",
     License: "利用規約",
     About: "サイトについて",
     Home: "ホーム",
@@ -44,6 +47,25 @@ const ja_JP = {
     Bouvardia128: "Bouvardia 128x128 Ver.171123 (9.8MB)",
     Bouvardia256: "Bouvardia 256x256 Ver.171125 (9.9MB)",
     Camellia: "Camellia 256x256 Ver.171219 (9.9MB)",
+    'Remote Computing': "Remote Computing",
+
+    'Log In': "Log In",
+    'Sign Up': "Sign Up",
+    'Log Out': "Log Out",
+    'Add to favorite': "Add to favorite",
+
+    'Set Start Image': "最初の画像に設定",
+    'Set End Image': "最後の画像に設定",
+    'Generate Transition': "モーフィング生成",
+    'Generated Images': "生成履歴",
+    'Generate Multiple Images': "複数の画像",
+    'Load input when clicked': "Load input when clicked",
+    'Load Options': "設定ロード",
+    Back: '戻る',
+    'Perturb Current Noise': 'ノイズに乱数を加える',
+    Perturb: '追加',
+    Apply: '適用',
+    Revert: '取り消し',
 
 
     HairColor:"髪の色",

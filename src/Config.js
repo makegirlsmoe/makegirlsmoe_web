@@ -1,4 +1,4 @@
-var debug = false;
+var debug = true;
 var backendUrlPrefix = (debug ? 'http://localhost:6253' : '');
 var frontendUrlPrefix = (debug ? 'http://localhost:3000' : '');
 var hostServer = 'make.girls.moe';
@@ -12,6 +12,7 @@ var Config = {
     modelCompression: true,
     modelConfig: {
         Amaryllis: {
+            name: 'Amaryllis',
             options: [
                 {
                     key: 'hair_color',
@@ -88,6 +89,7 @@ var Config = {
             },
         },
         Bouvardia128: {
+            name: 'Bouvardia',
             options: [
                 {
                     key: 'hair_color',
@@ -181,6 +183,7 @@ var Config = {
             },
         },
         Bouvardia256: {
+            name: 'Bouvardia',
             options: [
                 {
                     key: 'hair_color',
@@ -274,6 +277,7 @@ var Config = {
             },
         },
         Camellia: {
+            name: 'Camellia',
             options: [
                 {
                     key: 'hair_color',
@@ -380,6 +384,9 @@ var Config = {
     geoip: {
         url: backendUrlPrefix + '/api/geoip',
         timeout: 2000
+    },
+    transition: {
+        count: 9
     }
 };
 

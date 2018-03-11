@@ -25,7 +25,7 @@ class OptionsExpert extends OptionsClass {
                     value={input.random ? 1 : 0}
                     onChange={(value) => this.props.dispatch(
                         generatorAction.modelOptionChange(key, value === 1))}/>
-                <SliderWithInput value={input.value}
+                <SliderWithInput value={input.value} inputMin={100} inputMax={100}
                                  onChange={value => this.props.dispatch(generatorAction.modelOptionChange(key, false, value))}
                 />
             </div>
@@ -60,7 +60,7 @@ class OptionsExpert extends OptionsClass {
                         {options.map((option, index) =>
                             <div key={option} className="col-xs-6 col-sm-4">
                                 {this.renderLabel(option)}
-                                <SliderWithInput value={input.value[index]} onChange={value => {
+                                <SliderWithInput value={input.value[index]} inputMin={100} inputMax={100} onChange={value => {
                                     var newInput = input.value.slice();
                                     newInput[index] = value;
                                     this.props.dispatch(
@@ -104,6 +104,54 @@ class OptionsExpert extends OptionsClass {
             </div>
         );
     }
+
+    renderPerturbNoise() {
+        return (
+            <div className={this.getClassLongOption()}>
+                <h5><FormattedMessage id="Perturb Current Noise"/></h5>
+                <div className="flex">
+                    <div>
+                        {new ButtonGroup().renderButtonGroup([{
+                            key: 'Purturb',
+                            name: <span><FormattedMessage id="Perturb"/></span>,
+                            isDisabled: !this.props.inputs.noise.value,
+                            onClick : () => {
+                                this.setState({
+                                    isPerturbing: true,
+                                    previousNoise: this.props.inputs.noise.value
+                                });
+                                this.props.dispatch(generatorAction.perturbNoise(this.props.inputs.noise.value, this.state.perturbRange));
+                                //this.props.dispatch(generatorAction.fixNoiseOption());
+                            }
+                        },{
+                            key: 'Apply',
+                            name: <span><FormattedMessage id="Apply"/></span>,
+                            isDisabled: !this.state.isPerturbing,
+                            onClick : () => {
+                                this.setState({isPerturbing: false});
+                            }
+                        },{
+                            key: 'Revert',
+                            name: <span><FormattedMessage id="Revert"/></span>,
+                            isDisabled: !this.state.isPerturbing,
+                            onClick : () => {
+                                this.props.dispatch(generatorAction.setNoiseValue(this.state.previousNoise));
+                                this.setState({
+                                    isPerturbing: false
+                                });
+                            }
+                        }])}
+                    </div>
+                    <div className="flex-grow option-count-slider" >
+                        <SliderWithInput min={0.01} max={0.5} step={0.01}
+                                         value={this.state.perturbRange}
+                                         onChange={value => this.setState({perturbRange: value})}/>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
 }
 function mapStateToProps(state) {
     return {
@@ -112,6 +160,7 @@ function mapStateToProps(state) {
         currentModel: state.generator.currentModel,
         locale: state.selectLocale.locale,
         inputs: state.generator.options,
+        count: state.generatorConfig.count,
     };
 }
 

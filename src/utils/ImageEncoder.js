@@ -4,18 +4,20 @@ class ImageEncoder {
         this.modelConfig = modelConfig;
     }
 
-    encode(result) {
+    encode(result, dstWidth = this.modelConfig.gan.imageWidth, dstHeight = this.modelConfig.gan.imageHeight) {
         var canvas = document.createElement('canvas');
-        var canvasWidth = this.modelConfig.gan.imageWidth;
-        var canvasHeight = this.modelConfig.gan.imageHeight;
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;
+        var srcWidth = this.modelConfig.gan.imageWidth;
+        var srcHeight = this.modelConfig.gan.imageHeight;
+        canvas.width = dstWidth;
+        canvas.height = dstHeight;
 
-        window.WebDNN.Image.setImageArrayToCanvas(result, canvasWidth, canvasHeight, canvas, {
+        window.WebDNN.Image.setImageArrayToCanvas(result, srcWidth, srcHeight, canvas, {
             scale: [127.5, 127.5, 127.5],
             bias: [127.5, 127.5, 127.5],
             color: window.WebDNN.Image.Color.BGR,
-            order: window.WebDNN.Image.Order.CHW
+            order: window.WebDNN.Image.Order.CHW,
+            dstW: dstWidth,
+            dstH: dstHeight
         });
 
         return canvas.toDataURL();

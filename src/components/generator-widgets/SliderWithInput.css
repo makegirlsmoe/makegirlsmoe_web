@@ -1,5 +1,5 @@
 .slider-container {
-    margin: 10px 0;
+    margin: 10px 0 10px 10px;
 }
 
 .slider-container > * {
@@ -22,5 +22,6 @@
 }
 
 .slider-container .slider-text {
-    padding-left: 7px;
+    padding-left: 12px;
+    width: 55px;
 }

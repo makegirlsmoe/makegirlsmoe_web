@@ -85,6 +85,32 @@ class Utils {
         return Math.min(Math.max(value, min), max);
     };
 
+    static range(n) {
+        return [...new Array(n).keys()];
+    }
+
+    static getLabel(optionInputs, modelConfig) {
+        modelConfig = modelConfig || Config.modelConfig[optionInputs.modelName];
+        var label = Array.apply(null, {length: modelConfig.gan.labelLength});
+        modelConfig.options.forEach(option => {
+            var optionInput = optionInputs[option.key];
+
+            if (option.type === 'multiple') {
+                optionInput.value.forEach((value, index) => {
+                    label[option.offset + index] = value;
+                });
+            }
+            else {
+                label[option.offset] = optionInput.value;
+            }
+        });
+        return label;
+    }
+
+    static getNoise(optionInputs) {
+        var noise = optionInputs.noise.value.map(([u, v]) => Utils.uniformToNormal(u, v));
+        return noise;
+    }
 }
 
 export default Utils

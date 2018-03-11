@@ -13,9 +13,10 @@ import NoiseVisualizer from '../generator-widgets/NoiseVisualizer';
 import ButtonGroup from '../generator-widgets/ButtonGroup';
 import RandomButtonSimple from '../generator-widgets/RandomButtonSimple';
 import Slider from 'rc-slider';
+import SliderWithInput from '../generator-widgets/SliderWithInput';
 import 'rc-slider/assets/index.css';
 import ImageDecoder from '../../utils/ImageDecoder';
-import PromptDialog from '../general/PromptDialog';
+import PromptDialog from '../dialogs/PromptDialog';
 import Dropdown from '../generator-widgets/Dropdown';
 import LabelHelper from '../generator-widgets/LabelHelper';
 import './Options.css';
@@ -29,7 +30,11 @@ class Options extends Component {
     constructor(props) {
         super();
         this.options = Utils.arrayToObject(props.modelConfig.options, item => item.key);
-        this.state = {};
+        this.state = {
+            perturbRange: 0.01,
+            isPerturbing: false,
+            previousNoise: [],
+        };
     }
 
     componentWillReceiveProps(newProps) {
@@ -155,19 +160,18 @@ class Options extends Component {
         );
     }
 
-
     renderContinuousSelector(key, config, title) {
         var input = this.props.inputs[key];
         return (
             <div key={key} className={this.getClassShortOption()}>
                 {this.renderLabel(key, title)}
-                <div className="row">
-                    <div className="col-xs-5 vcenter">
+                <div className="flex">
+                    <div>
                         <RandomButtonSimple
                             value={input.random ? 1 : 0}
                             onChange={(value) => this.props.dispatch(generatorAction.modelOptionChange(key, value === 1))}/>
                     </div>
-                    <div className="col-xs-7 vcenter">
+                    <div className="flex-grow continuous-selector-slider">
                         <Slider min={config.min} max={config.max} step={config.step} value={Utils.clamp(input.value, config.min, config.max)}
                               onBeforeChange={() => this.props.dispatch(generatorAction.modelOptionChange(key, false))}
                               onChange={value => this.props.dispatch(generatorAction.modelOptionChange(key, false, value))}/>
@@ -266,6 +270,23 @@ class Options extends Component {
         );
     }
 
+    renderRemoteComputing() {
+        return (
+            <div className={this.getClassShortOption()}>
+                <h5><FormattedMessage id="Remote Computing"/></h5>
+                {new ButtonGroup().renderButtonGroup([
+                    {name: 'Disabled', isActive: !this.props.remoteComputing,
+                        onClick: () => this.props.dispatch(generatorConfigAction.setRemoteComputing(false))
+
+                    },
+                    {name: 'Enabled', isActive: this.props.remoteComputing,
+                        onClick: () => this.props.dispatch(generatorConfigAction.setRemoteComputing(true))
+                    }
+                ])}
+            </div>
+        );
+    }
+
     renderBackendName() {
         var backendNameDict = {'webgpu': 'WebGPU', 'webgl': 'WebGL', 'webassembly': 'WebAssembly'};
         return (
@@ -277,6 +298,34 @@ class Options extends Component {
         );
     }
 
+    renderCountOption() {
+        var isMultiple = this.props.count !== 1;
+        return (
+            <div className={this.getClassLongOption()}>
+                <h5><FormattedMessage id="Generate Multiple Images"/></h5>
+                <div className="flex">
+                    <div>
+                        {new ButtonGroup().renderButtonGroup([{
+                            key: 'Enabled',
+                            name: <span><span className={"option-checkbox glyphicon " + (isMultiple ? " glyphicon-check" : " glyphicon-unchecked")}/><FormattedMessage id="Enabled"/></span>,
+                            isActive: isMultiple,
+                            onClick: () => this.props.dispatch(generatorConfigAction.setCount(isMultiple ? 1 : 2))
+                        }])}
+                    </div>
+                    <div className="flex-grow option-count-slider" style={{display: isMultiple ? 'block' : 'none'}}>
+                        <SliderWithInput min={2} max={20} step={1} value={this.props.count || 1}
+                                         onChange={value => this.props.dispatch(generatorConfigAction.setCount(value))}/>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    renderPerturbNoise() {
+        //Only show this in expert mode.
+    }
+
+
     renderAllOptions(){
         return Object.keys(this.options).map(item => this.renderSelector(item));
     }
@@ -285,7 +334,7 @@ class Options extends Component {
         return (
             <div className="options">
                 <div className="row">
-                    <h3 className="col-xs-3 col-md-2" style={{color: Config.colors.theme}}>Options</h3>
+                    <h3 className="col-xs-3 col-md-2" style={{color: Config.colors.theme}}><FormattedMessage id="Options"/></h3>
                     <span className="col-xs-6 mode-selector">
                         <input type="checkbox" checked={this.props.mode === 'expert'} onChange={event => this.props.onOptionChange('mode', event.target.checked ? 'expert' : 'normal')} />
                         <span><FormattedMessage id="ExpertMode"/></span>
@@ -303,10 +352,20 @@ class Options extends Component {
                     {this.renderNoiseImportExport()}
                 </div>
                 <div className="row">
+                    {this.renderPerturbNoise()}
+                </div>
+                <div className="row">
                     {this.renderOperations()}
                     {this.renderWebglOption()}
+                    {/*this.renderRemoteComputing()*/}
+                </div>
+                <div className="row">
                     {this.renderBackendName()}
                 </div>
+                <div className="row">
+                    {this.renderCountOption()}
+                </div>
+
                 <div className="row">
                     <div className="col-xs-12 license-hint">
                         <FormattedMessage
@@ -327,9 +386,11 @@ function mapStateToProps(state) {
     return {
         webglAvailable: state.generatorConfig.webglAvailable,
         webglDisabled: state.generatorConfig.webglDisabled,
+        remoteComputing: state.generatorConfig.remoteComputing,
         currentModel: state.generator.currentModel,
         locale: state.selectLocale.locale,
         inputs: state.generator.options,
+        count: state.generatorConfig.count,
     };
 }
 

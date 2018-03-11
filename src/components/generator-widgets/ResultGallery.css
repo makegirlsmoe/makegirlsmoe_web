@@ -1,0 +1,39 @@
+.history-overlay {
+    height: 100%;
+    width: 100%;
+}
+
+.history-overlay .overlay-info {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 0 3px;
+}
+
+.history-overlay .overlay-info-item {
+    color: #fff;
+}
+
+.history-overlay .overlay-actions {
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 0 3px;
+}
+
+.history-overlay .overlay-action {
+    color: #fff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.ReactGridGallery {
+    overflow: hidden;
+}
+
+.ReactGridGallery .custom-overlay {
+    z-index: 10000;
+    pointer-events: auto !important;
+}
+
+.tile-icon-bar {
+    display: none;
+}

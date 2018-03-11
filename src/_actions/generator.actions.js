@@ -6,14 +6,24 @@ export const generatorAction = {
     setGeneratorOptions,
     resetGeneratorOptions,
     fixGeneratorOptions,
+    fixNoiseOption,
+    setNoiseValue,
+    perturbNoise,
+    setGeneratorInput,
     appendResult,
     modelOptionChange,
+    setTransitionStart,
+    setTransitionEnd,
+    appendTransitionMiddle,
+    changeCurrentIndex,
 };
 
 export const generatorConfigAction = {
     setWebGLAvailability,
     enableWebGL,
-    disableWebGL
+    disableWebGL,
+    setRemoteComputing,
+    setCount,
 };
 
 function setWebGLAvailability(value){
@@ -26,6 +36,10 @@ function enableWebGL(){
 
 function disableWebGL(){
     return { type: webglConstants.CHANGE_VISIBILITY, value:false}
+}
+
+function setRemoteComputing(value){
+    return { type: generatorConstants.REMOTE_COMPUTING, value}
 }
 
 function changeGeneratorModel(model){
@@ -44,10 +58,54 @@ function fixGeneratorOptions(){
     return { type: generatorConstants.FIX_OPTIONS}
 }
 
-function appendResult(result, appendResult=false) {
-    return { type: generatorConstants.APPEND_RESULT, result, appendResult}
+function fixNoiseOption(){
+    return { type: generatorConstants.FIX_NOISE_OPTION}
+}
+
+function setGeneratorInput(input) {
+    return { type: generatorConstants.SET_INPUT, input}
+}
+
+function setNoiseValue(value){
+    return { type: generatorConstants.SET_NOISE_VALUE, value}
+}
+
+function perturbNoise(value, scale) {
+    let newValue = value.map((v)=>{
+        let vv = v.slice();
+        vv[1] = vv[1] + Math.random() * scale;
+        vv[1] = vv[1] - Math.floor(vv[1]);
+        return vv
+    });
+    //console.log(value);
+    //console.log(newValue);
+    return { type: generatorConstants.SET_NOISE_VALUE, value:newValue}
+}
+
+function appendResult(result, options, appendResult=false) {
+    return { type: generatorConstants.APPEND_RESULT, result, options, appendResult}
 }
 
 function modelOptionChange(key, random, value){
     return { type: generatorConstants.CHANGE_MODEL_OPTION, key, random, value}
+}
+
+function setTransitionStart(result, input) {
+    return { type: generatorConstants.SET_TRANSITION_START, result, input}
+}
+
+function setTransitionEnd(result, input) {
+    return { type: generatorConstants.SET_TRANSITION_END, result, input}
+}
+
+function appendTransitionMiddle(result, input) {
+    return { type: generatorConstants.APPEND_TRANSITION_MIDDLE, result, input}
+}
+
+function changeCurrentIndex(index) {
+    return { type: generatorConstants.CHANGE_CURRENT_INDEX, index}
+}
+
+function setCount(value) {
+    return { type: generatorConstants.SET_COUNT, value}
 }
