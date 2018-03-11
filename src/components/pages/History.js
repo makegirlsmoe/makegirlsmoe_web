@@ -41,7 +41,7 @@ class History extends Component {
                     <h3 style={{color: Config.colors.theme}}>
                         <FormattedMessage id="Generated Images"/>
                     </h3>
-                    <ButtonPrimary className="title-button" text={<span><span className="glyphicon glyphicon glyphicon-menu-left btn-back-icon"/><span className="btn-back-text"><FormattedMessage id="Back"/></span></span>} onClick={() => window.location = '#/'}/>
+                    <ButtonPrimary className="title-button" text={<span><span className="glyphicon glyphicon glyphicon-menu-left btn-back-icon"/><span className="btn-back-text"><FormattedMessage id="Back"/></span></span>} onClick={() => window.location = '#/'} notFormatMessage={true} />
                 </div>
                 <ResultGallery results={this.props.results} resultsOptions={this.props.resultsOptions}
                     onClick={(result, options, index) => this.loadImage(index)}

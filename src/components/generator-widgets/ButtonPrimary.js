@@ -3,6 +3,9 @@ import { FormattedMessage } from "react-intl";
 import Config from '../../Config'
 
 class ButtonPrimary extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         var style = {
@@ -12,7 +15,7 @@ class ButtonPrimary extends Component {
 
         return (
             <button className={"btn btn-primary " + (this.props.className || '')} style={style} disabled={this.props.disabled} onClick={this.props.onClick}>
-                <FormattedMessage id={this.props.text}/>
+                {this.props.notFormatMessage ? this.props.text :  <FormattedMessage id={this.props.text}/> }
             </button>
         );
     }
