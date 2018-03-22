@@ -66,6 +66,8 @@ const ru_RU = {
     Perturb: 'Perturb',
     Apply: 'Apply',
     Revert: 'Revert',
+    Clear:'Clear',
+    Finished:'Finished',
 
     HairColor: 'Цвет волос',
     HairStyle: 'Причёска',

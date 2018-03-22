@@ -66,7 +66,8 @@ const ja_JP = {
     Perturb: '追加',
     Apply: '適用',
     Revert: '取り消し',
-
+    Clear:'クリア',
+    Finished:'完了',
 
     HairColor:"髪の色",
     HairStyle:"髪型",
@@ -80,6 +81,7 @@ const ja_JP = {
     Noise:"ノイズ",
     DarkSkin:"褐色肌",
     Year:"絵柄",
+
 
     Blonde: '金',
     Brown: '茶',

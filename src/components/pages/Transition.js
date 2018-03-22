@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from "react-intl";
 import { connect } from 'react-redux';
-import { generatorAction } from '../../_actions';
+import { generatorAction, generatorConfigAction } from '../../_actions';
 import { getlanguageLength } from '../../_reducers/locale.reducers';
 import Utils from '../../utils/Utils';
 import Config from '../../Config';
@@ -10,6 +10,7 @@ import ResultCanvas from '../generator-widgets/ResultCanvas';
 import PromptDialog from '../dialogs/PromptDialog';
 import ImagePicker from '../dialogs/ImagePicker';
 import Dropdown from '../generator-widgets/Dropdown';
+import SliderWithInput from '../generator-widgets/SliderWithInput';
 import './Transition.css';
 
 class Transition extends Component {
@@ -121,8 +122,8 @@ class Transition extends Component {
         var gan = this.props.getGan();
 
         this.props.setGanState({isRunning: true});
-        for (var i = 1; i <= Config.transition.count; i++) {
-            var value = i / (Config.transition.count + 1);
+        for (var i = 1; i <= this.props.transitionCount; i++) {
+            var value = i / (this.props.transitionCount + 1);
             var noise = Utils.range(this.getModelConfig().gan.noiseLength).map(index => Transition.interpolateNoise(
                     startInput.noise[index],
                     endInput.noise[index],
@@ -162,13 +163,20 @@ class Transition extends Component {
                         onClick={() => this.onSetEndImageClick()} />
                     <ButtonPrimary
                         className={"btn-primary-" + getlanguageLength(this.props.locale) + " btn-transition-generate"}
-                        text={isRunning ? 'Generating...' : finished ? 'Finished' : 'Generate Transition'}
+                        text={isRunning ? 'Generating' : finished ? 'Finished' : 'Generate Transition'}
                         disabled={notSet || isRunning || finished}
                         onClick={() => this.onGenerateClick()} />
+                    <ButtonPrimary
+                        className={"btn-primary-" + getlanguageLength(this.props.locale)}
+                        text='Clear'
+                        disabled={!finished}
+                        onClick={() => this.props.dispatch(generatorAction.clearTransition())} />
                 </div>
+                <SliderWithInput min={3} max={200} step={1} value={this.props.transitionCount || 1}
+                                 onChange={value => this.props.dispatch(generatorConfigAction.setTransitionCount(value))} />
                 <div className="transition-wrapper">
                     {this.renderStart()}
-                    {Utils.range(Config.transition.count).map(index => this.renderMiddle(index))}
+                    {Utils.range(this.props.transitionCount).map(index => this.renderMiddle(index))}
                     {this.renderEnd()}
                 </div>
 
@@ -188,7 +196,8 @@ function mapStateToProps(state) {
         results: state.generator.results,
         resultsOptions: state.generator.resultsOptions,
         input: state.generator.input,
-        transition: state.generator.transition
+        transition: state.generator.transition,
+        transitionCount: state.generatorConfig.transitionCount,
     };
 }
 

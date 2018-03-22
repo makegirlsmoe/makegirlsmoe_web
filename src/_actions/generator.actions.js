@@ -14,6 +14,7 @@ export const generatorAction = {
     modelOptionChange,
     setTransitionStart,
     setTransitionEnd,
+    clearTransition,
     appendTransitionMiddle,
     changeCurrentIndex,
 };
@@ -24,6 +25,7 @@ export const generatorConfigAction = {
     disableWebGL,
     setRemoteComputing,
     setCount,
+    setTransitionCount,
 };
 
 function setWebGLAvailability(value){
@@ -108,4 +110,12 @@ function changeCurrentIndex(index) {
 
 function setCount(value) {
     return { type: generatorConstants.SET_COUNT, value}
+}
+
+function setTransitionCount(value) {
+    return { type: generatorConstants.SET_TRANSITION_COUNT, value}
+}
+
+function clearTransition() {
+    return { type: generatorConstants.CLEAR_TRANSITION}
 }

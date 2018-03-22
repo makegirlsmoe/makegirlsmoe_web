@@ -66,6 +66,8 @@ const zh_CN = {
     Perturb: '增加',
     Apply: '应用',
     Revert: '还原',
+    Clear:'清除',
+    Finished:'完成',
 
     HairColor:"发色",
     HairStyle:"发型",

@@ -66,6 +66,8 @@ const en_US = {
     Perturb: 'Perturb',
     Apply: 'Apply',
     Revert: 'Revert',
+    Clear:'Clear',
+    Finished:'Finished',
 
     HairColor:"Hair Color",
     HairStyle:"Hair Style",
@@ -79,6 +81,7 @@ const en_US = {
     DarkSkin:'Dark Skin',
     Year:'Style',
     Noise:"Noise",
+
 
     Blonde: 'Blonde',
     Brown: 'Brown',

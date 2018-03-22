@@ -222,6 +222,15 @@ export function generator(state = initialGeneratorState, action) {
                 }
             };
 
+        case generatorConstants.CLEAR_TRANSITION:
+            return{
+                ...state,
+                transition: {
+                    ...state.transition,
+                    middle: []
+                }
+            };
+
         case generatorConstants.CHANGE_CURRENT_INDEX:
             return {
                 ...state,
@@ -238,10 +247,16 @@ const initialGeneratorConfigState =
         webglAvailable: false,
         webglDisabled: false,
         remoteComputing: false,
+        transitionCount: 9,
     };
 
 export function generatorConfig(state = initialGeneratorConfigState, action) {
     switch (action.type) {
+        case generatorConstants.SET_TRANSITION_COUNT:
+            return {
+                ...state,
+                transitionCount: action.value,
+            }
         case webglConstants.CHANGE_AVAILABILITY:
             return {
                 ...state,
