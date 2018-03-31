@@ -109,7 +109,7 @@ class Transition extends Component {
     }
 
     static interpolateNoise(a, b, value) {
-        return (1 - value) * (1 - value) * a + value * value * b;
+        return Math.sqrt(1 - value) * a + Math.sqrt(value) * b;
     }
 
     static interpolateLabel(a, b, value) {
