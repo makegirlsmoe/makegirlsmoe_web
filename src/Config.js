@@ -384,7 +384,6 @@ var Config = {
     geoip: {
         url: backendUrlPrefix + '/api/geoip',
         timeout: 2000
-    },
     }
 };
 
