@@ -68,6 +68,8 @@ const zh_CN = {
     Revert: '还原',
     Clear:'清除',
     Finished:'完成',
+    NoiseInterpolationMethod: '噪声插值方法',
+
 
     HairColor:"发色",
     HairStyle:"发型",

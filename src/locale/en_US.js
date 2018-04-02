@@ -68,6 +68,7 @@ const en_US = {
     Revert: 'Revert',
     Clear:'Clear',
     Finished:'Finished',
+    NoiseInterpolationMethod: 'Noise Interpolation',
 
     HairColor:"Hair Color",
     HairStyle:"Hair Style",

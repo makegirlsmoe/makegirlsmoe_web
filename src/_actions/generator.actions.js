@@ -26,6 +26,7 @@ export const generatorConfigAction = {
     setRemoteComputing,
     setCount,
     setTransitionCount,
+    changeNoiseInterpolation
 };
 
 function setWebGLAvailability(value){
@@ -118,4 +119,8 @@ function setTransitionCount(value) {
 
 function clearTransition() {
     return { type: generatorConstants.CLEAR_TRANSITION}
+}
+
+function changeNoiseInterpolation(value) {
+    return {type: generatorConstants.CHANGE_NOISE_INTERPOLATION, value}
 }

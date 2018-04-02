@@ -68,6 +68,8 @@ const ru_RU = {
     Revert: 'Revert',
     Clear:'Clear',
     Finished:'Finished',
+    NoiseInterpolationMethod: 'Noise Interpolation',
+
 
     HairColor: 'Цвет волос',
     HairStyle: 'Причёска',

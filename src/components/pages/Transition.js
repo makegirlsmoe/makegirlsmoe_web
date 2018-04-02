@@ -51,6 +51,19 @@ class Transition extends Component {
         );
     }
 
+    renderNoiseInterpolationMethod() {
+        return (
+            <div style={{width: '100%'}}>
+                <h5><FormattedMessage id="NoiseInterpolationMethod"/></h5>
+                <Dropdown
+                    options={['POLAR', 'LINEAR']}
+                    value={this.props.noiseInterpolation}
+                    onChange={(value) => this.props.dispatch(generatorConfigAction.changeNoiseInterpolation(value))}
+                />
+            </div>
+        );
+    }
+
     renderItem(result, key) {
         if (this.lastTransitionResults[key] !== result) {
             var $elem = window.$(".transition-item-" + key);
@@ -108,8 +121,14 @@ class Transition extends Component {
         }
     }
 
-    static interpolateNoise(a, b, value) {
-        return Math.sqrt(1 - value) * a + Math.sqrt(value) * b;
+    static interpolateNoise(a, b, value, method) {
+        if (method==='POLAR'){
+            return Math.sqrt(1 - value) * a + Math.sqrt(value) * b;
+        }
+        else{
+            return (1 - value) * a + (value) * b;
+        }
+
     }
 
     static interpolateLabel(a, b, value) {
@@ -127,7 +146,8 @@ class Transition extends Component {
             var noise = Utils.range(this.getModelConfig().gan.noiseLength).map(index => Transition.interpolateNoise(
                     startInput.noise[index],
                     endInput.noise[index],
-                    value));
+                    value,
+                    this.props.noiseInterpolation));
             var label = Utils.range(this.getModelConfig().gan.labelLength).map(index => Transition.interpolateLabel(
                 startInput.label[index],
                 endInput.label[index],
@@ -152,6 +172,7 @@ class Transition extends Component {
 
                 <h3 style={{color: Config.colors.theme}}><FormattedMessage id="Transition"/></h3>
                 {this.renderModelSelector()}
+                {this.renderNoiseInterpolationMethod()}
                 <div className="transition-buttons">
                     <ButtonPrimary
                         className={"btn-primary-" + getlanguageLength(this.props.locale)}
@@ -198,6 +219,7 @@ function mapStateToProps(state) {
         input: state.generator.input,
         transition: state.generator.transition,
         transitionCount: state.generatorConfig.transitionCount,
+        noiseInterpolation: state.generatorConfig.noiseInterpolation
     };
 }
 

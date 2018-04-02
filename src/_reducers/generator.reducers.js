@@ -231,6 +231,7 @@ export function generator(state = initialGeneratorState, action) {
                 }
             };
 
+
         case generatorConstants.CHANGE_CURRENT_INDEX:
             return {
                 ...state,
@@ -248,6 +249,7 @@ const initialGeneratorConfigState =
         webglDisabled: false,
         remoteComputing: false,
         transitionCount: 9,
+        noiseInterpolation: 'POLAR',
     };
 
 export function generatorConfig(state = initialGeneratorConfigState, action) {
@@ -276,6 +278,11 @@ export function generatorConfig(state = initialGeneratorConfigState, action) {
             return {
                 ...state,
                 count:action.value
+            };
+        case generatorConstants.CHANGE_NOISE_INTERPOLATION:
+            return {
+                ...state,
+                noiseInterpolation: action.value
             };
         default:
             return state

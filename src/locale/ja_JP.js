@@ -68,6 +68,7 @@ const ja_JP = {
     Revert: '取り消し',
     Clear:'クリア',
     Finished:'完了',
+    NoiseInterpolationMethod: 'ノイズ補間',
 
     HairColor:"髪の色",
     HairStyle:"髪型",
