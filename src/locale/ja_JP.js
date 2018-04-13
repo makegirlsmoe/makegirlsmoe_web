@@ -105,7 +105,7 @@ const ja_JP = {
     Ponytail: 'ポニーテール',
 
     LicensePageTitle: 'ライセンス',
-    LicenseLine1: '使MakeGirlsMoeを使うためには、以下のライセンスへの同意が必要です。',
+    LicenseLine1: 'MakeGirlsMoeを使うためには、以下のライセンスへの同意が必要です。',
     LicenseLine2Start: 'MakeGirlsMoeは非営利目的にのみ無料で使用可能です。詳細については',
     LicenseLine2Link: 'ライセンス',
     LicenseLine2Middle: 'をご覧になってください。商用利用の場合については、作成者である',
