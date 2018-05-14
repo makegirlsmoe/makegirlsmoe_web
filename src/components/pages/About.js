@@ -8,7 +8,7 @@ class About extends Component {
             <div className="about">
 
                 <h3 style={{color: Config.colors.theme}}>Site Authors</h3>
-                <p>  <a href="http://yanghuaj.org/" target="_blank" rel="noopener noreferrer">Yanghua Jin</a>  / yanghuajin94@gmail.com / <a href="https://twitter.com/namaniku0" target="_blank" rel="noopener noreferrer">Aixile</a> (Fudan University)   </p>
+                <p>  <a href="http://yanghuaj.org/" target="_blank" rel="noopener noreferrer">Yanghua Jin</a>  / yanghuajin94@gmail.com / <a href="https://twitter.com/_aixile" target="_blank" rel="noopener noreferrer">Aixile</a> (Fudan University)   </p>
                 <p> Jiakai Zhang / zhangjk95@gmail.com (Carnegie Mellon University)</p>
                 <p> <a href="https://alantian.net/" target="_blank" rel="noopener noreferrer">Yingtao Tian</a>, Minjun Li, Huachun Zhu</p>
                 <h3 style={{color: Config.colors.theme}}>Technical Report</h3>
