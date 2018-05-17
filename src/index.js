@@ -8,12 +8,13 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
 import './fonts/fonts.css'
 import './index.css';
+import Config from './Config';
 import {App} from './App/App';
 // import registerServiceWorker from './registerServiceWorker';
 import { store } from './_helpers/store';
 import ReactGA from 'react-ga';
 
-ReactGA.initialize('UA-119424712-01');
+ReactGA.initialize('UA-119424712-01', {debug: Config.debug});
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 ReactDOM.render(
