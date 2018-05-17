@@ -11,7 +11,10 @@ import './index.css';
 import {App} from './App/App';
 // import registerServiceWorker from './registerServiceWorker';
 import { store } from './_helpers/store';
+import ReactGA from 'react-ga';
 
+ReactGA.initialize('UA-119424712-01');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 ReactDOM.render(
     <Provider store={store}>
