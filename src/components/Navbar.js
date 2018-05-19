@@ -91,6 +91,20 @@ class Navbar extends Component {
         );
     }
 
+    renderNotification(){
+        return (
+            <div className="container-fluid " >
+                <div className="notification">
+                    <p className="notification-text">
+                        <FormattedMessage id="CrypkoNotification"
+                                          values={{here: <a href="http://crypko.ai/" target="_blank" rel="noopener noreferrer" ><FormattedMessage id="ClickHere" /></a>}}
+                        />
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
     render() {
         //console.log(this.props.user);
         return (
@@ -130,6 +144,7 @@ class Navbar extends Component {
                         </ul>
                     </div>
                 </div>
+                {this.renderNotification()}
             </nav>
         );
     }

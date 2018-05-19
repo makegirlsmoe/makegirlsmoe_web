@@ -112,6 +112,9 @@ const ja_JP = {
     LicenseLine2EmailLink: 'Yanghua Jin',
     LicenseLine2End: 'までご連絡ください。',
     LicenseLine3: 'WebインターフェースのプログラムコードはGPL v3.0ライセンスへ準拠しており、再配布可能です。',
-    LicenseLine4: '全ての機械学習モデルファイルは、作成者であるYanghua Jinによって個人的に所有されており、許可なく商用利用することは認められません。'
+    LicenseLine4: '全ての機械学習モデルファイルは、作成者であるYanghua Jinによって個人的に所有されており、許可なく商用利用することは認められません。',
+
+    CrypkoNotification: '新しいプロジェクト--Crypkoをリリースします、ブロックチェーン上でAI生成したキャラクターを入手して取引することができます。 {here}無料のCrypkoβを始めよう。',
+    ClickHere: 'こちらにクリックして'
 };
 export default ja_JP;

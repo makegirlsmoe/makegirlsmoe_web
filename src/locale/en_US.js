@@ -112,6 +112,9 @@ const en_US = {
     LicenseLine2EmailLink: 'Yanghua Jin',
     LicenseLine2End: '.',
     LicenseLine3: 'The code of web interface is under the GPL v3.0 license and can be redistributed.',
-    LicenseLine4: 'All the compiled model files are privately owned by Yanghua Jin and are not allowed for unauthorized commercial use.'
+    LicenseLine4: 'All the compiled model files are privately owned by Yanghua Jin and are not allowed for unauthorized commercial use.',
+
+    CrypkoNotification: 'We are releasing a new project — Crypko, in which you can get and trade AI generated anime characters on Ethereum blockchain. {here} to play Crypko Beta on Testnet for free.',
+    ClickHere: 'Click here'
 };
 export default en_US;

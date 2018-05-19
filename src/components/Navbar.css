@@ -93,3 +93,17 @@
 .dropdown__segment > li {
     margin: 5px 0;
 }
+
+.notification {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    border-top: 1px dashed #777;
+    margin-left: auto;
+    margin-right: auto;
+    color: #777;
+}
+
+.notification-text {
+    text-align: center;
+}
