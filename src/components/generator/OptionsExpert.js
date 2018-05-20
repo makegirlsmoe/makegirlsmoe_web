@@ -25,7 +25,7 @@ class OptionsExpert extends OptionsClass {
                     value={input.random ? 1 : 0}
                     onChange={(value) => this.props.dispatch(
                         generatorAction.modelOptionChange(key, value === 1))}/>
-                <SliderWithInput value={input.value} inputMin={100} inputMax={100}
+                <SliderWithInput value={input.value} inputMin={-100} inputMax={100}
                                  onChange={value => this.props.dispatch(generatorAction.modelOptionChange(key, false, value))}
                 />
             </div>
