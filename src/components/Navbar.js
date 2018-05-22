@@ -132,15 +132,8 @@ class Navbar extends Component {
                             {/*this.renderUserLink('Sign Up', '/signup', !this.props.user)*/}
                             {/*this.renderUserDropdown(this.props.user)*/}
                             <li>{this.renderLanguageDropdown()}</li>
-                            <li>
-                                <a className="twitter-share-button"
-                                   style={{display: this.props.twitterVisible ? 'block' : 'none'}}
-                                    href={"https://twitter.com/intent/tweet?"
-                                    + "text=" + encodeURIComponent(Config.twitter.defaultText.substring(0, Config.twitter.defaultText.indexOf('http')))
-                                    + "&url=" + encodeURIComponent(Config.twitter.defaultText.substring(Config.twitter.defaultText.indexOf('http')))}>
-                                    Tweet
-                                </a>
-                            </li>
+                            <li><a href="https://twitter.com/Crypko" target="_blank" className="link-1">Twitter</a></li>
+                            <li><a href="https://discord.gg/TYvUF3Z" target="_blank" className="link-2">Discord</a></li>
                         </ul>
                     </div>
                 </div>

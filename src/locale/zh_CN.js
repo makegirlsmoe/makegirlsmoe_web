@@ -114,7 +114,7 @@ const zh_CN = {
     LicenseLine3: '网站前端源代码部分使用GPL v3.0许可，可以在遵守相关许可的情况下重新发放。',
     LicenseLine4: '所有的预训练模型相关的文件，都由Yanghua Jin所私有，请勿在未经过许可的情况下进行任何商业使用。',
 
-    CrypkoNotification: '我们公开了一个新的项目--Crypko。在Crypko中，你可以从以太坊区块链上获取并交易AI生成的二次元角色。预知详情请{here}。',
+    CrypkoNotification: '我们发布了一个新的项目—Crypko。在Crypko中，你可以从以太坊区块链上获取并交易AI生成的二次元角色。{here}在测试链上免费试玩Beta版。',
     ClickHere: '点击这里'
 };
 export default zh_CN;
