@@ -56,7 +56,7 @@ class Transition extends Component {
             <div style={{width: '100%'}}>
                 <h5><FormattedMessage id="NoiseInterpolationMethod"/></h5>
                 <Dropdown
-                    options={['POLAR', 'LINEAR']}
+                    options={['SLERP', 'POLAR', 'LINEAR']}
                     value={this.props.noiseInterpolation}
                     onChange={(value) => this.props.dispatch(generatorConfigAction.changeNoiseInterpolation(value))}
                 />
@@ -122,13 +122,53 @@ class Transition extends Component {
     }
 
     static interpolateNoise(a, b, value, method) {
-        if (method==='POLAR'){
+        if (method === 'POLAR'){
             return Math.sqrt(1 - value) * a + Math.sqrt(value) * b;
         }
         else{
             return (1 - value) * a + (value) * b;
         }
 
+    }
+
+    static calcVectorNorm(vec) {
+        let ans = 1e-8;
+        for (let i = 0; i < vec.length; i++) {
+            ans += vec[i] * vec[i];
+        }
+        return Math.sqrt(ans);
+    }
+
+    static interpolateNoiseVector(startInput, endInput, value, method) {
+        if (method === 'SLERP') {
+            let normStart = Transition.calcVectorNorm(startInput.noise);
+            let normEnd = Transition.calcVectorNorm(endInput.noise);
+            let length = startInput.noise.length;
+            let dotsum = 0;
+            for (let i = 0; i < length; i++) {
+                dotsum += (startInput.noise[i] / normStart) * (endInput.noise[i] / normEnd);
+            }
+            dotsum = dotsum > 1 ? 1 : (dotsum < -1 ? -1 : dotsum);
+            let omega = Math.acos(dotsum);
+            let so = Math.sin(omega);
+            if (Math.abs(so) < 1e-6) {
+                return Utils.range(length).map(index => Transition.interpolateNoise(
+                    startInput.noise[index],
+                    endInput.noise[index],
+                    value,
+                    'LINEAR'));
+            } else {
+                return Utils.range(length).map(index =>
+                    Math.sin((1 - value) * omega) / so * startInput.noise[index] + Math.sin(value * omega) / so * endInput.noise[index]
+                )
+            }
+        } else {
+            return Utils.range(startInput.noise.length).map(index => Transition.interpolateNoise(
+                startInput.noise[index],
+                endInput.noise[index],
+                value,
+                method));
+        }
     }
 
     static interpolateLabel(a, b, value) {
@@ -143,11 +183,8 @@ class Transition extends Component {
         this.props.setGanState({isRunning: true});
         for (var i = 1; i <= this.props.transitionCount; i++) {
             var value = i / (this.props.transitionCount + 1);
-            var noise = Utils.range(this.getModelConfig().gan.noiseLength).map(index => Transition.interpolateNoise(
-                    startInput.noise[index],
-                    endInput.noise[index],
-                    value,
-                    this.props.noiseInterpolation));
+            var noise = Transition.interpolateNoiseVector(startInput, endInput, value, this.props.noiseInterpolation);
+
             var label = Utils.range(this.getModelConfig().gan.labelLength).map(index => Transition.interpolateLabel(
                 startInput.label[index],
                 endInput.label[index],

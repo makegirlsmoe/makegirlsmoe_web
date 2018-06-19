@@ -249,7 +249,7 @@ const initialGeneratorConfigState =
         webglDisabled: false,
         remoteComputing: false,
         transitionCount: 9,
-        noiseInterpolation: 'POLAR',
+        noiseInterpolation: 'SLERP',
     };
 
 export function generatorConfig(state = initialGeneratorConfigState, action) {
