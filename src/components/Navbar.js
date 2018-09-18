@@ -97,7 +97,7 @@ class Navbar extends Component {
                 <div className="notification">
                     <p className="notification-text">
                         <FormattedMessage id="CrypkoNotification"
-                                          values={{here: <a href="http://crypko.ai/" target="_blank" rel="noopener noreferrer" ><FormattedMessage id="ClickHere" /></a>}}
+                                          values={{here: <a href="https://crypko.ai/" target="_blank" rel="noopener noreferrer" ><FormattedMessage id="ClickHere" /></a>}}
                         />
                     </p>
                 </div>
