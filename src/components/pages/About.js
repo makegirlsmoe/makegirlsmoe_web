@@ -13,7 +13,7 @@ class About extends Component {
                 <p> <a href="https://alantian.net/" target="_blank" rel="noopener noreferrer">Yingtao Tian</a>, Minjun Li, Huachun Zhu</p>
                 <h3 style={{color: Config.colors.theme}}>Technical Report</h3>
                 <a href="https://makegirlsmoe.github.io/assets/pdf/technical_report.pdf" target="_blank" rel="noopener noreferrer">Create Anime Characters with A.I. ! </a> <br/>
-                First presented as a Doujinshi on <a href="http://www.comiket.co.jp/" target="_blank" rel="noopener noreferrer"> Comiket</a> 92, Summer 2017<br/>
+                First presented as a Doujinshi on <a href="https://www.comiket.co.jp/" target="_blank" rel="noopener noreferrer"> Comiket</a> 92, Summer 2017<br/>
                 <h4 style={{color: Config.colors.theme}}>Arxiv Version</h4>
                 <a href="https://arxiv.org/abs/1708.05509" target="_blank" rel="noopener noreferrer">Towards the Automatic Anime Characters Creation with Generative Adversarial Networks</a> <br/>
                 <h4 style={{color: Config.colors.theme}} >Doujinshi Cover Design</h4>
