@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "echarts": "^3.6.2",
     "intl": "^1.2.5",
     "jquery": "^3.2.1",
